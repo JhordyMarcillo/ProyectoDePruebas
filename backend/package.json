@@ -14,7 +14,7 @@
     "test:integration": "jest src/tests/auth.test.ts",
     "test:silent": "jest --silent",
     "test:verbose": "jest --verbose",
-    "lint": "npm exec eslint .",
+    "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix"
   },
   "type": "module",
