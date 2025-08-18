@@ -1,0 +1,448 @@
+<div class="main-content-unified">
+  <!-- Mini-menú unificado -->
+  <div class="mini-menu-unified">
+    <button 
+      [class.active]="activeTab === 'list'" 
+      (click)="setActiveTab('list')"
+      class="tab-button">
+      <i class="fas fa-boxes"></i> Productos
+    </button>
+    <button 
+      [class.active]="activeTab === 'new'" 
+      (click)="setActiveTab('new')"
+      class="tab-button">
+      <i class="fas fa-plus"></i> Nuevo Producto
+    </button>
+    <button 
+      *ngIf="isEditing && activeTab === 'edit'"
+      class="tab-button active">
+      <i class="fas fa-edit"></i> Editar Producto
+    </button>
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="message" [class]="'message ' + messageType">
+    <i class="fas fa-info-circle"></i> {{ message }}
+  </div>
+
+  <!-- Contenido de las pestañas -->
+  <div class="tab-content">
+    
+    <!-- Lista de Productos -->
+    <div *ngIf="activeTab === 'list'" class="productos-list">
+      <div *ngIf="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Cargando productos...
+      </div>
+      <div *ngIf="error" class="error">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+      </div>
+      
+      <div *ngIf="!loading && !error" class="table-container">
+        <h2><i class="fas fa-boxes"></i> Listado de Productos</h2>
+        <table class="unified-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Proveedor</th>
+              <th>Precio Compra</th>
+              <th>Precio Venta</th>
+              <th>Stock</th>
+              <th>Marca</th>
+              <th>Código</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of productos" [class.inactive]="producto.estado === 'inactivo'">
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.nombre_producto }}</td>
+              <td>{{ producto.proveedor_nombre || getProveedorNombre(producto.proveedor_producto) }}</td>
+              <td>{{ formatCurrency(producto.precio_compra) }}</td>
+              <td>{{ formatCurrency(producto.precio_producto) }}</td>
+              <td>
+                <span [class]="'stock stock-' + getStockStatus(producto.cantidad_producto)">
+                  {{ producto.cantidad_producto }}
+                </span>
+              </td>
+              <td>{{ producto.marca_producto }}</td>
+              <td>{{ producto.categoria_producto }}</td>
+              <td>
+                <span [class]="'status status-' + producto.estado">
+                  {{ producto.estado }}
+                </span>
+              </td>
+              <td class="actions">
+                <div class="action-buttons">
+                  <button 
+                    (click)="editarProducto(producto)" 
+                    class="btn-edit"
+                    title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    (click)="activarDesactivarProducto(producto)" 
+                    [class]="'btn-' + (producto.estado === 'activo' ? 'deactivate' : 'activate')"
+                    [title]="producto.estado === 'activo' ? 'Desactivar' : 'Activar'">
+                    <i class="fas" [class.fa-ban]="producto.estado === 'activo'" [class.fa-check]="producto.estado === 'inactivo'"></i>
+                  </button>
+                  <button 
+                    (click)="mostrarModalStock(producto)" 
+                    class="btn-add-stock"
+                    title="Añadir Stock">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button 
+                    (click)="eliminarProducto(producto)" 
+                    class="btn-delete"
+                    title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="productos.length === 0" class="no-data">
+          No hay productos registrados
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario Nuevo Producto -->
+    <div *ngIf="activeTab === 'new'" class="producto-form">
+      <form (ngSubmit)="guardarProducto()" #productoForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre_producto">Nombre del Producto *</label>
+            <input 
+              type="text" 
+              id="nombre_producto"
+              name="nombre_producto"
+              [(ngModel)]="nuevoProducto.nombre_producto"
+              required
+              #nombreProducto="ngModel"
+              class="form-input">
+            <div *ngIf="nombreProducto.invalid && nombreProducto.touched" class="field-error">
+              El nombre del producto es requerido
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="proveedor_producto">Proveedor *</label>
+            <select 
+              id="proveedor_producto"
+              name="proveedor_producto"
+              [(ngModel)]="nuevoProducto.proveedor_producto"
+              required
+              #proveedorProducto="ngModel"
+              class="form-select">
+              <option value="">Seleccione un proveedor</option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor.nombre_empresa">
+                {{ proveedor.nombre_empresa }}
+              </option>
+            </select>
+            <div *ngIf="proveedorProducto.invalid && proveedorProducto.touched" class="field-error">
+              Debe seleccionar un proveedor
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio_compra">Precio de Compra *</label>
+            <input 
+              type="number" 
+              id="precio_compra"
+              name="precio_compra"
+              [(ngModel)]="nuevoProducto.precio_compra"
+              step="0.01"
+              min="0"
+              required
+              #precioCompra="ngModel"
+              class="form-input">
+            <div *ngIf="precioCompra.invalid && precioCompra.touched" class="field-error">
+              El precio de compra es requerido y debe ser mayor a 0
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="precio_producto">Precio de Venta *</label>
+            <input 
+              type="number" 
+              id="precio_producto"
+              name="precio_producto"
+              [(ngModel)]="nuevoProducto.precio_producto"
+              step="0.01"
+              min="0"
+              required
+              #precioProducto="ngModel"
+              class="form-input">
+            <div *ngIf="precioProducto.invalid && precioProducto.touched" class="field-error">
+              El precio de venta es requerido y debe ser mayor a 0
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cantidad_producto">Cantidad/Stock *</label>
+            <input 
+              type="number" 
+              id="cantidad_producto"
+              name="cantidad_producto"
+              [(ngModel)]="nuevoProducto.cantidad_producto"
+              min="0"
+              required
+              #cantidadProducto="ngModel"
+              class="form-input">
+            <div *ngIf="cantidadProducto.invalid && cantidadProducto.touched" class="field-error">
+              La cantidad es requerida y no puede ser negativa
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="marca_producto">Marca *</label>
+            <input 
+              type="text" 
+              id="marca_producto"
+              name="marca_producto"
+              [(ngModel)]="nuevoProducto.marca_producto"
+              required
+              #marcaProducto="ngModel"
+              class="form-input">
+            <div *ngIf="marcaProducto.invalid && marcaProducto.touched" class="field-error">
+              La marca es requerida
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="categoria_producto">Código del Producto *</label>
+            <input 
+              type="text" 
+              id="categoria_producto"
+              name="categoria_producto"
+              [(ngModel)]="nuevoProducto.categoria_producto"
+              required
+              #categoriaProducto="ngModel"
+              class="form-input">
+            <div *ngIf="categoriaProducto.invalid && categoriaProducto.touched" class="field-error">
+              El código del producto es requerido
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <select 
+              id="estado"
+              name="estado"
+              [(ngModel)]="nuevoProducto.estado"
+              class="form-select">
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="!productoForm.form.valid" class="btn btn-primary">
+            Guardar Producto
+          </button>
+          <button type="button" (click)="setActiveTab('list')" class="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formulario Editar Producto -->
+    <div *ngIf="activeTab === 'edit'" class="producto-form">
+      <form (ngSubmit)="guardarProducto()" #editProductoForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="edit_nombre_producto">Nombre del Producto *</label>
+            <input 
+              type="text" 
+              id="edit_nombre_producto"
+              name="edit_nombre_producto"
+              [(ngModel)]="nuevoProducto.nombre_producto"
+              required
+              #editNombreProducto="ngModel"
+              class="form-input">
+            <div *ngIf="editNombreProducto.invalid && editNombreProducto.touched" class="field-error">
+              El nombre del producto es requerido
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit_proveedor_producto">Proveedor *</label>
+            <select 
+              id="edit_proveedor_producto"
+              name="edit_proveedor_producto"
+              [(ngModel)]="nuevoProducto.proveedor_producto"
+              required
+              #editProveedorProducto="ngModel"
+              class="form-select">
+              <option value="">Seleccione un proveedor</option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor.nombre_empresa">
+                {{ proveedor.nombre_empresa }}
+              </option>
+            </select>
+            <div *ngIf="editProveedorProducto.invalid && editProveedorProducto.touched" class="field-error">
+              Debe seleccionar un proveedor
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="edit_precio_compra">Precio de Compra *</label>
+            <input 
+              type="number" 
+              id="edit_precio_compra"
+              name="edit_precio_compra"
+              [(ngModel)]="nuevoProducto.precio_compra"
+              step="0.01"
+              min="0"
+              required
+              #editPrecioCompra="ngModel"
+              class="form-input">
+            <div *ngIf="editPrecioCompra.invalid && editPrecioCompra.touched" class="field-error">
+              El precio de compra es requerido y debe ser mayor a 0
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit_precio_producto">Precio de Venta *</label>
+            <input 
+              type="number" 
+              id="edit_precio_producto"
+              name="edit_precio_producto"
+              [(ngModel)]="nuevoProducto.precio_producto"
+              step="0.01"
+              min="0"
+              required
+              #editPrecioProducto="ngModel"
+              class="form-input">
+            <div *ngIf="editPrecioProducto.invalid && editPrecioProducto.touched" class="field-error">
+              El precio de venta es requerido y debe ser mayor a 0
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="edit_cantidad_producto">Cantidad/Stock *</label>
+            <input 
+              type="number" 
+              id="edit_cantidad_producto"
+              name="edit_cantidad_producto"
+              [(ngModel)]="nuevoProducto.cantidad_producto"
+              min="0"
+              required
+              #editCantidadProducto="ngModel"
+              class="form-input">
+            <div *ngIf="editCantidadProducto.invalid && editCantidadProducto.touched" class="field-error">
+              La cantidad es requerida y no puede ser negativa
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit_marca_producto">Marca *</label>
+            <input 
+              type="text" 
+              id="edit_marca_producto"
+              name="edit_marca_producto"
+              [(ngModel)]="nuevoProducto.marca_producto"
+              required
+              #editMarcaProducto="ngModel"
+              class="form-input">
+            <div *ngIf="editMarcaProducto.invalid && editMarcaProducto.touched" class="field-error">
+              La marca es requerida
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="edit_categoria_producto">Código del Producto *</label>
+            <input 
+              type="text" 
+              id="edit_categoria_producto"
+              name="edit_categoria_producto"
+              [(ngModel)]="nuevoProducto.categoria_producto"
+              required
+              #editCategoriaProducto="ngModel"
+              class="form-input">
+            <div *ngIf="editCategoriaProducto.invalid && editCategoriaProducto.touched" class="field-error">
+              El código del producto es requerido
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit_estado">Estado</label>
+            <select 
+              id="edit_estado"
+              name="edit_estado"
+              [(ngModel)]="nuevoProducto.estado"
+              class="form-select">
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="!editProductoForm.form.valid" class="btn btn-primary">
+            Actualizar Producto
+          </button>
+          <button type="button" (click)="setActiveTab('list')" class="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal para añadir stock -->
+<div *ngIf="showStockModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Añadir Stock</h3>
+      <button type="button" (click)="cerrarModalStock()" class="modal-close">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <div *ngIf="stockProducto">
+        <p><strong>Producto:</strong> {{ stockProducto.nombre_producto }}</p>
+        <p><strong>Stock actual:</strong> {{ stockProducto.cantidad_producto }} unidades</p>
+        
+        <div class="form-group">
+          <label for="stock_cantidad">Cantidad a añadir *</label>
+          <input 
+            type="number" 
+            id="stock_cantidad"
+            [(ngModel)]="stockCantidad"
+            min="1"
+            class="form-input"
+            placeholder="Ingrese la cantidad a añadir">
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" (click)="addStock()" [disabled]="stockCantidad <= 0" class="btn btn-primary">
+        Añadir Stock
+      </button>
+      <button type="button" (click)="cerrarModalStock()" class="btn btn-secondary">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

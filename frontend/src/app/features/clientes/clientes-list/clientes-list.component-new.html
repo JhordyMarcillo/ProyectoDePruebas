@@ -1,0 +1,235 @@
+<!-- Diseño que replica exactamente el cliente.php original -->
+<div class="page-container">
+  <!-- Header con logo y navegación -->
+  <div class="header">
+    <div class="logo-section">
+      <img src="assets/img/Untitled_logo_1_free-file.jpg" alt="Logo" class="logo">
+      <h1>Gestión de Clientes</h1>
+    </div>
+    <nav class="main-nav">
+      <button class="nav-item" routerLink="/dashboard">Dashboard</button>
+      <button class="nav-item" routerLink="/usuarios">Usuarios</button>
+      <button class="nav-item active">Clientes</button>
+      <button class="nav-item" routerLink="/proveedores">Proveedores</button>
+      <button class="nav-item" routerLink="/productos">Productos</button>
+      <button class="nav-item" routerLink="/servicios">Servicios</button>
+      <button class="nav-item" routerLink="/ventas">Ventas</button>
+      <button class="nav-item" routerLink="/reportes">Reportes</button>
+      <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+    </nav>
+  </div>
+
+  <!-- Mini menú de navegación -->
+  <div class="mini-menu">
+    <button 
+      [class]="'mini-tab ' + (activeTab === 'form' ? 'active' : '')"
+      (click)="setActiveTab('form')"
+      id="newProfileTab">
+      Nuevo Cliente
+    </button>
+    <button 
+      [class]="'mini-tab ' + (activeTab === 'list' ? 'active' : '')"
+      (click)="setActiveTab('list')"
+      id="listTab">
+      Lista de Clientes
+    </button>
+  </div>
+
+  <!-- Mensajes de éxito y error -->
+  <div *ngIf="successMessage" class="message success">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="message error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Sección del formulario (Nuevo Cliente) -->
+  <section *ngIf="activeTab === 'form' || activeTab === 'edit'" class="form-section">
+    <h2>{{ isEditing ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+    <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre"
+          [class.error]="getFieldError('nombre')"
+          required>
+        <label for="nombre">Nombres</label>
+        <div *ngIf="getFieldError('nombre')" class="field-error">
+          {{ getFieldError('nombre') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="apellido" 
+          formControlName="apellido"
+          [class.error]="getFieldError('apellido')"
+          required>
+        <label for="apellido">Apellidos</label>
+        <div *ngIf="getFieldError('apellido')" class="field-error">
+          {{ getFieldError('apellido') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="cedula" 
+          formControlName="cedula"
+          [class.error]="getFieldError('cedula')"
+          required>
+        <label for="cedula">Cédula</label>
+        <div *ngIf="getFieldError('cedula')" class="field-error">
+          {{ getFieldError('cedula') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="numero" 
+          formControlName="numero"
+          [class.error]="getFieldError('numero')"
+          required>
+        <label for="numero">Número de Teléfono</label>
+        <div *ngIf="getFieldError('numero')" class="field-error">
+          {{ getFieldError('numero') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.error]="getFieldError('email')">
+        <label for="email">Email</label>
+        <div *ngIf="getFieldError('email')" class="field-error">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="date" 
+          id="fecha_nacimiento" 
+          formControlName="fecha_nacimiento"
+          [class.error]="getFieldError('fecha_nacimiento')"
+          required>
+        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+        <div *ngIf="getFieldError('fecha_nacimiento')" class="field-error">
+          {{ getFieldError('fecha_nacimiento') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <select 
+          id="genero" 
+          formControlName="genero"
+          [class.error]="getFieldError('genero')"
+          required>
+          <option value="" disabled>Género</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+        <label for="genero">Género</label>
+        <div *ngIf="getFieldError('genero')" class="field-error">
+          {{ getFieldError('genero') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="locacion" 
+          formControlName="locacion">
+        <label for="locacion">Locación</label>
+      </div>
+
+      <p class="centrar">
+        <button type="submit" class="btn-primary">
+          {{ isEditing ? 'Actualizar Cliente' : 'Guardar Cliente' }}
+        </button>
+        <button type="button" class="btn-secondary" (click)="resetForm()">
+          Restablecer
+        </button>
+        <button *ngIf="isEditing" type="button" class="btn-cancel" (click)="setActiveTab('list')">
+          Cancelar
+        </button>
+      </p>
+    </form>
+  </section>
+
+  <!-- Sección de la lista de clientes -->
+  <section *ngIf="activeTab === 'list'" class="list-section">
+    <div *ngIf="loading" class="loading">
+      <i class="fas fa-spinner fa-spin"></i> Cargando clientes...
+    </div>
+
+    <div *ngIf="error && !loading" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+
+    <div *ngIf="!loading" id="userTable">
+      <table class="user-table" *ngIf="clientes.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Género</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Cédula</th>
+            <th>Número</th>
+            <th>Locación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.apellido }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.genero === 'M' ? 'Masculino' : cliente.genero === 'F' ? 'Femenino' : '' }}</td>
+            <td>{{ cliente.fecha_nacimiento | date:'dd/MM/yyyy' }}</td>
+            <td>{{ cliente.cedula }}</td>
+            <td>{{ cliente.numero }}</td>
+            <td>{{ cliente.locacion }}</td>
+            <td>{{ cliente.estado }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  *ngIf="cliente.estado === 'inactivo'" 
+                  class="btn-activate" 
+                  (click)="activateCliente(cliente.id!)"
+                  title="Activar">
+                  <i class="fa fa-check"></i> Activar
+                </button>
+                <button 
+                  *ngIf="cliente.estado === 'activo'" 
+                  class="btn-deactivate" 
+                  (click)="deactivateCliente(cliente.id!)"
+                  title="Desactivar">
+                  <i class="fa fa-ban"></i> Desactivar
+                </button>
+                <button 
+                  class="btn-edit" 
+                  (click)="editCliente(cliente)"
+                  title="Editar">
+                  <i class="fa fa-pencil-alt"></i> Editar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p *ngIf="clientes.length === 0">No hay datos disponibles.</p>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,223 @@
+<!-- Usuarios/Asignar con diseño unificado -->
+<div class="main-content-unified">
+  <!-- Mini Menú unificado -->
+  <div class="mini-menu-unified">
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'list'"
+      (click)="setActiveTab('list')">
+      <i class="fas fa-users"></i> Usuarios
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'new'"
+      (click)="setActiveTab('new')">
+      <i class="fas fa-user-plus"></i> Nuevo Usuario
+    </button>
+    <button 
+      *ngIf="isEditing && activeTab === 'edit'"
+      class="tab-button active">
+      <i class="fas fa-user-edit"></i> Editar Usuario
+    </button>
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="message" [class]="'message ' + messageType">
+    <i class="fas fa-info-circle"></i> {{ message }}
+  </div>
+
+  <!-- Lista de Usuarios -->
+  <section *ngIf="activeTab === 'list'" class="content">
+    <div class="table-container">
+      <h2><i class="fas fa-users"></i> Listado de Usuarios</h2>
+      <div *ngIf="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Cargando usuarios...
+      </div>
+      <div *ngIf="error" class="error">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+      </div>
+      
+      <table class="unified-table" *ngIf="!loading && !error">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios">
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.usuario }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.perfil }}</td>
+            <td>
+              <span [class]="'status-' + usuario.estado">{{ usuario.estado }}</span>
+            </td>
+            <td class="actions">
+              <div class="action-buttons">
+                <button 
+                  class="btn-edit" 
+                  (click)="editarUsuario(usuario)"
+                  title="Editar">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button 
+                  [class]="usuario.estado === 'activo' ? 'btn-deactivate' : 'btn-activate'"
+                  (click)="toggleEstadoUsuario(usuario)" 
+                  [title]="usuario.estado === 'activo' ? 'Desactivar' : 'Activar'">
+                  <i class="fas" [class.fa-ban]="usuario.estado === 'activo'" [class.fa-check]="usuario.estado === 'inactivo'"></i>
+                </button>
+                <button 
+                  class="btn-delete" 
+                  (click)="eliminarUsuario(usuario)"
+                  title="Eliminar">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          
+          <tr *ngIf="usuarios.length === 0">
+            <td colspan="8" style="text-align: center;">
+              <i class="fas fa-info-circle"></i> No hay usuarios disponibles.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Formulario de Usuario -->
+  <section *ngIf="activeTab === 'new' || activeTab === 'edit'" class="content">
+    <form (ngSubmit)="guardarUsuario()" #usuarioForm="ngForm" class="unified-form">
+      <h1 class="centered-title">
+        <i class="fas fa-user-plus" *ngIf="!isEditing"></i>
+        <i class="fas fa-user-edit" *ngIf="isEditing"></i>
+        {{ isEditing ? 'Editar Usuario' : 'Registro Nuevo Usuario' }}
+      </h1>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" name="usuario" [(ngModel)]="nuevoUsuario.usuario" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="perfil">Perfil</label>
+          <input type="text" id="perfil" name="perfil" [(ngModel)]="nuevoUsuario.perfil" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="nuevoUsuario.nombre" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" name="apellido" [(ngModel)]="nuevoUsuario.apellido" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" [(ngModel)]="nuevoUsuario.email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="genero">Género</label>
+          <select id="genero" name="genero" [(ngModel)]="nuevoUsuario.genero" required>
+            <option value="">Seleccionar</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+          <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" [(ngModel)]="nuevoUsuario.fecha_nacimiento" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="cedula">Cédula</label>
+          <input type="text" id="cedula" name="cedula" [(ngModel)]="nuevoUsuario.cedula" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contraseña">Contraseña {{ isEditing ? '(Dejar en blanco si no desea cambiarla)' : '' }}</label>
+          <input type="password" id="contraseña" name="contraseña" [(ngModel)]="nuevoUsuario.password" [required]="!isEditing">
+        </div>
+        
+        <div class="form-group">
+          <label for="perfil">Perfil</label>
+          <input type="text" id="perfil" name="perfil" [(ngModel)]="nuevoUsuario.perfil" required>
+        </div>
+      </div>
+      
+      <fieldset class="permissions-fieldset">
+        <legend>Permisos:</legend>
+        <div class="form-checkbox-row">
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Inicio" [(ngModel)]="permisos.Inicio">
+            <i class="fas fa-home"></i> Inicio
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Asignar" [(ngModel)]="permisos.Asignar">
+            <i class="fas fa-users"></i> Asignar
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Cliente" [(ngModel)]="permisos.Cliente">
+            <i class="fas fa-user"></i> Cliente
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Ventas" [(ngModel)]="permisos.Ventas">
+            <i class="fas fa-shopping-cart"></i> Ventas
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Productos" [(ngModel)]="permisos.Productos">
+            <i class="fas fa-boxes"></i> Inventario
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Servicios" [(ngModel)]="permisos.Servicios">
+            <i class="fas fa-concierge-bell"></i> Servicios
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Proveedores" [(ngModel)]="permisos.Proveedores">
+            <i class="fas fa-truck"></i> Proveedores
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="permisos" value="Reportes" [(ngModel)]="permisos.Reportes">
+            <i class="fas fa-chart-line"></i> Reportes
+          </label>
+        </div>
+      </fieldset>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-save" [disabled]="loading">
+          <i class="fas fa-save"></i>
+          {{ isEditing ? 'Actualizar Usuario' : 'Guardar Usuario' }}
+        </button>
+        <button type="button" class="btn-cancel" (click)="limpiarFormulario()" title="Limpiar">
+          <i class="fas fa-broom"></i>
+        </button>
+        <button type="button" class="btn-cancel" *ngIf="isEditing" (click)="cancelarEdicion()" title="Cancelar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

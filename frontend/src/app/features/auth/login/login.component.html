@@ -1,0 +1,46 @@
+<!-- Login con diseño original exacto -->
+<div class="login-body">
+  <div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h1>Iniciar Sesión</h1>
+      
+      <div class="error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      
+      <div class="success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-user"></i>
+        <input 
+          type="text" 
+          id="usuario" 
+          formControlName="usuario"
+          required 
+          placeholder="Usuario"
+          autocomplete="username">
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-lock"></i>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          required 
+          placeholder="Contraseña" 
+          autocomplete="current-password">
+        <i class="far fa-eye" id="togglePassword" (click)="togglePasswordVisibility()"></i>
+      </div>
+      
+      <button 
+        type="submit" 
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="isLoading">Ingresando...</span>
+        <span *ngIf="!isLoading">Entrar</span>
+      </button>
+    </form>
+  </div>
+</div>

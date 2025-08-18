@@ -1,0 +1,59 @@
+{
+  "name": "spa-modern-k6-tests",
+  "version": "1.0.0",
+  "description": "Suite de pruebas de rendimiento K6 para SPA Modern Backend",
+  "scripts": {
+    "test:health": "k6 run health-check.js",
+    "test:auth": "k6 run auth-load-test.js",
+    "test:crud": "k6 run crud-operations.js",
+    "test:stress": "k6 run stress-test.js",
+    "test:spike": "k6 run spike-test.js",
+    "test:sustained": "k6 run sustained-load-test.js",
+    "test:all": "node run-all-tests.js",
+    "test:quick": "npm run test:health && npm run test:auth",
+    "install:k6": "echo 'Por favor instala K6 desde https://k6.io/docs/get-started/installation/'",
+    "check:backend": "curl -f http://localhost:3000/health || echo 'Backend no disponible'"
+  },
+  "keywords": [
+    "k6",
+    "performance",
+    "load-testing",
+    "stress-testing",
+    "api-testing",
+    "spa-modern"
+  ],
+  "author": "SPA Modern Team",
+  "license": "MIT",
+  "devDependencies": {
+    "k6": "latest"
+  },
+  "k6": {
+    "baseUrl": "http://localhost:3000",
+    "testData": {
+      "defaultCredentials": {
+        "email": "admin@test.com",
+        "password": "admin123"
+      },
+      "testUsers": 100,
+      "maxConcurrentUsers": 800,
+      "testDuration": "15m"
+    },
+    "thresholds": {
+      "global": {
+        "http_req_duration": "p(95)<1000",
+        "http_req_failed": "rate<0.05"
+      },
+      "stress": {
+        "http_req_duration": "p(95)<2000",
+        "http_req_failed": "rate<0.2"
+      },
+      "spike": {
+        "http_req_duration": "p(95)<3000",
+        "http_req_failed": "rate<0.3"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,45 @@
+<!-- Lista de clientes con diseño del original -->
+<div class="content">
+  <h2>Gestión de Clientes</h2>
+  
+  <div class="table-wrapper">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Cédula</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ cliente.nombre }}</td>
+          <td>{{ cliente.apellido }}</td>
+          <td>{{ cliente.cedula }}</td>
+          <td>{{ cliente.telefono }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-edit" (click)="editCliente(cliente)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-deactivate" (click)="deleteCliente(cliente.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="clientes.length === 0">
+          <td colspan="6" style="text-align: center;">No hay clientes registrados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <button class="btn-add-product" (click)="createCliente()" style="margin-top: 20px;">
+    <i class="fas fa-plus"></i> Agregar Cliente
+  </button>
+</div>

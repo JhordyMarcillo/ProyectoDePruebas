@@ -1,0 +1,246 @@
+<div class="main-content-unified">
+  <!-- Messages -->
+  <div *ngIf="message" class="message" [ngClass]="messageType">
+    <i class="fas fa-info-circle"></i> {{ message }}
+  </div>
+
+  <!-- Mini Menu unificado -->
+  <div class="mini-menu-unified">
+    <button class="tab-button" [class.active]="activeTab === 'list'" 
+       (click)="setActiveTab('list')">
+       <i class="fas fa-receipt"></i> Facturas
+    </button>
+    <button class="tab-button" [class.active]="activeTab === 'new'" 
+       (click)="setActiveTab('new')">
+       <i class="fas fa-plus"></i> Nueva Venta
+    </button>
+    <button class="tab-button" [class.active]="activeTab === 'edit'" 
+       (click)="setActiveTab('edit')" 
+       [style.display]="isEditing ? 'inline-block' : 'none'">
+       <i class="fas fa-edit"></i> Editar Venta
+    </button>
+  </div>
+
+  <!-- Lista de Ventas -->
+  <section *ngIf="activeTab === 'list'" class="content">
+    <div class="table-container">
+      <h2><i class="fas fa-shopping-cart"></i> Listado de Ventas</h2>
+      <div *ngIf="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Cargando ventas...
+      </div>
+      <div *ngIf="error" class="error">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+      </div>
+      
+      <table *ngIf="!loading && !error" class="unified-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Vendedor</th>
+              <th>Total</th>
+              <th>Método</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let venta of ventas">
+              <td>{{ venta.id }}</td>
+              <td>{{ getClienteNombre(venta.cedula_cliente) }}</td>
+              <td>{{ venta.vendedor }}</td>
+              <td>{{ formatMoney(venta.total_pagar) }}</td>
+              <td>{{ venta.metodo || 'N/A' }}</td>
+              <td>{{ formatDate(venta.fecha_creacion!) }}</td>
+              <td>
+                <span class="status" [ngClass]="venta.estado">
+                  {{ venta.estado }}
+                </span>
+              </td>
+              <td class="actions">
+                <div class="action-buttons">
+                  <button type="button" (click)="editarVenta(venta)" class="btn-edit" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button type="button" (click)="generarFactura(venta)" class="btn-invoice" title="Factura">
+                    <i class="fas fa-file-invoice"></i>
+                  </button>
+                  <button type="button" (click)="eliminarVenta(venta)" class="btn-delete" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="!loading && !error && ventas.length === 0" class="no-data">
+          No hay ventas registradas
+        </div>
+    </div>
+  </section>
+
+  <!-- Nueva Venta / Editar Venta -->
+  <section *ngIf="activeTab === 'new' || activeTab === 'edit'" class="content">
+    <div class="user-form">
+      <h1 class="centered-title">{{ isEditing ? 'Editar Venta' : 'Registro de Venta' }}</h1>
+      
+      <form #ventaForm="ngForm" (ngSubmit)="guardarVenta()">
+        <!-- Buscar Cliente -->
+        <div class="form-group">
+          <input type="text" [(ngModel)]="buscarClienteInput" name="buscar_cliente" 
+                 placeholder="Buscar Cliente (Cédula)" size="30%"
+                 (input)="onCedulaInput()" (keyup.enter)="buscarCliente()" (blur)="buscarCliente()">
+          <button type="button" (click)="buscarCliente()">Buscar Cliente</button>
+        </div>
+
+        <!-- Datos del Cliente -->
+        <h3>Datos del Cliente</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" [value]="clienteSeleccionado?.nombre || ''" readonly>
+            <label>Nombre:</label>
+          </div>
+          <div class="form-group">
+            <input type="text" [value]="clienteSeleccionado?.apellido || ''" readonly>
+            <label>Apellido:</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" [value]="clienteSeleccionado?.cedula || ''" readonly>
+            <label>Cédula:</label>
+          </div>
+          <div class="form-group">
+            <input type="text" [value]="clienteSeleccionado?.numero || ''" readonly>
+            <label>Número:</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <input type="email" [value]="clienteSeleccionado?.email || ''" readonly>
+            <label>Email:</label>
+          </div>
+          <div class="form-group">
+            <input type="text" [value]="clienteSeleccionado?.locacion || ''" readonly>
+            <label>Locación:</label>
+          </div>
+        </div>
+
+        <!-- Productos y Servicios -->
+        <h3>Facturación</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <select [(ngModel)]="productoSeleccionado" name="producto_venta">
+              <option value="">Seleccionar Producto</option>
+              <option *ngFor="let producto of productos" [value]="producto.id">
+                {{ producto.nombre_producto }} - ${{ producto.precio_producto }} (Stock: {{ producto.cantidad_producto }})
+              </option>
+            </select>
+            <label>Producto:</label>
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="cantidadProducto" name="cantidad_producto_venta" 
+                   step="1" min="1" required>
+            <label>Cantidad del Producto:</label>
+            <button type="button" (click)="agregarProducto()">Añadir Producto</button>
+          </div>
+        </div>
+
+        <!-- Productos Añadidos -->
+        <div *ngIf="nuevaVenta.productos.length > 0">
+          <h3>Productos Añadidos</h3>
+          <ul class="addedProductsList">
+            <li *ngFor="let producto of nuevaVenta.productos; let i = index">
+              {{ producto.nombre }} - Cantidad: {{ producto.cantidad }} - 
+              ${{ producto.costo }} c/u = ${{ (producto.costo * producto.cantidad).toFixed(2) }}
+              <button type="button" (click)="eliminarProducto(i)" class="btn-remove" title="Eliminar">
+                <i class="fas fa-times"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <select [(ngModel)]="servicioSeleccionado" name="servicio_venta">
+              <option value="">Seleccionar Servicio</option>
+              <option *ngFor="let servicio of servicios" [value]="servicio.id">
+                {{ servicio.nombre }} - ${{ servicio.coste_total }}
+              </option>
+            </select>
+            <label>Servicio:</label>
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="cantidadServicio" name="cantidad_servicio_venta" 
+                   step="1" min="1" required>
+            <label>Cantidad de Servicios:</label>
+            <button type="button" (click)="agregarServicio()">Añadir Servicio</button>
+          </div>
+        </div>
+
+        <!-- Servicios Añadidos -->
+        <div *ngIf="nuevaVenta.servicios.length > 0">
+          <h3>Servicios Añadidos</h3>
+          <ul class="addedProductsList">
+            <li *ngFor="let servicio of nuevaVenta.servicios; let i = index">
+              {{ servicio.nombre }} - Cantidad: {{ servicio.cantidad }} - 
+              ${{ servicio.costo }} c/u = ${{ (servicio.costo * servicio.cantidad).toFixed(2) }}
+              <button type="button" (click)="eliminarServicio(i)" class="btn-remove" title="Eliminar">
+                <i class="fas fa-times"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <input type="number" [(ngModel)]="nuevaVenta.iva" name="iva_venta" 
+                   step="0.01" required (ngModelChange)="calcularTotal()">
+            <label>IVA (%):</label>
+          </div>
+          <div class="form-group">
+            <input type="number" [value]="nuevaVenta.total_pagar.toFixed(2)" readonly>
+            <label>Total:</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <select [(ngModel)]="nuevaVenta.metodo" name="metodo_pago" required 
+                    (ngModelChange)="onMetodoChange()">
+              <option value="">Seleccionar Método</option>
+              <option value="efectivo">Efectivo</option>
+              <option value="tarjeta">Tarjeta de Débito</option>
+            </select>
+            <label>Método de Pago:</label>
+          </div>
+        </div>
+
+        <!-- Campos adicionales para Efectivo -->
+        <div *ngIf="nuevaVenta.metodo === 'efectivo'" class="form-row">
+          <div class="form-group">
+            <input type="number" [(ngModel)]="montoEntregado" name="monto_entregado" 
+                   step="0.01" min="0" required (ngModelChange)="onMontoEntregadoChange()">
+            <label>Monto Entregado:</label>
+          </div>
+          <div class="form-group">
+            <input type="number" [value]="cambio.toFixed(2)" readonly>
+            <label>Cambio:</label>
+          </div>
+        </div>
+
+        <h3>Datos del Vendedor</h3>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="nuevaVenta.vendedor" name="vendedor_venta" readonly>
+          <label>Vendedor:</label>
+        </div>
+        
+        <button type="submit" [disabled]="!ventaForm.form.valid">
+          {{ isEditing ? 'Actualizar Venta' : 'Guardar Venta' }}
+        </button>
+      </form>
+    </div>
+  </section>
+</div>

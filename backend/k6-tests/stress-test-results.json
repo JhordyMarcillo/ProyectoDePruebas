@@ -1,0 +1,407 @@
+{
+  "root_group": {
+    "groups": [
+      {
+        "id": "a99ed0f10f1e9c96b7dc93cb33914ffa",
+        "groups": [
+          {
+            "id": "d85ffef1919012fd0c5ba91ec6e58eaf",
+            "groups": [],
+            "checks": [
+                {
+                  "name": "Health check OK",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Health check OK",
+                  "id": "29743b415c604699b0d5e36e356f4a00",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /usuarios?page=1&limit=50 accessible",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /usuarios?page=1&limit=50 accessible",
+                  "id": "4dcffa17b256aaa7364253fe5f6682a0",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /usuarios?page=1&limit=50 response time < 3s",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /usuarios?page=1&limit=50 response time < 3s",
+                  "id": "6e4d9df018a6849b0932295e37b2c65d",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /clientes?page=1&limit=100 accessible",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /clientes?page=1&limit=100 accessible",
+                  "id": "b11703307a321e7de6b06eb8052a2dcf",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /clientes?page=1&limit=100 response time < 3s",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /clientes?page=1&limit=100 response time < 3s",
+                  "id": "6841b718532b20c24d673bb0bcca1f1d",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /productos?page=1&limit=100 accessible",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /productos?page=1&limit=100 accessible",
+                  "id": "68dc8273826f751e4036764440db9d64",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /productos?page=1&limit=100 response time < 3s",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /productos?page=1&limit=100 response time < 3s",
+                  "id": "3b4fb1a2c30e882c661d5d9fe5ee6557",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "name": "Admin /ventas?page=1&limit=200 accessible",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /ventas?page=1&limit=200 accessible",
+                  "id": "ed7046092030bc6f5b82ae5e648cc7cd",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "fails": 0,
+                  "name": "Admin /ventas?page=1&limit=200 response time < 3s",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /ventas?page=1&limit=200 response time < 3s",
+                  "id": "a4a3548bb39a1341df120d9f384754bd",
+                  "passes": 44962
+                },
+                {
+                  "name": "Admin /reportes?page=1&limit=500 accessible",
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /reportes?page=1&limit=500 accessible",
+                  "id": "3de57896df2dcf72c89c8e6a03a451de",
+                  "passes": 44962,
+                  "fails": 0
+                },
+                {
+                  "path": "::Stress Test - admin behavior::Admin Operations::Admin /reportes?page=1&limit=500 response time < 3s",
+                  "id": "5e56cef8b63d6c9c069717fa8014782d",
+                  "passes": 44962,
+                  "fails": 0,
+                  "name": "Admin /reportes?page=1&limit=500 response time < 3s"
+                }
+              ],
+            "name": "Admin Operations",
+            "path": "::Stress Test - admin behavior::Admin Operations"
+          }
+        ],
+        "checks": [],
+        "name": "Stress Test - admin behavior",
+        "path": "::Stress Test - admin behavior"
+      },
+      {
+        "name": "Stress Test - viewer behavior",
+        "path": "::Stress Test - viewer behavior",
+        "id": "0f9e392e5afe4f4ca67bfabe33d9405a",
+        "groups": [
+          {
+            "name": "Viewer Operations",
+            "path": "::Stress Test - viewer behavior::Viewer Operations",
+            "id": "ab7cc886b8d0c859c3921f6644b397bf",
+            "groups": [],
+            "checks": [
+                {
+                  "passes": 44853,
+                  "fails": 0,
+                  "name": "Viewer endpoint accessible",
+                  "path": "::Stress Test - viewer behavior::Viewer Operations::Viewer endpoint accessible",
+                  "id": "0ceed7b83d99a716107d8e8dbff3b701"
+                },
+                {
+                  "name": "Viewer response time < 1s",
+                  "path": "::Stress Test - viewer behavior::Viewer Operations::Viewer response time < 1s",
+                  "id": "d27a3299418f3170977c0530b52777e9",
+                  "passes": 44853,
+                  "fails": 0
+                },
+                {
+                  "name": "Viewer health check OK",
+                  "path": "::Stress Test - viewer behavior::Viewer Operations::Viewer health check OK",
+                  "id": "4b533b6de745de65951c054b7b7a517d",
+                  "passes": 4445,
+                  "fails": 0
+                }
+              ]
+          }
+        ],
+        "checks": []
+      },
+      {
+        "checks": [],
+        "name": "Stress Test - employee behavior",
+        "path": "::Stress Test - employee behavior",
+        "id": "ffb4c976a3e409d6e82cd4ee14dfb8f0",
+        "groups": [
+            {
+              "id": "4a5911f9cd81664a113051ec73443a15",
+              "groups": [],
+              "checks": [
+                  {
+                    "passes": 45054,
+                    "fails": 0,
+                    "name": "Employee endpoint accessible",
+                    "path": "::Stress Test - employee behavior::Employee Operations::Employee endpoint accessible",
+                    "id": "dbdf84fb6bc13db6dc9b619f9c9b9f45"
+                  },
+                  {
+                    "name": "Employee response time < 2s",
+                    "path": "::Stress Test - employee behavior::Employee Operations::Employee response time < 2s",
+                    "id": "f05d6e51ebb2a5d88e3195b9dd6272fe",
+                    "passes": 45054,
+                    "fails": 0
+                  },
+                  {
+                    "name": "Search response OK",
+                    "path": "::Stress Test - employee behavior::Employee Operations::Search response OK",
+                    "id": "7a20188d9bcc25737836a5e78d41148c",
+                    "passes": 13370,
+                    "fails": 0
+                  }
+                ],
+              "name": "Employee Operations",
+              "path": "::Stress Test - employee behavior::Employee Operations"
+            }
+          ]
+      }
+    ],
+    "checks": [],
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": true,
+    "isStdErrTTY": true,
+    "testRunDurationMs": 603197.8238
+  },
+  "metrics": {
+    "data_sent": {
+      "values": {
+        "count": 36287435,
+        "rate": 60158.43155964648
+      },
+      "type": "counter",
+      "contains": "data"
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1.1087668395607955,
+        "min": 0,
+        "med": 0.5253,
+        "max": 273.5802,
+        "p(90)": 1.8291,
+        "p(95)": 2.9477
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.009467027112941872,
+        "min": 0,
+        "med": 0,
+        "max": 8.523,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.08557667969112087,
+        "min": 0,
+        "med": 0,
+        "max": 71.4479,
+        "p(90)": 0.5053,
+        "p(95)": 0.5459
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 134869,
+        "rate": 223.58999764017383
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.8691161472337382,
+        "passes": 328087,
+        "fails": 49408
+      },
+      "thresholds": {
+        "rate<0.2": {
+          "ok": false
+        }
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0,
+        "min": 0,
+        "med": 0
+      }
+    },
+    "data_received": {
+      "contains": "data",
+      "values": {
+        "count": 384260561,
+        "rate": 637039.037341434
+      },
+      "type": "counter"
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 2.4649569948186545,
+        "min": 0,
+        "med": 1.0608,
+        "max": 274.1128,
+        "p(90)": 3.5269,
+        "p(95)": 5.284029999999987
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 7.1626,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.0014289932316984332,
+        "min": 0,
+        "med": 0
+      }
+    },
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 377495,
+        "rate": 625.8228811600695
+      },
+      "thresholds": {
+        "rate>50": {
+          "ok": true
+        }
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "passes": 692211,
+        "fails": 0,
+        "rate": 1
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.0037374781122928723,
+        "min": 0,
+        "med": 0,
+        "max": 30.9326
+      }
+    },
+    "http_req_duration": {
+      "thresholds": {
+        "p(95)<2000": {
+          "ok": true
+        }
+      },
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1.2038105463648634,
+        "min": 0,
+        "med": 0.5349,
+        "max": 274.1128,
+        "p(90)": 1.978220000000007,
+        "p(95)": 3.0725599999999975
+      }
+    },
+    "group_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 9.192015,
+        "avg": 3.622998894482631,
+        "min": 0,
+        "med": 1.55315,
+        "max": 404.9862,
+        "p(90)": 6.0546
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 800,
+        "min": 800,
+        "max": 800
+      },
+      "thresholds": {
+        "value<=800": {
+          "ok": true
+        }
+      }
+    },
+    "vus": {
+      "contains": "default",
+      "values": {
+        "value": 5,
+        "min": 2,
+        "max": 800
+      },
+      "type": "gauge"
+    },
+    "iteration_duration": {
+      "values": {
+        "avg": 2003.136937863401,
+        "min": 500.639,
+        "med": 2004.0404,
+        "max": 3852.5623,
+        "p(90)": 3205.3573,
+        "p(95)": 3355.98362
+      },
+      "type": "trend",
+      "contains": "time"
+    }
+  },
+  "setup_data": {
+    "startTime": 1755402572049
+  }
+}

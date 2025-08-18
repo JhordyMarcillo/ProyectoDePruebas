@@ -1,0 +1,100 @@
+<h2 mat-dialog-title>{{ isEditing ? 'Editar' : 'Nuevo' }} Producto</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="productoForm" class="producto-form">
+    <div class="form-row">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nombre *</mat-label>
+        <input matInput formControlName="nombre" required>
+        <mat-error *ngIf="productoForm.get('nombre')?.hasError('required')">
+          El nombre es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="codigo">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Categoría</mat-label>
+        <input matInput formControlName="categoria">
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Marca</mat-label>
+        <input matInput formControlName="marca">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Precio de Compra *</mat-label>
+        <input matInput type="number" formControlName="precio_compra" required>
+        <span matPrefix>$&nbsp;</span>
+        <mat-error *ngIf="productoForm.get('precio_compra')?.hasError('required')">
+          El precio de compra es requerido
+        </mat-error>
+        <mat-error *ngIf="productoForm.get('precio_compra')?.hasError('min')">
+          Debe ser mayor a 0
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Precio de Venta *</mat-label>
+        <input matInput type="number" formControlName="precio_venta" required>
+        <span matPrefix>$&nbsp;</span>
+        <mat-error *ngIf="productoForm.get('precio_venta')?.hasError('required')">
+          El precio de venta es requerido
+        </mat-error>
+        <mat-error *ngIf="productoForm.get('precio_venta')?.hasError('min')">
+          Debe ser mayor a 0
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Cantidad en Stock *</mat-label>
+        <input matInput type="number" formControlName="cantidad_stock" required>
+        <mat-error *ngIf="productoForm.get('cantidad_stock')?.hasError('required')">
+          La cantidad es requerida
+        </mat-error>
+        <mat-error *ngIf="productoForm.get('cantidad_stock')?.hasError('min')">
+          Debe ser mayor o igual a 0
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Stock Mínimo</mat-label>
+        <input matInput type="number" formControlName="stock_minimo">
+        <mat-error *ngIf="productoForm.get('stock_minimo')?.hasError('min')">
+          Debe ser mayor o igual a 0
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="estado">
+        <mat-option value="activo">Activo</mat-option>
+        <mat-option value="inactivo">Inactivo</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="isLoading">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="productoForm.invalid || isLoading">
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+    <span *ngIf="!isLoading">{{ isEditing ? 'Actualizar' : 'Crear' }}</span>
+  </button>
+</mat-dialog-actions>

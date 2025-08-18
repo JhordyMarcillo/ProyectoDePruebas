@@ -1,0 +1,770 @@
+import request from 'supertest';
+import express from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { validationResult, body } from 'express-validator';
+import {
+  handleValidationErrors,
+  validate,
+  sanitizePagination,
+  logRequest,
+  validateProducto,
+  validateUpdateProducto
+} from '../../middleware/validation';
+
+// Mock express-validator
+jest.mock('express-validator', () => ({
+  validationResult: jest.fn(),
+  body: jest.fn(() => ({
+    notEmpty: jest.fn().mockReturnThis(),
+    withMessage: jest.fn().mockReturnThis(),
+    isLength: jest.fn().mockReturnThis(),
+    optional: jest.fn().mockReturnThis(),
+    isFloat: jest.fn().mockReturnThis(),
+    isInt: jest.fn().mockReturnThis(),
+    isBoolean: jest.fn().mockReturnThis(),
+    run: jest.fn()
+  }))
+}));
+
+const mockValidationResult = validationResult as jest.MockedFunction<typeof validationResult>;
+
+describe('Validation Middleware', () => {
+  let req: Partial<Request>;
+  let res: Partial<Response>;
+  let next: NextFunction;
+  let consoleSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    req = {
+      method: 'POST',
+      path: '/test',
+      query: {},
+      body: {}
+    } as any; // Use 'as any' to allow modification of read-only properties in tests
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis(),
+      on: jest.fn()
+    };
+    next = jest.fn();
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
+  describe('handleValidationErrors', () => {
+    it('should pass through when no validation errors exist', () => {
+      // Arrange
+      const mockEmptyErrors = {
+        isEmpty: jest.fn().mockReturnValue(true),
+        array: jest.fn().mockReturnValue([])
+      };
+      mockValidationResult.mockReturnValue(mockEmptyErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockEmptyErrors.isEmpty).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(res.status).not.toHaveBeenCalled();
+      expect(res.json).not.toHaveBeenCalled();
+    });
+
+    it('should return 400 with error messages when validation errors exist', () => {
+      // Arrange
+      const mockErrors = [
+        { msg: 'Name is required' },
+        { msg: 'Email must be valid' }
+      ];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidationErrors.isEmpty).toHaveBeenCalled();
+      expect(mockValidationErrors.array).toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Errores de validación en:',
+        'POST',
+        '/test',
+        ['Name is required', 'Email must be valid']
+      );
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: 'Name is required, Email must be valid'
+      });
+      expect(next).not.toHaveBeenCalled();
+    });
+
+    it('should handle single validation error', () => {
+      // Arrange
+      const mockErrors = [{ msg: 'Single error message' }];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: 'Single error message'
+      });
+    });
+
+    it('should handle empty error message in validation errors', () => {
+      // Arrange
+      const mockErrors = [
+        { msg: '' },
+        { msg: 'Valid error message' }
+      ];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: ', Valid error message'
+      });
+    });
+
+    it('should log error details with different HTTP methods', () => {
+      // Arrange
+      const customReq = {
+        ...req,
+        method: 'PUT',
+        path: '/api/products/123'
+      } as any;
+      const mockErrors = [{ msg: 'Invalid ID format' }];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(customReq as Request, res as Response, next);
+
+      // Assert
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Errores de validación en:',
+        'PUT',
+        '/api/products/123',
+        ['Invalid ID format']
+      );
+    });
+
+    it('should handle validation errors with special characters', () => {
+      // Arrange
+      const mockErrors = [
+        { msg: 'Field contains invalid characters: @#$%' },
+        { msg: 'Special message with "quotes" and \nlinebreak' }
+      ];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: 'Field contains invalid characters: @#$%, Special message with "quotes" and \nlinebreak'
+      });
+    });
+
+    it('should handle very long error messages', () => {
+      // Arrange
+      const longErrorMessage = 'A'.repeat(500); // 500 character error message
+      const mockErrors = [{ msg: longErrorMessage }];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: longErrorMessage
+      });
+    });
+
+    it('should handle multiple validation errors with mixed content', () => {
+      // Arrange
+      const mockErrors = [
+        { msg: 'Required field missing' },
+        { msg: '' }, // Empty error
+        { msg: 'Invalid format' },
+        { msg: null }, // Null error (edge case)
+        { msg: 'Final error' }
+      ];
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue(mockErrors)
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      // Act
+      handleValidationErrors(req as Request, res as Response, next);
+
+      // Assert
+      expect(res.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: 'Required field missing, , Invalid format, , Final error'
+      });
+    });
+  });
+
+  describe('validate', () => {
+    it('should execute all validations and call next', async () => {
+      // Arrange
+      const mockValidation1 = { run: jest.fn().mockResolvedValue(undefined) };
+      const mockValidation2 = { run: jest.fn().mockResolvedValue(undefined) };
+      const validations = [mockValidation1, mockValidation2] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidation1.run).toHaveBeenCalledWith(req);
+      expect(mockValidation2.run).toHaveBeenCalledWith(req);
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle empty validations array', async () => {
+      // Arrange
+      const validations: any[] = [];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(req as Request, res as Response, next);
+
+      // Assert
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle validation failures gracefully', async () => {
+      // Arrange
+      const mockValidation1 = { run: jest.fn().mockResolvedValue(undefined) };
+      const mockValidation2 = { run: jest.fn().mockRejectedValue(new Error('Validation failed')) };
+      const validations = [mockValidation1, mockValidation2] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act & Assert
+      await expect(validateMiddleware(req as Request, res as Response, next))
+        .rejects.toThrow('Validation failed');
+      expect(mockValidation1.run).toHaveBeenCalledWith(req);
+      expect(mockValidation2.run).toHaveBeenCalledWith(req);
+    });
+
+    it('should execute validations with different request objects', async () => {
+      // Arrange
+      const customReq = {
+        ...req,
+        body: { name: 'test', email: 'test@example.com' }
+      };
+      const mockValidation = { run: jest.fn().mockResolvedValue(undefined) };
+      const validations = [mockValidation] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(customReq as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidation.run).toHaveBeenCalledWith(customReq);
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle mixed success and failure in validations', async () => {
+      // Arrange
+      const mockValidation1 = { run: jest.fn().mockResolvedValue(undefined) };
+      const mockValidation2 = { run: jest.fn().mockResolvedValue(null) };
+      const mockValidation3 = { run: jest.fn().mockResolvedValue('some result') };
+      const validations = [mockValidation1, mockValidation2, mockValidation3] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidation1.run).toHaveBeenCalledWith(req);
+      expect(mockValidation2.run).toHaveBeenCalledWith(req);
+      expect(mockValidation3.run).toHaveBeenCalledWith(req);
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle single validation in array', async () => {
+      // Arrange
+      const mockValidation = { run: jest.fn().mockResolvedValue(undefined) };
+      const validations = [mockValidation] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidation.run).toHaveBeenCalledWith(req);
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle validation that returns a promise', async () => {
+      // Arrange
+      const mockValidation = { 
+        run: jest.fn().mockImplementation(() => 
+          new Promise(resolve => setTimeout(() => resolve(undefined), 10))
+        ) 
+      };
+      const validations = [mockValidation] as any[];
+      const validateMiddleware = validate(validations);
+
+      // Act
+      await validateMiddleware(req as Request, res as Response, next);
+
+      // Assert
+      expect(mockValidation.run).toHaveBeenCalledWith(req);
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('sanitizePagination', () => {
+    it('should set default pagination values when query params are missing', () => {
+      // Arrange
+      req.query = {};
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1');
+      expect(req.query.limit).toBe('10');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should parse valid page and limit parameters', () => {
+      // Arrange
+      req.query = { page: '3', limit: '25' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('3');
+      expect(req.query.limit).toBe('25');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle invalid page parameter and use default', () => {
+      // Arrange
+      req.query = { page: 'invalid', limit: '15' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1');
+      expect(req.query.limit).toBe('15');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle invalid limit parameter and use default', () => {
+      // Arrange
+      req.query = { page: '2', limit: 'invalid' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('2');
+      expect(req.query.limit).toBe('10');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should cap limit to maximum of 100', () => {
+      // Arrange
+      req.query = { page: '1', limit: '150' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1');
+      expect(req.query.limit).toBe('100');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle negative page and limit values', () => {
+      // Arrange
+      req.query = { page: '-5', limit: '-10' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('-5'); // parseInt("-5") returns -5, not NaN
+      expect(req.query.limit).toBe('-10'); // parseInt("-10") returns -10, not NaN
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle zero values for page and limit', () => {
+      // Arrange
+      req.query = { page: '0', limit: '0' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1'); // 0 is falsy, so || 1 is used
+      expect(req.query.limit).toBe('10'); // 0 is falsy, so || 10 is used
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle decimal values in page and limit', () => {
+      // Arrange
+      req.query = { page: '2.5', limit: '15.7' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('2'); // parseInt truncates decimals
+      expect(req.query.limit).toBe('15'); // parseInt truncates decimals
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle NaN values for page and limit', () => {
+      // Arrange
+      req.query = { page: 'not-a-number', limit: 'also-not-a-number' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1'); // parseInt("not-a-number") returns NaN, so || 1 is used
+      expect(req.query.limit).toBe('10'); // parseInt("also-not-a-number") returns NaN, so || 10 is used
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle limit values exactly at the cap', () => {
+      // Arrange
+      req.query = { page: '1', limit: '100' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('1');
+      expect(req.query.limit).toBe('100'); // Exactly at Math.min cap
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle very large page numbers', () => {
+      // Arrange
+      req.query = { page: '999999', limit: '50' };
+
+      // Act
+      sanitizePagination(req as Request, res as Response, next);
+
+      // Assert
+      expect(req.query.page).toBe('999999'); // Large numbers are allowed for page
+      expect(req.query.limit).toBe('50');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('logRequest', () => {
+    it('should log request details when response finishes', () => {
+      // Arrange
+      const mockStartTime = 1000;
+      const mockEndTime = 1150;
+      jest.spyOn(Date, 'now')
+        .mockReturnValueOnce(mockStartTime)
+        .mockReturnValueOnce(mockEndTime);
+
+      const customReq = {
+        ...req,
+        method: 'GET',
+        path: '/api/test'
+      } as any;
+      const customRes = {
+        ...res,
+        statusCode: 200
+      } as any;
+
+      let finishCallback: Function = () => {};
+      customRes.on = jest.fn().mockImplementation((event: string, callback: Function) => {
+        if (event === 'finish') {
+          finishCallback = callback;
+        }
+      });
+
+      // Act
+      logRequest(customReq as Request, customRes as Response, next);
+      finishCallback(); // Simulate response finish
+
+      // Assert
+      expect(customRes.on).toHaveBeenCalledWith('finish', expect.any(Function));
+      expect(consoleSpy).toHaveBeenCalledWith('GET /api/test - 200 - 150ms');
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle different HTTP methods and status codes', () => {
+      // Arrange
+      const mockStartTime = 2000;
+      const mockEndTime = 2075;
+      jest.spyOn(Date, 'now')
+        .mockReturnValueOnce(mockStartTime)
+        .mockReturnValueOnce(mockEndTime);
+
+      const customReq = {
+        ...req,
+        method: 'POST',
+        path: '/api/products'
+      } as any;
+      const customRes = {
+        ...res,
+        statusCode: 201
+      } as any;
+
+      let finishCallback: Function = () => {};
+      customRes.on = jest.fn().mockImplementation((event: string, callback: Function) => {
+        if (event === 'finish') {
+          finishCallback = callback;
+        }
+      });
+
+      // Act
+      logRequest(customReq as Request, customRes as Response, next);
+      finishCallback();
+
+      // Assert
+      expect(consoleSpy).toHaveBeenCalledWith('POST /api/products - 201 - 75ms');
+    });
+
+    it('should handle error status codes', () => {
+      // Arrange
+      const mockStartTime = 3000;
+      const mockEndTime = 3050;
+      jest.spyOn(Date, 'now')
+        .mockReturnValueOnce(mockStartTime)
+        .mockReturnValueOnce(mockEndTime);
+
+      const customReq = {
+        ...req,
+        method: 'DELETE',
+        path: '/api/products/invalid'
+      } as any;
+      const customRes = {
+        ...res,
+        statusCode: 404
+      } as any;
+
+      let finishCallback: Function = () => {};
+      customRes.on = jest.fn().mockImplementation((event: string, callback: Function) => {
+        if (event === 'finish') {
+          finishCallback = callback;
+        }
+      });
+
+      // Act
+      logRequest(customReq as Request, customRes as Response, next);
+      finishCallback();
+
+      // Assert
+      expect(consoleSpy).toHaveBeenCalledWith('DELETE /api/products/invalid - 404 - 50ms');
+    });
+
+    it('should call next immediately without waiting for response', () => {
+      // Arrange
+      const customRes = { ...res } as any;
+      customRes.on = jest.fn();
+
+      // Act
+      logRequest(req as Request, customRes as Response, next);
+
+      // Assert
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(customRes.on).toHaveBeenCalledWith('finish', expect.any(Function));
+    });
+
+    it('should handle very fast requests (0ms)', () => {
+      // Arrange
+      const mockTime = 5000;
+      jest.spyOn(Date, 'now').mockReturnValue(mockTime);
+
+      const customReq = {
+        ...req,
+        method: 'GET',
+        path: '/api/fast'
+      } as any;
+      const customRes = {
+        ...res,
+        statusCode: 200
+      } as any;
+
+      let finishCallback: Function = () => {};
+      customRes.on = jest.fn().mockImplementation((event: string, callback: Function) => {
+        if (event === 'finish') {
+          finishCallback = callback;
+        }
+      });
+
+      // Act
+      logRequest(customReq as Request, customRes as Response, next);
+      finishCallback();
+
+      // Assert
+      expect(consoleSpy).toHaveBeenCalledWith('GET /api/fast - 200 - 0ms');
+    });
+  });
+
+  describe('validateProducto array', () => {
+    it('should be an array containing validation middleware', () => {
+      // Arrange & Act & Assert
+      expect(Array.isArray(validateProducto)).toBe(true);
+      expect(validateProducto.length).toBeGreaterThan(0);
+      expect(validateProducto[validateProducto.length - 1]).toBe(handleValidationErrors);
+    });
+  });
+
+  describe('validateUpdateProducto array', () => {
+    it('should be an array containing validation middleware for updates', () => {
+      // Arrange & Act & Assert
+      expect(Array.isArray(validateUpdateProducto)).toBe(true);
+      expect(validateUpdateProducto.length).toBeGreaterThan(0);
+      expect(validateUpdateProducto[validateUpdateProducto.length - 1]).toBe(handleValidationErrors);
+    });
+  });
+
+  // Integration tests using Express app
+  describe('Integration Tests', () => {
+    let app: express.Application;
+
+    beforeEach(() => {
+      app = express();
+      app.use(express.json());
+    });
+
+    it('should integrate sanitizePagination with route', async () => {
+      // Arrange
+      app.get('/test-pagination', sanitizePagination, (req, res) => {
+        res.json({
+          page: req.query.page,
+          limit: req.query.limit
+        });
+      });
+
+      // Act
+      const response = await request(app)
+        .get('/test-pagination?page=5&limit=30')
+        .expect(200);
+
+      // Assert
+      expect(response.body).toEqual({
+        page: '5',
+        limit: '30'
+      });
+    });
+
+    it('should integrate logRequest with route', async () => {
+      // Arrange
+      app.use(logRequest);
+      app.get('/test-logging', (req, res) => {
+        res.status(200).json({ message: 'success' });
+      });
+
+      // Act
+      const response = await request(app)
+        .get('/test-logging')
+        .expect(200);
+
+      // Assert
+      expect(response.body).toEqual({ message: 'success' });
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/GET \/test-logging - 200 - \d+ms/)
+      );
+    });
+
+    it('should integrate handleValidationErrors with validation failure', async () => {
+      // Arrange
+      const mockValidationErrors = {
+        isEmpty: jest.fn().mockReturnValue(false),
+        array: jest.fn().mockReturnValue([{ msg: 'Test validation error' }])
+      };
+      mockValidationResult.mockReturnValue(mockValidationErrors as any);
+
+      app.post('/test-validation', handleValidationErrors, (req, res) => {
+        res.json({ message: 'should not reach here' });
+      });
+
+      // Act
+      const response = await request(app)
+        .post('/test-validation')
+        .send({})
+        .expect(400);
+
+      // Assert
+      expect(response.body).toEqual({
+        success: false,
+        message: 'Datos de entrada inválidos',
+        error: 'Test validation error'
+      });
+    });
+
+    it('should integrate validate function with multiple validations', async () => {
+      // Arrange
+      const mockValidation1 = { run: jest.fn().mockResolvedValue(undefined) };
+      const mockValidation2 = { run: jest.fn().mockResolvedValue(undefined) };
+      const validations = [mockValidation1, mockValidation2] as any; // Type assertion for test mocks
+
+      app.post('/test-validate', validate(validations), (req, res) => {
+        res.json({ message: 'validation passed' });
+      });
+
+      // Act
+      const response = await request(app)
+        .post('/test-validate')
+        .send({ data: 'test' })
+        .expect(200);
+
+      // Assert
+      expect(response.body).toEqual({ message: 'validation passed' });
+      expect(mockValidation1.run).toHaveBeenCalled();
+      expect(mockValidation2.run).toHaveBeenCalled();
+    });
+  });
+});

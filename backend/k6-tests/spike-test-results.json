@@ -1,0 +1,474 @@
+{
+  "setup_data": {
+    "startTime": 1755403214926
+  },
+  "root_group": {
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [
+      {
+        "id": "d6d93863cec947e0c0e6595d4e310c96",
+        "groups": [
+          {
+            "name": "Health Flood Pattern",
+            "path": "::Spike Test - health_flood (normal)::Health Flood Pattern",
+            "id": "298e21541557036276d6a5a48f2b070a",
+            "groups": [],
+            "checks": [
+                {
+                  "path": "::Spike Test - health_flood (normal)::Health Flood Pattern::Health flood status 200",
+                  "id": "203680cd4fdbd7bc9783f0f333d54c3b",
+                  "passes": 5210,
+                  "fails": 0,
+                  "name": "Health flood status 200"
+                },
+                {
+                  "id": "6487135d5f2f87716c7fa71ba8151f7d",
+                  "passes": 3979,
+                  "fails": 1231,
+                  "name": "Health flood response < 200ms",
+                  "path": "::Spike Test - health_flood (normal)::Health Flood Pattern::Health flood response < 200ms"
+                },
+                {
+                  "name": "Health flood API OK",
+                  "path": "::Spike Test - health_flood (normal)::Health Flood Pattern::Health flood API OK",
+                  "id": "723fff7623c7afdfb10bf510fba5c092",
+                  "passes": 527,
+                  "fails": 0
+                }
+              ]
+          }
+        ],
+        "checks": [],
+        "name": "Spike Test - health_flood (normal)",
+        "path": "::Spike Test - health_flood (normal)"
+      },
+      {
+        "name": "Spike Test - mixed_load (normal)",
+        "path": "::Spike Test - mixed_load (normal)",
+        "id": "970e12dd71a152761777d5253aa4fda6",
+        "groups": [
+          {
+            "path": "::Spike Test - mixed_load (normal)::Mixed Load Pattern",
+            "id": "77d5e32d6cc89857951291145f00b015",
+            "groups": [],
+            "checks": [
+                {
+                  "path": "::Spike Test - mixed_load (normal)::Mixed Load Pattern::Mixed load read OK",
+                  "id": "41b1f4ad295c7e6cbcb605682395f7c1",
+                  "passes": 1303,
+                  "fails": 0,
+                  "name": "Mixed load read OK"
+                },
+                {
+                  "fails": 0,
+                  "name": "Mixed load response < 2s",
+                  "path": "::Spike Test - mixed_load (normal)::Mixed Load Pattern::Mixed load response < 2s",
+                  "id": "900a93d52b65e389bb5095c983616c8c",
+                  "passes": 1303
+                },
+                {
+                  "name": "Mixed load health OK",
+                  "path": "::Spike Test - mixed_load (normal)::Mixed Load Pattern::Mixed load health OK",
+                  "id": "49847a62945a3a5239be511d671a05f5",
+                  "passes": 490,
+                  "fails": 0
+                },
+                {
+                  "name": "Mixed load health < 500ms",
+                  "path": "::Spike Test - mixed_load (normal)::Mixed Load Pattern::Mixed load health < 500ms",
+                  "id": "dcede4cb369a7ab7078445ef872df5a0",
+                  "passes": 476,
+                  "fails": 14
+                }
+              ],
+            "name": "Mixed Load Pattern"
+          }
+        ],
+        "checks": []
+      },
+      {
+        "name": "Spike Test - heavy_read (normal)",
+        "path": "::Spike Test - heavy_read (normal)",
+        "id": "5cbf350c2c8d5dae3da0d23a42a9cf82",
+        "groups": [
+          {
+            "name": "Heavy Read Pattern",
+            "path": "::Spike Test - heavy_read (normal)::Heavy Read Pattern",
+            "id": "d33a89b9f86a9520197a8ae65e7b9ae5",
+            "groups": [],
+            "checks": [
+                {
+                  "fails": 0,
+                  "name": "Heavy read status OK",
+                  "path": "::Spike Test - heavy_read (normal)::Heavy Read Pattern::Heavy read status OK",
+                  "id": "469b31967544b5d612de9dd8618ce9d5",
+                  "passes": 3644
+                },
+                {
+                  "name": "Heavy read response < 3s",
+                  "path": "::Spike Test - heavy_read (normal)::Heavy Read Pattern::Heavy read response < 3s",
+                  "id": "67a9ef3b2e7781fbc88cec843befe906",
+                  "passes": 3644,
+                  "fails": 0
+                }
+              ]
+          }
+        ],
+        "checks": []
+      },
+      {
+        "id": "66df0077895836f66f2758efefaeec56",
+        "groups": [
+          {
+            "name": "Mixed Load Pattern",
+            "path": "::Spike Test - mixed_load (SPIKE)::Mixed Load Pattern",
+            "id": "899cb00d3fe86795442c2c25ed053193",
+            "groups": [],
+            "checks": [
+                {
+                  "path": "::Spike Test - mixed_load (SPIKE)::Mixed Load Pattern::Mixed load read OK",
+                  "id": "bfd48981c037d2244a35a07375778798",
+                  "passes": 15125,
+                  "fails": 0,
+                  "name": "Mixed load read OK"
+                },
+                {
+                  "name": "Mixed load response < 2s",
+                  "path": "::Spike Test - mixed_load (SPIKE)::Mixed Load Pattern::Mixed load response < 2s",
+                  "id": "7f0ba8c309007ebf1355e5635a53fdce",
+                  "passes": 15125,
+                  "fails": 0
+                },
+                {
+                  "name": "Mixed load health OK",
+                  "path": "::Spike Test - mixed_load (SPIKE)::Mixed Load Pattern::Mixed load health OK",
+                  "id": "960ba8a2ce2dfebe9a17c001a41b1d61",
+                  "passes": 6652,
+                  "fails": 0
+                },
+                {
+                  "name": "Mixed load health < 500ms",
+                  "path": "::Spike Test - mixed_load (SPIKE)::Mixed Load Pattern::Mixed load health < 500ms",
+                  "id": "e1e2f1d816c6b3b7c89b5453f107bbc8",
+                  "passes": 6507,
+                  "fails": 145
+                }
+              ]
+          }
+        ],
+        "checks": [],
+        "name": "Spike Test - mixed_load (SPIKE)",
+        "path": "::Spike Test - mixed_load (SPIKE)"
+      },
+      {
+        "name": "Spike Test - health_flood (SPIKE)",
+        "path": "::Spike Test - health_flood (SPIKE)",
+        "id": "192541938144acfecccf0c6a670fffc5",
+        "groups": [
+          {
+            "id": "e9e63c1dbf421800cea5917eccade8c6",
+            "groups": [],
+            "checks": [
+                {
+                  "name": "Health flood status 200",
+                  "path": "::Spike Test - health_flood (SPIKE)::Health Flood Pattern::Health flood status 200",
+                  "id": "ecc6692a1527d8c2a57ac872483bf84e",
+                  "passes": 66154,
+                  "fails": 0
+                },
+                {
+                  "fails": 24000,
+                  "name": "Health flood response < 200ms",
+                  "path": "::Spike Test - health_flood (SPIKE)::Health Flood Pattern::Health flood response < 200ms",
+                  "id": "b38dfd33f15f5265c62f39180275d992",
+                  "passes": 42154
+                },
+                {
+                  "fails": 0,
+                  "name": "Health flood API OK",
+                  "path": "::Spike Test - health_flood (SPIKE)::Health Flood Pattern::Health flood API OK",
+                  "id": "7e3bae63af29e6dc2039a3d2ad581f95",
+                  "passes": 6589
+                }
+              ],
+            "name": "Health Flood Pattern",
+            "path": "::Spike Test - health_flood (SPIKE)::Health Flood Pattern"
+          }
+        ],
+        "checks": []
+      },
+      {
+        "path": "::Spike Test - heavy_read (SPIKE)",
+        "id": "e1ede0a27284b31d43f88d84d83e7c75",
+        "groups": [
+          {
+            "name": "Heavy Read Pattern",
+            "path": "::Spike Test - heavy_read (SPIKE)::Heavy Read Pattern",
+            "id": "439ec2ed5bcf99a4b1c7a90e2f96a0ce",
+            "groups": [],
+            "checks": [
+                {
+                  "name": "Heavy read status OK",
+                  "path": "::Spike Test - heavy_read (SPIKE)::Heavy Read Pattern::Heavy read status OK",
+                  "id": "f02f439c0e5690b38c35264bbd9b0124",
+                  "passes": 44006,
+                  "fails": 0
+                },
+                {
+                  "name": "Heavy read response < 3s",
+                  "path": "::Spike Test - heavy_read (SPIKE)::Heavy Read Pattern::Heavy read response < 3s",
+                  "id": "42759beeafa720b2b42409d1d399c85f",
+                  "passes": 44006,
+                  "fails": 0
+                }
+              ]
+          }
+        ],
+        "checks": [],
+        "name": "Spike Test - heavy_read (SPIKE)"
+      }
+    ],
+    "checks": [],
+    "name": ""
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": true,
+    "isStdErrTTY": true,
+    "testRunDurationMs": 181815.7904
+  },
+  "metrics": {
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 149701,
+        "rate": 823.3663295726597
+      },
+      "thresholds": {
+        "rate>30": {
+          "ok": true
+        }
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 155499751,
+        "rate": 855259.8795621439
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.005869387646041113,
+        "min": 0,
+        "med": 0,
+        "max": 8.3978
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 12992572,
+        "rate": 71460.08590021783
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 648.9902216990646,
+        "min": 100.5682,
+        "med": 481.01009999999997,
+        "max": 4677.9565,
+        "p(90)": 1520.6401300000002,
+        "p(95)": 2040.8434999999993
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.05387122464111844,
+        "min": 0,
+        "med": 0,
+        "max": 36.4375,
+        "p(90)": 0,
+        "p(95)": 0.522
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 5,
+        "min": 1,
+        "max": 800
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 800,
+        "min": 800,
+        "max": 800
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 12.2684,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.0036286016793475023,
+        "min": 0,
+        "med": 0
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.47557464545995015,
+        "passes": 71194,
+        "fails": 78507
+      },
+      "thresholds": {
+        "rate<0.3": {
+          "ok": false
+        }
+      }
+    },
+    "http_req_duration{scenario:spike}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 86.51508997805482,
+        "min": 0,
+        "med": 11.95805,
+        "max": 1306.6815,
+        "p(90)": 338.09659999999997,
+        "p(95)": 378.08389999999997
+      },
+      "thresholds": {
+        "p(95)<5000": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 84.531891373471,
+        "min": 0,
+        "med": 11.5434,
+        "max": 1306.6815,
+        "p(90)": 336.4044,
+        "p(95)": 377.477
+      },
+      "thresholds": {
+        "p(95)<3000": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "contains": "time",
+      "values": {
+        "avg": 151.31973086094206,
+        "min": 0,
+        "med": 55.3516,
+        "max": 1306.6815,
+        "p(90)": 374.60790000000003,
+        "p(95)": 419.48683
+      },
+      "type": "trend"
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 1306.6815,
+        "p(90)": 336.3788,
+        "p(95)": 377.3879,
+        "avg": 84.4743915471508,
+        "min": 0,
+        "med": 11.4819
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 71298,
+        "rate": 392.14415779367863
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0,
+        "min": 0,
+        "med": 0
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.9131324328392932,
+        "passes": 266894,
+        "fails": 25390
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.004911118162203332,
+        "min": 0,
+        "med": 0,
+        "max": 7.1427
+      }
+    },
+    "group_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 211.13828062357902,
+        "min": 0,
+        "med": 18.7804,
+        "max": 2331.0908,
+        "p(90)": 682.6809499999999,
+        "p(95)": 1282.5835
+      }
+    }
+  }
+}

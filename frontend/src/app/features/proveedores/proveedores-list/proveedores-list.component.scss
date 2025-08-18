@@ -1,0 +1,315 @@
+/* Estilos exactos como en asignar.php */
+.proveedores-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mini menú de pestañas */
+.mini-menu {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  margin-right: 2px;
+  border-bottom: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab-button:hover {
+  background: #e9e9e9;
+  color: #000;
+}
+
+.tab-button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Contenido de secciones */
+.tab-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Tabla de proveedores */
+.proveedores-list h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.proveedores-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.proveedores-table th,
+.proveedores-table td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.proveedores-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-top: 2px solid #007bff;
+}
+
+.proveedores-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.proveedores-table tr.inactive {
+  opacity: 0.6;
+  background-color: #f8f9fa;
+}
+
+.actions button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background: #28a745;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #218838;
+}
+
+.btn-activate {
+  background: #28a745;
+  color: white;
+}
+
+.btn-activate:hover {
+  background: #218838;
+}
+
+.btn-deactivate {
+  background: #ffc107;
+  color: #212529;
+}
+
+.btn-deactivate:hover {
+  background: #e0a800;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status-activo {
+  color: #28a745;
+}
+
+.status-inactivo {
+  color: #dc3545;
+}
+
+.no-data {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Formulario de proveedor */
+.proveedor-form {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Botones del formulario */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.form-actions button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+/* Mensajes */
+.message {
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-left: 4px solid;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+  border-color: #28a745;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border-color: #dc3545;
+}
+
+/* Estados de carga y error */
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.loading {
+  color: #007bff;
+}
+
+.error {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .form-actions button {
+    min-width: auto;
+  }
+  
+  .mini-menu {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    margin-right: 0;
+    margin-bottom: 2px;
+  }
+  
+  .table-container {
+    font-size: 12px;
+  }
+  
+  .proveedores-table th,
+  .proveedores-table td {
+    padding: 8px 4px;
+  }
+}

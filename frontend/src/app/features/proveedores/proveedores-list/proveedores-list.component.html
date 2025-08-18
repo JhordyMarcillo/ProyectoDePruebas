@@ -1,0 +1,251 @@
+<div class="main-content-unified">
+  <!-- Mini-menú unificado -->
+  <div class="mini-menu-unified">
+    <button 
+      [class.active]="activeTab === 'list'" 
+      (click)="setActiveTab('list')"
+      class="tab-button">
+      <i class="fas fa-truck"></i> Proveedores
+    </button>
+    <button 
+      [class.active]="activeTab === 'new'" 
+      (click)="setActiveTab('new')"
+      class="tab-button">
+      <i class="fas fa-plus"></i> Nuevo Proveedor
+    </button>
+    <button 
+      *ngIf="isEditing && activeTab === 'edit'"
+      class="tab-button active">
+      <i class="fas fa-edit"></i> Editar Proveedor
+    </button>
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="message" [class]="'message ' + messageType">
+    <i class="fas fa-info-circle"></i> {{ message }}
+  </div>
+
+  <!-- Contenido de las pestañas -->
+  <div class="tab-content">
+    
+    <!-- Lista de Proveedores -->
+    <div *ngIf="activeTab === 'list'" class="proveedores-list">
+      <div *ngIf="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Cargando proveedores...
+      </div>
+      <div *ngIf="error" class="error">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+      </div>
+      
+      <div *ngIf="!loading && !error" class="table-container">
+        <h2><i class="fas fa-truck"></i> Listado de Proveedores</h2>
+        <table class="unified-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre Empresa</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Web</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let proveedor of proveedores" [class.inactive]="proveedor.estado === 'inactivo'">
+              <td>{{ proveedor.id }}</td>
+              <td>{{ proveedor.nombre_empresa }}</td>
+              <td>{{ proveedor.email || 'N/A' }}</td>
+              <td>{{ proveedor.numero || 'N/A' }}</td>
+              <td>{{ proveedor.web || 'N/A' }}</td>
+              <td>
+                <span [class]="'status status-' + proveedor.estado">
+                  {{ proveedor.estado }}
+                </span>
+              </td>
+              <td class="actions">
+                <div class="action-buttons">
+                  <button 
+                    (click)="editarProveedor(proveedor)" 
+                    class="btn-edit"
+                    title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    (click)="activarDesactivarProveedor(proveedor)" 
+                    [class]="proveedor.estado === 'activo' ? 'btn-deactivate' : 'btn-activate'"
+                    [title]="proveedor.estado === 'activo' ? 'Desactivar' : 'Activar'">
+                    <i class="fas" [class.fa-ban]="proveedor.estado === 'activo'" [class.fa-check]="proveedor.estado === 'inactivo'"></i>
+                  </button>
+                  <button 
+                    (click)="eliminarProveedor(proveedor)" 
+                    class="btn-delete"
+                    title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="proveedores.length === 0" class="no-data">
+          No hay proveedores registrados
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario Nuevo Proveedor -->
+    <div *ngIf="activeTab === 'new'" class="proveedor-form">
+      <form (ngSubmit)="guardarProveedor()" #proveedorForm="ngForm">
+        <div class="form-group">
+          <label for="nombre_empresa">Nombre de la Empresa *</label>
+          <input 
+            type="text" 
+            id="nombre_empresa"
+            name="nombre_empresa"
+            [(ngModel)]="nuevoProveedor.nombre_empresa"
+            required
+            #nombreEmpresa="ngModel"
+            class="form-input">
+          <div *ngIf="nombreEmpresa.invalid && nombreEmpresa.touched" class="field-error">
+            El nombre de la empresa es requerido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email"
+            [(ngModel)]="nuevoProveedor.email"
+            #email="ngModel"
+            class="form-input">
+          <div *ngIf="email.invalid && email.touched" class="field-error">
+            El formato del email no es válido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="numero">Teléfono</label>
+          <input 
+            type="text" 
+            id="numero"
+            name="numero"
+            [(ngModel)]="nuevoProveedor.numero"
+            class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="web">Sitio Web</label>
+          <input 
+            type="url" 
+            id="web"
+            name="web"
+            [(ngModel)]="nuevoProveedor.web"
+            placeholder="https://"
+            class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <select 
+            id="estado"
+            name="estado"
+            [(ngModel)]="nuevoProveedor.estado"
+            class="form-select">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="!proveedorForm.form.valid" class="btn btn-primary">
+            Registrar Proveedor
+          </button>
+          <button type="button" (click)="setActiveTab('list')" class="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formulario Editar Proveedor -->
+    <div *ngIf="activeTab === 'edit'" class="proveedor-form">
+      <form (ngSubmit)="guardarProveedor()" #editProveedorForm="ngForm">
+        <div class="form-group">
+          <label for="edit_nombre_empresa">Nombre de la Empresa *</label>
+          <input 
+            type="text" 
+            id="edit_nombre_empresa"
+            name="edit_nombre_empresa"
+            [(ngModel)]="nuevoProveedor.nombre_empresa"
+            required
+            #editNombreEmpresa="ngModel"
+            class="form-input">
+          <div *ngIf="editNombreEmpresa.invalid && editNombreEmpresa.touched" class="field-error">
+            El nombre de la empresa es requerido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit_email">Email</label>
+          <input 
+            type="email" 
+            id="edit_email"
+            name="edit_email"
+            [(ngModel)]="nuevoProveedor.email"
+            #editEmail="ngModel"
+            class="form-input">
+          <div *ngIf="editEmail.invalid && editEmail.touched" class="field-error">
+            El formato del email no es válido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit_numero">Teléfono</label>
+          <input 
+            type="text" 
+            id="edit_numero"
+            name="edit_numero"
+            [(ngModel)]="nuevoProveedor.numero"
+            class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="edit_web">Sitio Web</label>
+          <input 
+            type="url" 
+            id="edit_web"
+            name="edit_web"
+            [(ngModel)]="nuevoProveedor.web"
+            placeholder="https://"
+            class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="edit_estado">Estado</label>
+          <select 
+            id="edit_estado"
+            name="edit_estado"
+            [(ngModel)]="nuevoProveedor.estado"
+            class="form-select">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="!editProveedorForm.form.valid" class="btn btn-primary">
+            Actualizar Proveedor
+          </button>
+          <button type="button" (click)="setActiveTab('list')" class="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

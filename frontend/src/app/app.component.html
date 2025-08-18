@@ -1,0 +1,75 @@
+<!-- Estructura principal exacta como el original PHP -->
+<div class="app-container" *ngIf="showSidebar; else loginView">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <div class="user-info">
+        <div class="username">
+          {{ currentUser?.usuario || 'admin' }}
+        </div>
+        <div class="avatar">
+          <img src="assets/img/avatar-male2.png" alt="Avatar">
+        </div>
+      </div>
+      <button class="logout" (click)="showLogoutModal()">
+        <i class="fa fa-sign-out-alt"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h1>Inicio</h1>
+    <p>&nbsp;</p>
+    <div class="avatar">
+      <img src="assets/img/Untitled_logo_1_free-file.jpg" alt="Avatar">
+    </div>
+    
+    <!-- Menú con verificación de permisos -->
+    <div class="menu-item" *ngIf="hasPermission('Inicio')">
+      <a routerLink="/dashboard" routerLinkActive="active">Inicio</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Asignar')">
+      <a routerLink="/asignar" routerLinkActive="active">Asignar</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Cliente')">
+      <a routerLink="/clientes" routerLinkActive="active">Cliente</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Ventas')">
+      <a routerLink="/ventas" routerLinkActive="active">Ventas</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Inventario')">
+      <a routerLink="/productos" routerLinkActive="active">Inventario</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Servicios')">
+      <a routerLink="/servicios" routerLinkActive="active">Servicios</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Proveedores')">
+      <a routerLink="/proveedores" routerLinkActive="active">Proveedores</a>
+    </div>
+    <div class="menu-item" *ngIf="hasPermission('Reportes')">
+      <a routerLink="/reportes" routerLinkActive="active">Reportes</a>
+    </div>
+  </div>
+
+  <!-- Área de contenido principal -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- Vista de login -->
+<ng-template #loginView>
+  <router-outlet></router-outlet>
+</ng-template>
+
+<!-- Modal de logout exacto como el original -->
+<div id="logoutModal" 
+     [style.display]="showLogoutModalFlag ? 'flex' : 'none'"
+     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); align-items: center; justify-content: center; z-index: 2000;">
+  <div class="modal-content">
+    <p>¿Estás seguro de que deseas cerrar sesión?</p>
+    <button (click)="confirmLogout()">Sí</button>
+    <button (click)="cancelLogout()">No</button>
+  </div>
+</div>

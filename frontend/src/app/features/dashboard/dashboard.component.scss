@@ -1,0 +1,113 @@
+/* Estilos del dashboard - Layout optimizado en 3 columnas */
+.dashboard-content {
+  padding: 30px;
+  width: 100%;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 100px);
+}
+
+.dashboard-content h2 {
+  margin: 0 0 30px 0;
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Stats Styles - Dashboard en 3 columnas horizontales */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border-left: 4px solid #007BFF;
+}
+
+.stat-box:hover {
+  transform: translateY(-2px);
+}
+
+.stat-box i {
+  font-size: 2.5em;
+  color: #007BFF;
+  margin-bottom: 10px;
+}
+
+.stat-box div:nth-of-type(1) {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.stat-box div:nth-of-type(2) {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+
+.loading, .error-message {
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.loading {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
+/* Responsive - Ajustar columnas en pantallas pequeñas */
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .stat-box {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 15px;
+  }
+  
+  .stat-box {
+    padding: 15px;
+  }
+  
+  .stat-box i {
+    font-size: 2em;
+  }
+  
+  .stat-box div:nth-of-type(2) {
+    font-size: 1.5em;
+  }
+}
