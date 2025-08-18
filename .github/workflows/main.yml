@@ -1,0 +1,38 @@
+name: Proyecto
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Dar permisos de ejecución al script
+        run: chmod +x node_modules/.bin/eslint    
+
+      - name: Verificar si eslint se instaló correctamente
+        run: ls -la node_modules/.bin/eslint
+
+      - name: Lint del Código
+        run: npm exec eslint .
+
+      - name: Instalar Dependencias
+        run: npm install
+    
+      - name: Ejecutar Pruebas
+        run: npm test
+
+      - name: Simular despliegue
+        run: |
+          echo "Simulando despliegue la aplicación paso Lint y pruebas correctamente"
