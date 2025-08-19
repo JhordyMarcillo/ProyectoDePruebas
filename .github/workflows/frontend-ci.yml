@@ -1,0 +1,32 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**' # Esto hará que el flujo de trabajo se ejecute solo cuando se cambien archivos en la carpeta frontend
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Navigate to frontend directory
+      run: cd frontend
+    
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run linter
+      run: npm run lint
+    
+    - name: Run tests
+      run: npm run test # Este comando debe existir en tu package.json del frontend
