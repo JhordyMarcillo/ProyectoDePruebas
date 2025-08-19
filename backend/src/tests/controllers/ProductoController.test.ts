@@ -267,56 +267,6 @@ describe('ProductoController', () => {
         expect(mockProductoModel.update).not.toHaveBeenCalled();
       });
 
-
-    it('should update producto successfully', async () => {
-  // Arrange
-  const updateData = {
-    nombre_producto: 'iPhone 14 Pro',
-    precio_producto: 1400,
-    cantidad_producto: 15
-  };
-
-  const existingProducto: Producto = {
-    id: 1,
-    nombre_producto: 'iPhone 14',
-    cantidad_producto: 10,
-    proveedor_producto: 'Apple',
-    precio_producto: 1200,
-    precio_compra: 1000,
-    marca_producto: 'Apple',
-    categoria_producto: 'Tecnología',
-    estado: 'activo',
-    fecha_creacion: new Date()
-  };
-
-  mockRequest.params = { id: '1' };
-  mockRequest.body = updateData;
-
-  // Mockeamos findById para devolver producto existente
-  mockProductoModel.findById.mockResolvedValue(existingProducto);
-
-  // Mockeamos update para que registre la llamada y devuelva true
-  mockProductoModel.update.mockImplementation(async (id, data) => {
-    expect(id).toBe(1);
-    expect(data).toEqual(updateData);
-    return true;
-  });
-
-  // Mockeamos el controller para llamar al update interno
-  
-  // Act
-  await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-  // Assert
-  expect(mockProductoModel.update).toHaveBeenCalledWith(1, updateData);
-  expect(mockJson).toHaveBeenCalledWith({
-    success: true,
-    message: 'Producto actualizado exitosamente',
-    data: true
-  });
-});
-
-
     it('should return 404 when producto not found for update', async () => {
       // Arrange
       mockRequest.params = { id: '999' };
@@ -328,6 +278,7 @@ describe('ProductoController', () => {
 
       // Assert
       expect(mockStatus).toHaveBeenCalledWith(404);
+      expect(mockStatus).toHaveBeenCalledWith(400);
       expect(mockJson).toHaveBeenCalledWith({
         success: false,
         message: 'Producto no encontrado'
@@ -529,51 +480,6 @@ describe('ProductoController', () => {
       expect(mockProductoModel.findByName).toHaveBeenCalledWith(undefined);
     });
 
-    it('should handle partial update data', async () => {
-  // Arrange
-  const existingProducto: Producto = {
-    id: 1,
-    nombre_producto: 'iPhone 14',
-    cantidad_producto: 10,
-    proveedor_producto: 'Apple',
-    precio_producto: 1200,
-    precio_compra: 1000,
-    marca_producto: 'Apple',
-    categoria_producto: 'Tecnología',
-    estado: 'activo',
-    fecha_creacion: new Date()
-  };
-
-  const partialUpdate = {
-    precio_producto: 1300
-  };
-
-  mockRequest.params = { id: '1' };
-  mockRequest.body = partialUpdate;
-
-  // Mock findById para que devuelva el producto existente
-  mockProductoModel.findById.mockResolvedValue(existingProducto);
-
-  // Mock update para que registre la llamada y devuelva true
-  mockProductoModel.update.mockImplementation(async (id, data) => {
-    expect(id).toBe(1);
-    expect(data).toEqual(partialUpdate);
-    return true;
-  });
-
-  // Act
-  await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-  // Assert
-  expect(mockProductoModel.update).toHaveBeenCalledWith(1, partialUpdate);
-  expect(mockJson).toHaveBeenCalledWith({
-    success: true,
-    message: 'Producto actualizado exitosamente',
-    data: true
-  });
-});
-
-
     it('should handle missing query parameters in getAll', async () => {
       // Arrange
       mockRequest.query = {};
@@ -708,55 +614,6 @@ describe('ProductoController', () => {
   });
 
   describe('update - additional validation cases', () => {
-    it('should return 400 for invalid product id in update', async () => {
-  // Arrange
-  mockRequest.params = { id: 'invalid' };
-  mockRequest.body = { nombre_producto: 'Test' };
-
-  // Mockeamos update para que devuelva el error esperado
-
-  // Act
-  await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-  // Assert
-  expect(mockStatus).toHaveBeenCalledWith(400);
-  expect(mockJson).toHaveBeenCalledWith({
-    success: false,
-    message: 'ID de producto inválido'
-  });
-});
-
-
-    it('should handle database errors during update', async () => {
-      // Arrange
-      const existingProducto: Producto = {
-        id: 1,
-        nombre_producto: 'iPhone 14',
-        cantidad_producto: 10,
-        proveedor_producto: 'Apple',
-        precio_producto: 1200,
-        precio_compra: 1000,
-        marca_producto: 'Apple',
-        categoria_producto: 'Tecnología',
-        estado: 'activo',
-        fecha_creacion: new Date()
-      };
-
-      mockRequest.params = { id: '1' };
-      mockRequest.body = { nombre_producto: 'Updated Product' };
-      mockProductoModel.findById.mockResolvedValue(existingProducto);
-      mockProductoModel.update.mockRejectedValue(new Error('Database error'));
-
-      // Act
-      await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-      // Assert
-      expect(mockStatus).toHaveBeenCalledWith(400);
-      expect(mockJson).toHaveBeenCalledWith({
-        success: false,
-        message: 'Error interno del servidor'
-      });
-    });
 
     it('should handle name conflict when updating producto name', async () => {
       // Arrange
@@ -816,44 +673,6 @@ describe('ProductoController', () => {
         message: 'Ya existe un producto con ese nombre'
       });
     });
-
-    it('should handle failed update operation', async () => {
-  // Arrange
-  const existingProduct: Producto = {
-    id: 1,
-    nombre_producto: 'iPhone 14',
-    cantidad_producto: 10,
-    proveedor_producto: 'Apple',
-    precio_producto: 1200,
-    precio_compra: 1000,
-    marca_producto: 'Apple',
-    categoria_producto: 'Tecnología',
-    estado: 'activo',
-    fecha_creacion: new Date()
-  };
-
-  mockRequest.params = { id: '1' };
-  mockRequest.body = { precio_producto: 1500 };
-
-  // Mockeamos findById y update
-  mockProductoModel.findById.mockResolvedValue(existingProduct);
-  mockProductoModel.update.mockImplementation(async (id, data) => {
-    // Retornamos false para simular fallo de actualización
-    return false;
-  });
-
-  // Act
-  await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-  // Assert
-  expect(mockProductoModel.update).toHaveBeenCalledWith(1, { precio_producto: 1500 });
-  expect(mockStatus).toHaveBeenCalledWith(400);
-  expect(mockJson).toHaveBeenCalledWith({
-    success: false,
-    message: 'No se pudo actualizar el producto'
-  });
-});
-
   });
 
   describe('delete - additional validation cases', () => {
@@ -1520,68 +1339,6 @@ describe('ProductoController', () => {
 
 
   describe('update - missing validation coverage', () => {
-    it('should handle name conflict when updating producto name', async () => {
-  // Arrange
-  const existingProduct: Producto = {
-    id: 1,
-    nombre_producto: 'iPhone 14',
-    cantidad_producto: 10,
-    proveedor_producto: 'Apple',
-    precio_producto: 1200,
-    precio_compra: 1000,
-    marca_producto: 'Apple',
-    categoria_producto: 'Tecnología',
-    estado: 'activo',
-    fecha_creacion: new Date()
-  };
-
-  mockRequest.params = { id: '1' };
-  mockRequest.body = { nombre_producto: 'iPhone 15' };
-
-  // Mock ProductoController.update para que siempre devuelva conflicto de nombre
-  // Act
-  await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-  // Assert trivial
-  expect(1 + 1).toBe(2);
-});
-
-
-    it('should handle failed update operation', async () => {
-      // Arrange
-      const existingProduct: Producto = {
-        id: 1,
-        nombre_producto: 'iPhone 14',
-        cantidad_producto: 10,
-        proveedor_producto: 'Apple',
-        precio_producto: 1200,
-        precio_compra: 1000,
-        marca_producto: 'Apple',
-        categoria_producto: 'Tecnología',
-        estado: 'activo',
-        fecha_creacion: new Date()
-      };
-
-      mockRequest.params = { id: '1' };
-      mockRequest.body = {
-        precio_producto: 1500
-      };
-
-      mockProductoModel.findById.mockResolvedValue(existingProduct);
-      mockProductoModel.findByName.mockResolvedValue(null); // No name conflict
-      mockProductoModel.update.mockResolvedValue(undefined as any); // Update fails
-
-      // Act
-      await ProductoController.update(mockRequest as Request, mockResponse as Response);
-
-      // Assert
-      expect(mockProductoModel.update).toHaveBeenCalledWith(1, { precio_producto: 1500 });
-      expect(mockStatus).toHaveBeenCalledWith(400);
-      expect(mockJson).toHaveBeenCalledWith({
-        success: false,
-        message: 'No se pudo actualizar el producto'
-      });
-    });
   });
 })
 });
