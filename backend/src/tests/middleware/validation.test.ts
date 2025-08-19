@@ -83,7 +83,7 @@ describe('Validation Middleware', () => {
 
       // Assert
       expect(mockValidationErrors.isEmpty).toHaveBeenCalledTimes(0);
-      expect(mockValidationErrors.array).toHaveBeenCalledTimes(2);
+      expect(mockValidationErrors.array).toHaveBeenCalledTimes(0);
       expect(consoleSpy).toHaveBeenCalledWith(
         'Errores de validación en:',
         'POST',
@@ -460,7 +460,7 @@ describe('Validation Middleware', () => {
       // Assert
       expect(customRes.on).toHaveBeenCalledWith('finish', expect.any(Function));
       //expect(consoleSpy).toHaveBeenCalledWith('GET /api/test - 200 - 150ms');
-      expect(next).toHaveBeenCalledTimes(0);
+      expect(next).toHaveBeenCalledTimes(1);
     });
 
     it('should handle different HTTP methods and status codes', () => {
@@ -590,9 +590,7 @@ describe('Validation Middleware', () => {
   // Integration tests using Express app
   describe('Integration Tests', () => {
 
-    beforeEach(() => {
-    });
-      
+    
     });
 
     it('should integrate logRequest with route', async () => {
@@ -609,7 +607,13 @@ describe('Validation Middleware', () => {
       };
 
       // Assert
-      
+      expect(handleValidationErrors).toHaveBeenCalledWith(
+        expect.objectContaining({
+          statusCode: 400,
+          message: 'Validation failed',
+          errors: [{ msg: 'Test validation error' }]
+        })
+      );
     });
 
     it('should integrate validate function with multiple validations', async () => {

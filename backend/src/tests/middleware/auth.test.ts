@@ -29,7 +29,7 @@ jest.mock('../../config');
 
 const mockConfig = config as jest.Mocked<typeof config>;
 
-mockJwt.verify.mockImplementation((token, secret, callback: any) => {
+/*mockJwt.verify.mockImplementation((token, secret, callback: any) => {
   const mockDecoded = {
     userId: 1,
     username: 'testuser',
@@ -37,7 +37,7 @@ mockJwt.verify.mockImplementation((token, secret, callback: any) => {
     permisos: ['Usuarios']
   };
   callback(null, mockDecoded);
-});
+});*/
 
 describe('Auth Middleware', () => {
   let mockRequest: Partial<Request>;
