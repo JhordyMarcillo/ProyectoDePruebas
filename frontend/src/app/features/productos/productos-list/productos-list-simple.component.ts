@@ -31,7 +31,6 @@ export class ProductosListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error al cargar productos:', error);
         this.error = 'Error al cargar los productos';
         this.loading = false;
         // Fallback a datos de ejemplo
@@ -74,7 +73,6 @@ export class ProductosListComponent implements OnInit {
           this.loadProductos();
         },
         error: (error) => {
-          console.error('Error al eliminar producto:', error);
           alert('Error al eliminar el producto');
         }
       });

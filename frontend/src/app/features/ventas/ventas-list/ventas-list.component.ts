@@ -115,7 +115,6 @@ export class VentasListComponent implements OnInit {
         this.servicios = response.servicios;
       },
       error: (error: any) => {
-        console.error('Error al cargar servicios:', error);
       }
     });
   }
@@ -375,7 +374,6 @@ export class VentasListComponent implements OnInit {
           this.setActiveTab('list');
         },
         error: (error: any) => {
-          console.error('Error al crear venta:', error);
           this.showMessage('error', 'Error al registrar la venta');
         }
       });
@@ -417,7 +415,7 @@ export class VentasListComponent implements OnInit {
           this.loadVentas();
         },
         error: (error: any) => {
-          console.error('Error al eliminar venta:', error);
+
           this.showMessage('error', 'Error al eliminar la venta');
         }
       });
@@ -431,7 +429,6 @@ export class VentasListComponent implements OnInit {
       this.ventasService.generarFactura(venta.id!);
       this.showMessage('success', 'Factura generada - se abrirá en una nueva ventana');
     } catch (error) {
-      console.error('Error al generar factura:', error);
       this.showMessage('error', 'Error al generar la factura');
     }
   }

@@ -62,7 +62,6 @@ export class ClientesListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error al cargar clientes:', error);
         this.error = 'Error al cargar los clientes. Mostrando datos de ejemplo.';
         this.loading = false;
         // Fallback a datos de ejemplo si no hay conexión
@@ -129,7 +128,6 @@ export class ClientesListComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error al actualizar cliente:', error);
           this.showMessage('error', 'Error al actualizar el cliente');
           this.loading = false;
         }

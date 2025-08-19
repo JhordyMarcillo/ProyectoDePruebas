@@ -28,7 +28,6 @@ export class ReportesListComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error al cargar cambios:', error);
           this.error = 'Error al cargar los datos';
           this.loading = false;
         }

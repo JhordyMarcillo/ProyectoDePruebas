@@ -58,7 +58,6 @@ export class ClienteFormComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error al cargar cliente:', error);
         this.error = 'Error al cargar los datos del cliente';
         this.loading = false;
       }
@@ -85,7 +84,6 @@ export class ClienteFormComponent implements OnInit {
         this.router.navigate(['/clientes']);
       },
       error: (error) => {
-        console.error('Error al guardar cliente:', error);
         this.error = 'Error al guardar el cliente';
         this.loading = false;
       }

@@ -100,7 +100,6 @@ export class ServiciosListComponent implements OnInit {
             }
           },
           error: (err: any) => {
-            console.error('Error al cargar productos (fallback):', err);
             this.productos = [];
             // No mostrar mensajes de error automáticos, solo loggear
           }
@@ -130,7 +129,6 @@ export class ServiciosListComponent implements OnInit {
         this.showMessage('success', 'Servicio creado exitosamente');
       },
       error: (error) => {
-        console.error('Error al crear servicio:', error);
         this.showMessage('error', error.error?.message || 'Error al crear el servicio');
       }
     });
@@ -168,7 +166,6 @@ export class ServiciosListComponent implements OnInit {
         this.showMessage('success', 'Servicio actualizado exitosamente');
       },
       error: (error) => {
-        console.error('Error al actualizar servicio:', error);
         this.showMessage('error', error.error?.message || 'Error al actualizar el servicio');
       }
     });
@@ -186,7 +183,6 @@ export class ServiciosListComponent implements OnInit {
           this.showMessage('success', `Servicio ${newEstado === 'activo' ? 'activado' : 'desactivado'} exitosamente`);
         },
         error: (error) => {
-          console.error('Error al cambiar estado del servicio:', error);
           this.showMessage('error', 'Error al cambiar el estado del servicio');
         }
       });
@@ -202,7 +198,6 @@ export class ServiciosListComponent implements OnInit {
           this.showMessage('success', 'Servicio eliminado exitosamente');
         },
         error: (error) => {
-          console.error('Error al eliminar servicio:', error);
           this.showMessage('error', 'Error al eliminar el servicio');
         }
       });

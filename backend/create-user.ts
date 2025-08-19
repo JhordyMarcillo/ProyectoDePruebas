@@ -15,12 +15,7 @@ async function createTestUser() {
       perfil: 'admin',
       permisos: 'Inicio,Asignar,Cliente,Ventas,Productos,Servicios,Proveedores,Reportes'
     };
-
-    const user = await UsuarioModel.create(userData);
-    console.log('Usuario de prueba creado:', user);
   } catch (error) {
-    console.error('Error creando usuario:', error);
+    console.error('Error creando usuario de prueba:', error);
   }
 }
-
-createTestUser();

@@ -56,8 +56,6 @@ export class ProductosListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('=== ERROR AL CARGAR PRODUCTOS ===');
-        console.error('Error completo:', error);
         this.error = 'Error al cargar la lista de productos';
         this.loading = false;
       }
@@ -70,7 +68,6 @@ export class ProductosListComponent implements OnInit {
         this.proveedores = proveedores.filter(p => p.estado === 'activo');
       },
       error: (error) => {
-        console.error('Error al cargar proveedores:', error);
       }
     });
   }
@@ -137,7 +134,6 @@ export class ProductosListComponent implements OnInit {
           this.setActiveTab('list');
         },
         error: (error) => {
-          console.error('Error al actualizar producto:', error);
           this.showMessage('error', 'Error al actualizar el producto');
         }
       });
@@ -150,7 +146,6 @@ export class ProductosListComponent implements OnInit {
           this.setActiveTab('list');
         },
         error: (error) => {
-          console.error('Error al crear producto:', error);
           this.showMessage('error', 'Error al registrar el producto');
         }
       });
@@ -183,7 +178,6 @@ export class ProductosListComponent implements OnInit {
           this.loadProductos();
         },
         error: (error) => {
-          console.error('Error al eliminar producto:', error);
           this.showMessage('error', 'Error al eliminar el producto');
         }
       });
@@ -201,7 +195,6 @@ export class ProductosListComponent implements OnInit {
           this.loadProductos();
         },
         error: (error) => {
-          console.error(`Error al ${accion} producto:`, error);
           this.showMessage('error', `Error al ${accion} el producto`);
         }
       });

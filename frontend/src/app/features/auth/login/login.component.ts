@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
         error: (error) => {
           this.isLoading = false;
           this.errorMessage = error.error?.message || 'Error de autenticación. Verifique sus credenciales.';
-          console.error('Error de login:', this.errorMessage);
         }
       });
     } else {

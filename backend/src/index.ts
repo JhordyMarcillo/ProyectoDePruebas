@@ -12,7 +12,6 @@ import { testConnection } from './config/database';
 // Import routes
 import authRoutes from './routes/auth';
 import clientesRoutes from './routes/clientes';
-import productosRoutes from './routes/productos';
 import serviciosRoutes from './routes/servicios';
 import proveedoresRoutes from './routes/proveedores';
 import dashboardRoutes from './routes/dashboard';
@@ -99,7 +98,6 @@ app.get('/health', async (req, res) => {
 // Rutas principales
 app.use('/api/auth', authRoutes);
 app.use('/api/clientes', clientesRoutes);
-app.use('/api/productos', productosRoutes);
 app.use('/api/servicios', serviciosRoutes);
 app.use('/api/proveedores', proveedoresRoutes);
 app.use('/api/dashboard', dashboardRoutes);

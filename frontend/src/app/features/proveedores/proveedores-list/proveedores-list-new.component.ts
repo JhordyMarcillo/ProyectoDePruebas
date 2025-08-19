@@ -31,7 +31,6 @@ export class ProveedoresListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error al cargar proveedores:', error);
         this.error = 'Error al cargar los proveedores';
         this.loading = false;
         // Fallback a datos de ejemplo
@@ -74,7 +73,7 @@ export class ProveedoresListComponent implements OnInit {
           this.loadProveedores();
         },
         error: (error) => {
-          console.error('Error al eliminar proveedor:', error);
+
           alert('Error al eliminar el proveedor');
         }
       });

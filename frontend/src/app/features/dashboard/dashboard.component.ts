@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error cargando estadísticas:', error);
         this.error = 'Error de conexión';
         this.loading = false;
         // Usar datos de respaldo

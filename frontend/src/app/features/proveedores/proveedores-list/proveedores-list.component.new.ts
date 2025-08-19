@@ -103,7 +103,7 @@ export class ProveedoresListComponent implements OnInit {
           this.setActiveTab('list');
         },
         error: (error) => {
-          console.error('Error al actualizar proveedor:', error);
+
           this.showMessage('error', 'Error al actualizar el proveedor');
         }
       });
@@ -116,7 +116,7 @@ export class ProveedoresListComponent implements OnInit {
           this.setActiveTab('list');
         },
         error: (error) => {
-          console.error('Error al crear proveedor:', error);
+
           this.showMessage('error', 'Error al registrar el proveedor');
         }
       });
@@ -145,8 +145,7 @@ export class ProveedoresListComponent implements OnInit {
           this.showMessage('success', 'Proveedor eliminado exitosamente');
           this.loadProveedores();
         },
-        error: (error) => {
-          console.error('Error al eliminar proveedor:', error);
+        error: (error) => {          
           this.showMessage('error', 'Error al eliminar el proveedor');
         }
       });
@@ -164,7 +163,6 @@ export class ProveedoresListComponent implements OnInit {
           this.loadProveedores();
         },
         error: (error) => {
-          console.error(`Error al ${accion} proveedor:`, error);
           this.showMessage('error', `Error al ${accion} el proveedor`);
         }
       });
