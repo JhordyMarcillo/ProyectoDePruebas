@@ -62,19 +62,10 @@ async function createAdmin() {
       'activo'
     ]);
 
-    console.log('Usuario admin creado exitosamente:', result.insertId);
-    
-    // Mostrar datos de login
-    console.log('\n=== DATOS DE LOGIN ===');
-    console.log('Usuario: admin');
-    console.log('Contraseña: 1234');
-    console.log('======================\n');
-
     await connection.end();
     console.log('Conexión cerrada');
 
   } catch (error) {
-    console.error('Error creando usuario admin:', error);
   }
 }
 

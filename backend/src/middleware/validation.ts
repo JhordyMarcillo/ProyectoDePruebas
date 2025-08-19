@@ -13,7 +13,6 @@ export const handleValidationErrors = (
   
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(err => err.msg);
-    console.log('Errores de validación en:', req.method, req.path, errorMessages);
     
     const response: ApiResponse = {
       success: false,
@@ -61,7 +60,6 @@ export const logRequest = (
   
   res.on('finish', () => {
     const duration = Date.now() - start;
-    console.log(`${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
   });
   
   next();

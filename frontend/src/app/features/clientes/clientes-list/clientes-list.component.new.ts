@@ -46,15 +46,4 @@ export class ClientesListComponent implements OnInit {
     ];
   }
 
-  createCliente() {
-    console.log('Crear cliente');
-  }
-
-  editCliente(cliente: Cliente) {
-    console.log('Editar cliente:', cliente);
-  }
-
-  deleteCliente(id: number) {
-    console.log('Eliminar cliente:', id);
-  }
 }

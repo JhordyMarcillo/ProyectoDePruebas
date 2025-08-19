@@ -72,21 +72,15 @@ export class VentasListComponent implements OnInit {
   }
 
   loadVentas() {
-    console.log('=== INICIANDO CARGA DE VENTAS ===');
     this.loading = true;
     this.error = null;
     
     this.ventasService.getVentas().subscribe({
       next: (ventas: Venta[]) => {
-        console.log('=== VENTAS RECIBIDAS ===');
-        console.log('Número de ventas:', ventas.length);
-        console.log('Datos de ventas:', ventas);
         this.ventas = ventas;
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('=== ERROR AL CARGAR VENTAS ===');
-        console.error('Error completo:', error);
         this.error = 'Error al cargar la lista de ventas';
         this.loading = false;
       }
@@ -96,13 +90,9 @@ export class VentasListComponent implements OnInit {
   loadClientes() {
     this.clientesService.getClientes().subscribe({
       next: (clientes: Cliente[]) => {
-        console.log('=== CLIENTES CARGADOS PARA VENTAS ===');
-        console.log('Clientes recibidos:', clientes);
         this.clientes = Array.isArray(clientes) ? clientes : [];
-        console.log('Total clientes cargados:', this.clientes.length);
       },
       error: (error: any) => {
-        console.error('Error al cargar clientes:', error);
         this.clientes = []; // Asegurar que sea un array vacío en caso de error
       }
     });
@@ -111,14 +101,10 @@ export class VentasListComponent implements OnInit {
   loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (response: Producto[]) => {
-        console.log('=== PRODUCTOS CARGADOS PARA VENTAS ===');
-        console.log('Productos recibidos:', response);
         // Filtrar solo productos activos y con stock > 0
         this.productos = response.filter(p => p.estado === 'activo' && p.cantidad_producto > 0);
-        console.log('Productos con stock disponible:', this.productos);
       },
       error: (error: any) => {
-        console.error('Error al cargar productos:', error);
       }
     });
   }
@@ -145,17 +131,14 @@ export class VentasListComponent implements OnInit {
   }
 
   setActiveTab(tab: 'list' | 'new' | 'edit') {
-    console.log('=== CAMBIANDO PESTAÑA ===');
-    console.log('Pestaña anterior:', this.activeTab);
-    console.log('Nueva pestaña:', tab);
+
     
     this.activeTab = tab;
     if (tab === 'new') {
       this.resetForm();
       this.isEditing = false;
     }
-    
-    console.log('Pestaña activa después del cambio:', this.activeTab);
+
   }
 
   resetForm() {
@@ -202,7 +185,6 @@ export class VentasListComponent implements OnInit {
     if (cliente) {
       this.clienteSeleccionado = cliente;
       this.nuevaVenta.cedula_cliente = cliente.cedula;
-      console.log('Cliente encontrado automáticamente:', this.clienteSeleccionado);
     } else {
       this.clienteSeleccionado = null;
       this.nuevaVenta.cedula_cliente = '';
@@ -210,22 +192,17 @@ export class VentasListComponent implements OnInit {
   }
 
   buscarCliente() {
-    console.log('=== BUSCANDO CLIENTE ===');
-    console.log('Cédula a buscar:', this.buscarClienteInput.trim());
     
     if (!this.buscarClienteInput.trim()) {
       this.showMessage('error', 'Ingrese una cédula para buscar');
       return;
     }
 
-    const cliente = this.clientes.find(c => c.cedula === this.buscarClienteInput.trim());
-    console.log('Cliente encontrado:', cliente);
-    console.log('Lista completa de clientes:', this.clientes);
+    const cliente = this.clientes.find(c => c.cedula === this.buscarClienteInput.trim());;
     
     if (cliente) {
       this.clienteSeleccionado = cliente;
       this.nuevaVenta.cedula_cliente = cliente.cedula;
-      console.log('Cliente seleccionado:', this.clienteSeleccionado);
       this.showMessage('success', `Cliente encontrado: ${cliente.nombre} ${cliente.apellido}`);
     } else {
       this.showMessage('error', 'Cliente no encontrado con esa cédula');
@@ -375,19 +352,16 @@ export class VentasListComponent implements OnInit {
       estado: this.nuevaVenta.estado
     };
 
-    console.log('Guardando venta:', ventaData);
 
     if (this.isEditing && this.editingVentaId) {
       // Actualizar venta existente
       this.ventasService.updateVenta(this.editingVentaId, ventaData).subscribe({
         next: (venta: Venta) => {
-          console.log('Venta actualizada:', venta);
           this.showMessage('success', 'Venta actualizada exitosamente');
           this.loadVentas();
           this.setActiveTab('list');
         },
         error: (error: any) => {
-          console.error('Error al actualizar venta:', error);
           this.showMessage('error', 'Error al actualizar la venta');
         }
       });
@@ -395,7 +369,7 @@ export class VentasListComponent implements OnInit {
       // Crear nueva venta
       this.ventasService.createVenta(ventaData).subscribe({
         next: (venta: Venta) => {
-          console.log('Venta creada:', venta);
+
           this.showMessage('success', 'Venta registrada exitosamente');
           this.loadVentas();
           this.setActiveTab('list');
@@ -451,8 +425,6 @@ export class VentasListComponent implements OnInit {
   }
 
   generarFactura(venta: Venta) {
-    console.log('=== GENERANDO FACTURA ===');
-    console.log('Venta seleccionada:', venta);
     
     try {
       // Usar el nuevo método simplificado que abre en nueva ventana
@@ -466,7 +438,6 @@ export class VentasListComponent implements OnInit {
 
   getClienteNombre(cedula: string): string {
     if (!this.clientes || !Array.isArray(this.clientes)) {
-      console.log('Clientes no está inicializado como array:', this.clientes);
       return cedula;
     }
     const cliente = this.clientes.find(c => c.cedula === cedula);

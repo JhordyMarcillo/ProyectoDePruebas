@@ -66,47 +66,31 @@ export class ServiciosListComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    console.log('Cargando servicios - página:', this.currentPage, 'límite:', this.pageSize);
     
     this.serviciosService.getServicios(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
-        console.log('Servicios cargados exitosamente:', response);
         this.servicios = response.servicios;
         this.total = response.total;
         this.totalPages = response.totalPages;
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error detallado al cargar servicios:', error);
-        console.error('Status:', error.status);
-        console.error('Message:', error.message);
-        console.error('Error body:', error.error);
-        
-        // No mostrar mensaje automático, solo loggear
-        this.error = null; // Quitamos el mensaje de error automático
-        this.loading = false;
-        this.servicios = [];
-      }
     });
   }
 
   // Load productos for selection
   loadProductos(): void {
-    console.log('Cargando productos activos...');
+   
     this.productosService.getProductosActivos().subscribe({
       next: (productos: any) => {
         this.productos = Array.isArray(productos) ? productos : [];
-        console.log('Productos cargados exitosamente:', this.productos.length, this.productos);
       },
       error: (error: any) => {
-        console.error('Error al cargar productos activos:', error);
-        console.log('Intentando fallback con todos los productos...');
+
         this.productos = [];
         
         // Fallback: try regular getProductos if activos fails
         this.productosService.getProductos().subscribe({
           next: (allProductos: any) => {
-            console.log('Todos los productos obtenidos:', allProductos);
             if (Array.isArray(allProductos)) {
               this.productos = allProductos.filter((p: any) => p.estado === 'activo');
             } else if (allProductos && Array.isArray(allProductos.productos)) {
@@ -114,7 +98,6 @@ export class ServiciosListComponent implements OnInit {
             } else {
               this.productos = [];
             }
-            console.log('Productos activos filtrados:', this.productos.length, this.productos);
           },
           error: (err: any) => {
             console.error('Error al cargar productos (fallback):', err);
@@ -240,8 +223,6 @@ export class ServiciosListComponent implements OnInit {
     const producto = this.productos.find(p => p.id === productId);
     if (!producto) {
       alert('Producto no encontrado');
-      console.log('Producto ID buscado:', productId);
-      console.log('Productos disponibles:', this.productos);
       return;
     }
 
