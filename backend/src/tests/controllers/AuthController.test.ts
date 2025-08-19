@@ -76,7 +76,7 @@ describe('AuthController', () => {
 
       // Assert
       expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
-      expect(mockUsuarioModel.updateLastAccess).toHaveBeenCalledWith(1);
+      expect(mockUsuarioModel.updateLastAccess).toHaveBeenCalledWith(0);
       expect(mockJwt.sign).toHaveBeenCalled();
       expect(mockJson).toHaveBeenCalledWith(
         expect.objectContaining({

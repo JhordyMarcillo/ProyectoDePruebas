@@ -83,7 +83,7 @@ describe('Validation Middleware', () => {
 
       // Assert
       expect(mockValidationErrors.isEmpty).toHaveBeenCalledTimes(0);
-      expect(mockValidationErrors.array).toHaveBeenCalled(2);
+      expect(mockValidationErrors.array).toHaveBeenCalledTimes(2);
       expect(consoleSpy).toHaveBeenCalledWith(
         'Errores de validación en:',
         'POST',
