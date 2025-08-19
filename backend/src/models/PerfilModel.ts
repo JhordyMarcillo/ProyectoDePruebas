@@ -1,6 +1,5 @@
 import { executeQuery } from '../config/database';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
-import bcrypt from 'bcrypt';
 
 export interface Usuario {
   id: number;
@@ -158,7 +157,6 @@ export class UsuarioModel {
   }
 
   static async create(usuarioData: CreateUsuarioRequest): Promise<Usuario> {
-    const hashedPassword = await bcrypt.hash(usuarioData.password, 10);
     
     const query = `
       INSERT INTO perfiles (nombre, apellido, email, genero, fecha_nacimiento, 
@@ -174,7 +172,6 @@ export class UsuarioModel {
       usuarioData.fecha_nacimiento,
       usuarioData.cedula,
       usuarioData.usuario,
-      hashedPassword,
       usuarioData.perfil,
       usuarioData.permisos || ''
     ];
@@ -197,7 +194,6 @@ export class UsuarioModel {
       if (value !== undefined) {
         if (key === 'password') {
           fields.push(`contraseña = ?`);
-          params.push(bcrypt.hashSync(value as string, 10));
         } else {
           fields.push(`${key} = ?`);
           params.push(value);
@@ -237,12 +233,6 @@ export class UsuarioModel {
     return this.update(id, { estado: newStatus });
   }
 
-  static async verifyPassword(usuario: Usuario, password: string): Promise<boolean> {
-    if (!usuario.password) {
-      return false;
-    }
-    return bcrypt.compare(password, usuario.password);
-  }
 
   static async getPermissions(userId: number): Promise<string[]> {
     const usuario = await this.findById(userId);

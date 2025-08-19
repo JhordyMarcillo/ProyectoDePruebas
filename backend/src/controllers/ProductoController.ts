@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { ProductoModel } from '../models/Producto';
 import { CambioModel } from '../models/Cambio';
 import { ApiResponse } from '../types';
-import { validationResult } from 'express-validator';
 
 export class ProductoController {
   static async getAll(req: Request, res: Response): Promise<void> {
@@ -77,15 +76,6 @@ export class ProductoController {
 
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({
-          success: false,
-          message: 'Datos de entrada inválidos',
-          errors: errors.array()
-        } as ApiResponse);
-        return;
-      }
 
       const productoData = req.body;
       
@@ -129,16 +119,6 @@ export class ProductoController {
 
   static async update(req: Request, res: Response): Promise<void> {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({
-          success: false,
-          message: 'Datos de entrada inválidos',
-          errors: errors.array()
-        } as ApiResponse);
-        return;
-      }
-
       const idParam = req.params.id;
       const id = parseInt(idParam || '0');
       
