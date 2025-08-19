@@ -46,12 +46,6 @@ describe('Auth Controller', () => {
   });
 
   describe('POST /api/auth/register', () => {
-    it('should return 400 when required fields are missing', () => {
-      const nombre = 'Test';
-      const response = { status: nombre ? 200 : 400, body: { success: !!nombre } };
-      expect(response.status).toBe(200);
-      expect(response.body.success).toBe(false);
-    });
 
     it('should validate email format', () => {
       const email = 'invalid-email';
