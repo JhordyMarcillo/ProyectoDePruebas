@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           this.successMessage = 'Login exitoso, redirigiendo...';
-          console.log('Login exitoso', response);
           setTimeout(() => {
             this.router.navigate(['/dashboard']);
           }, 1000);

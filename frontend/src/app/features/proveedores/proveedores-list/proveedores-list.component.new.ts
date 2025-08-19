@@ -40,21 +40,17 @@ export class ProveedoresListComponent implements OnInit {
   }
 
   loadProveedores() {
-    console.log('=== INICIANDO CARGA DE PROVEEDORES ===');
     this.loading = true;
     this.error = null;
     
     this.proveedoresService.getProveedores().subscribe({
       next: (proveedores) => {
-        console.log('=== PROVEEDORES RECIBIDOS ===');
-        console.log('Número de proveedores:', proveedores.length);
-        console.log('Datos de proveedores:', proveedores);
+
         this.proveedores = proveedores;
         this.loading = false;
       },
       error: (error) => {
-        console.error('=== ERROR AL CARGAR PROVEEDORES ===');
-        console.error('Error completo:', error);
+
         this.error = 'Error al cargar la lista de proveedores';
         this.loading = false;
       }
@@ -62,9 +58,7 @@ export class ProveedoresListComponent implements OnInit {
   }
 
   setActiveTab(tab: 'list' | 'new' | 'edit') {
-    console.log('=== CAMBIANDO PESTAÑA PROVEEDORES ===');
-    console.log('Pestaña anterior:', this.activeTab);
-    console.log('Nueva pestaña:', tab);
+
     
     this.activeTab = tab;
     if (tab === 'new') {
@@ -72,7 +66,6 @@ export class ProveedoresListComponent implements OnInit {
       this.isEditing = false;
     }
     
-    console.log('Pestaña activa después del cambio:', this.activeTab);
   }
 
   resetForm() {
@@ -100,13 +93,11 @@ export class ProveedoresListComponent implements OnInit {
       return;
     }
 
-    console.log('Guardando proveedor:', this.nuevoProveedor);
 
     if (this.isEditing && this.editingProveedorId) {
       // Actualizar proveedor existente
       this.proveedoresService.updateProveedor(this.editingProveedorId, this.nuevoProveedor).subscribe({
         next: (proveedor) => {
-          console.log('Proveedor actualizado:', proveedor);
           this.showMessage('success', 'Proveedor actualizado exitosamente');
           this.loadProveedores();
           this.setActiveTab('list');
@@ -120,7 +111,6 @@ export class ProveedoresListComponent implements OnInit {
       // Crear nuevo proveedor
       this.proveedoresService.createProveedor(this.nuevoProveedor).subscribe({
         next: (proveedor) => {
-          console.log('Proveedor creado:', proveedor);
           this.showMessage('success', 'Proveedor registrado exitosamente');
           this.loadProveedores();
           this.setActiveTab('list');

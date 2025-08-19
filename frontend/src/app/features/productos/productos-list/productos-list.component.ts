@@ -52,21 +52,15 @@ export class ProductosListComponent implements OnInit {
   }
 
   loadProductos() {
-    console.log('=== INICIANDO CARGA DE PRODUCTOS ===');
     this.loading = true;
     this.error = null;
     
     this.productosService.getProductos().subscribe({
       next: (productos) => {
-        console.log('=== PRODUCTOS RECIBIDOS ===');
-        console.log('Número de productos:', productos.length);
-        console.log('Datos de productos:', productos);
         this.productos = productos;
         this.loading = false;
       },
       error: (error) => {
-        console.error('=== ERROR AL CARGAR PRODUCTOS ===');
-        console.error('Error completo:', error);
         this.error = 'Error al cargar la lista de productos';
         this.loading = false;
       }
@@ -76,7 +70,6 @@ export class ProductosListComponent implements OnInit {
   loadProveedores() {
     this.proveedoresService.getProveedores().subscribe({
       next: (proveedores) => {
-        console.log('Proveedores cargados:', proveedores);
         this.proveedores = proveedores.filter(p => p.estado === 'activo');
       },
       error: (error) => {
@@ -86,17 +79,13 @@ export class ProductosListComponent implements OnInit {
   }
 
   setActiveTab(tab: 'list' | 'new' | 'edit') {
-    console.log('=== CAMBIANDO PESTAÑA PRODUCTOS ===');
-    console.log('Pestaña anterior:', this.activeTab);
-    console.log('Nueva pestaña:', tab);
     
     this.activeTab = tab;
     if (tab === 'new') {
       this.resetForm();
       this.isEditing = false;
     }
-    
-    console.log('Pestaña activa después del cambio:', this.activeTab);
+  
   }
 
   resetForm() {
@@ -141,13 +130,11 @@ export class ProductosListComponent implements OnInit {
       return;
     }
 
-    console.log('Guardando producto:', this.nuevoProducto);
 
     if (this.isEditing && this.editingProductoId) {
       // Actualizar producto existente
       this.productosService.updateProducto(this.editingProductoId, this.nuevoProducto).subscribe({
         next: (producto) => {
-          console.log('Producto actualizado:', producto);
           this.showMessage('success', 'Producto actualizado exitosamente');
           this.loadProductos();
           this.setActiveTab('list');
@@ -161,7 +148,6 @@ export class ProductosListComponent implements OnInit {
       // Crear nuevo producto
       this.productosService.createProducto(this.nuevoProducto).subscribe({
         next: (producto) => {
-          console.log('Producto creado:', producto);
           this.showMessage('success', 'Producto registrado exitosamente');
           this.loadProductos();
           this.setActiveTab('list');

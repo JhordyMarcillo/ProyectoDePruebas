@@ -145,7 +145,6 @@ export class ClientesListComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error al crear cliente:', error);
           this.showMessage('error', 'Error al crear el cliente');
           this.loading = false;
         }

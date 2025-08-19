@@ -107,7 +107,6 @@ export class ClienteController {
       } as ApiResponse<Cliente>);
 
     } catch (error) {
-      console.error('Error al crear cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

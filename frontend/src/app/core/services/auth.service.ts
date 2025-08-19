@@ -107,19 +107,14 @@ export class AuthService {
 
   public hasPermission(permission: string): boolean {
     const user = this.currentUserValue;
-    console.log('Checking permission:', permission);
-    console.log('Current user:', user);
-    console.log('User permisos:', user?.permisos);
-    
+   
     // Si no hay usuario, no tiene permisos
     if (!user) {
-      console.log('No user found');
       return false;
     }
     
     // Si no hay permisos definidos, no tiene permisos
     if (!user.permisos || !Array.isArray(user.permisos)) {
-      console.log('No permisos array found');
       return false;
     }
     
@@ -132,7 +127,6 @@ export class AuthService {
       hasPermiso = hasExactPermission || user.permisos.includes('Productos');
     }
     
-    console.log('Has permission result:', hasPermiso);
     
     return hasPermiso;
   }

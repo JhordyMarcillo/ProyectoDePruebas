@@ -45,13 +45,11 @@ export class ClientesListComponent implements OnInit {
   }
 
   loadClientes() {
-    console.log('Cargando clientes...');
     this.loading = true;
     this.error = null;
     
     this.clientesService.getClientes().subscribe({
       next: (response: any) => {
-        console.log('Respuesta del servidor:', response);
         // Verificar si la respuesta tiene el formato correcto del backend
         if (response && response.success && response.data) {
           this.clientes = response.data;
@@ -62,7 +60,6 @@ export class ClientesListComponent implements OnInit {
           this.clientes = [];
         }
         this.loading = false;
-        console.log('Clientes cargados:', this.clientes);
       },
       error: (error) => {
         console.error('Error al cargar clientes:', error);
@@ -145,7 +142,6 @@ export class ClientesListComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error al crear cliente:', error);
           this.showMessage('error', 'Error al crear el cliente');
           this.loading = false;
         }

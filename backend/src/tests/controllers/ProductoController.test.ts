@@ -11,7 +11,6 @@ jest.mock('express-validator');
 
 const mockProductoModel = ProductoModel as jest.Mocked<typeof ProductoModel>;
 const mockCambioModel = CambioModel as jest.Mocked<typeof CambioModel>;
-const mockValidationResult = validationResult as jest.MockedFunction<typeof validationResult>;
 
 describe('ProductoController', () => {
   let mockRequest: Partial<Request>;
@@ -37,14 +36,6 @@ describe('ProductoController', () => {
       status: mockStatus,
       json: mockJson
     };
-
-    // Reset mocks with default implementations
-    mockProductoModel.findByName = jest.fn();
-    mockCambioModel.registrarCambio = jest.fn();
-    mockValidationResult.mockReturnValue({
-      isEmpty: jest.fn().mockReturnValue(true),
-      array: jest.fn().mockReturnValue([])
-    } as any);
   });
 
   describe('getAll', () => {
@@ -249,11 +240,6 @@ describe('ProductoController', () => {
         { field: 'precio_producto', msg: 'El precio debe ser válido' },
         { field: 'cantidad_producto', msg: 'La cantidad debe ser válida' }
       ];
-
-      mockValidationResult.mockReturnValue({
-        isEmpty: jest.fn().mockReturnValue(false),
-        array: jest.fn().mockReturnValue(mockErrors)
-      } as any);
 
       mockRequest.params = { id: '1' };
       mockRequest.body = { precio_producto: -10, cantidad_producto: 'invalid' };
@@ -1513,11 +1499,7 @@ describe('ProductoController', () => {
         { msg: 'Precio debe ser positivo', param: 'precio_producto', location: 'body' }
       ];
 
-      mockValidationResult.mockReturnValue({
-        isEmpty: jest.fn().mockReturnValue(false),
-        array: jest.fn().mockReturnValue(mockValidationErrors)
-      } as any);
-
+      
       mockRequest.body = {
         nombre_producto: '',
         precio_producto: -100
@@ -1565,11 +1547,6 @@ describe('ProductoController', () => {
         fecha_creacion: new Date()
       };
 
-      mockValidationResult.mockReturnValue({
-        isEmpty: jest.fn().mockReturnValue(true),
-        array: jest.fn().mockReturnValue([])
-      } as any);
-
       mockRequest.params = { id: '1' };
       mockRequest.body = {
         nombre_producto: 'iPhone 15' // Trying to change to existing name
@@ -1605,11 +1582,6 @@ describe('ProductoController', () => {
         estado: 'activo',
         fecha_creacion: new Date()
       };
-
-      mockValidationResult.mockReturnValue({
-        isEmpty: jest.fn().mockReturnValue(true),
-        array: jest.fn().mockReturnValue([])
-      } as any);
 
       mockRequest.params = { id: '1' };
       mockRequest.body = {
