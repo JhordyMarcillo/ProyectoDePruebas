@@ -18,7 +18,7 @@ export const getConnection = async () => {
     const connection = await pool.getConnection();
     return connection;
   } catch (error) {
-    console.error('Error al conectar con la base de datos:', error);
+    //('Error al conectar con la base de datos:', error);
     throw error;
   }
 };
@@ -69,7 +69,7 @@ export const testConnection = async (): Promise<boolean> => {
     connection.release();
     return true;
   } catch (error) {
-    console.error('Error de conexión a la base de datos:', error);
+    //('Error de conexión a la base de datos:', error);
     return false;
   }
 };

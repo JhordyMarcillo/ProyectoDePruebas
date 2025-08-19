@@ -11,7 +11,7 @@ async function createAdmin() {
       database: 'spa_base'
     });
 
-    console.log('Conectado a la base de datos');
+    //g('Conectado a la base de datos');
 
     // Verificar si ya existe un admin
     const [existing] = await connection.execute(
@@ -20,7 +20,7 @@ async function createAdmin() {
     );
 
     if (existing.length > 0) {
-      console.log('Ya existe un usuario admin');
+      //('Ya existe un usuario admin');
       await connection.end();
       return;
     }
@@ -63,7 +63,7 @@ async function createAdmin() {
     ]);
 
     await connection.end();
-    console.log('Conexión cerrada');
+    //('Conexión cerrada');
 
   } catch (error) {
   }

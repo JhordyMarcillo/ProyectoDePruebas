@@ -37,7 +37,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener usuarios:', error);
+      //('Error al obtener usuarios:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -77,7 +77,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener usuario:', error);
+      //('Error al obtener usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -143,7 +143,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al crear usuario:', error);
+      //('Error al crear usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -239,7 +239,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al actualizar usuario:', error);
+      //('Error al actualizar usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -302,7 +302,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al eliminar usuario:', error);
+      //('Error al eliminar usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -371,7 +371,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al cambiar estado del usuario:', error);
+      //('Error al cambiar estado del usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -448,7 +448,7 @@ export class UsuarioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al cambiar contraseña:', error);
+      //('Error al cambiar contraseña:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -468,7 +468,7 @@ export class UsuarioController {
       
       res.json(response);
     } catch (error) {
-      console.error('Error obteniendo estadísticas de usuarios:', error);
+      //('Error obteniendo estadísticas de usuarios:', error);
       const response: ApiResponse = {
         success: false,
         message: 'Error interno del servidor',

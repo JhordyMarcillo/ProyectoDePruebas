@@ -16,6 +16,6 @@ async function createTestUser() {
       permisos: 'Inicio,Asignar,Cliente,Ventas,Productos,Servicios,Proveedores,Reportes'
     };
   } catch (error) {
-    console.error('Error creando usuario de prueba:', error);
+    //('Error creando usuario de prueba:', error);
   }
 }

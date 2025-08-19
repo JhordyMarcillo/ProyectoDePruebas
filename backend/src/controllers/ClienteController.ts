@@ -28,7 +28,7 @@ export class ClienteController {
       } as ApiResponse<Cliente[]>);
 
     } catch (error) {
-      console.error('Error al obtener clientes:', error);
+      //('Error al obtener clientes:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -65,7 +65,7 @@ export class ClienteController {
       } as ApiResponse<Cliente>);
 
     } catch (error) {
-      console.error('Error al obtener cliente:', error);
+      //('Error al obtener cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -177,7 +177,7 @@ export class ClienteController {
       } as ApiResponse<Cliente>);
 
     } catch (error) {
-      console.error('Error al actualizar cliente:', error);
+      //('Error al actualizar cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -221,7 +221,7 @@ export class ClienteController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al eliminar cliente:', error);
+      //('Error al eliminar cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -258,7 +258,7 @@ export class ClienteController {
       } as ApiResponse<Cliente>);
 
     } catch (error) {
-      console.error('Error al obtener cliente por cédula:', error);
+      //('Error al obtener cliente por cédula:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -317,7 +317,7 @@ export class ClienteController {
       } as ApiResponse<Cliente>);
 
     } catch (error) {
-      console.error('Error al cambiar estado del cliente:', error);
+      //('Error al cambiar estado del cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

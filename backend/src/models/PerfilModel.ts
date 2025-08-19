@@ -302,7 +302,7 @@ export class UsuarioModel {
         }))
       };
     } catch (error) {
-      console.error('Error obteniendo estadísticas de usuarios:', error);
+      //('Error obteniendo estadísticas de usuarios:', error);
       throw error;
     }
   }

@@ -32,7 +32,7 @@ const generateTestCliente = () => ({
 });
 
 export function setup() {
-    console.log('🔐 Obteniendo token de autenticación...');
+    //('🔐 Obteniendo token de autenticación...');
     
     let loginPayload = JSON.stringify({
         usuario: 'admin',
@@ -43,24 +43,24 @@ export function setup() {
         headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log(`Login response status: ${loginResponse.status}`);
-    console.log(`Login response: ${loginResponse.body.substring(0, 200)}...`);
+    //(`Login response status: ${loginResponse.status}`);
+    //(`Login response: ${loginResponse.body.substring(0, 200)}...`);
 
     if (loginResponse.status === 200) {
         let responseBody = JSON.parse(loginResponse.body);
         if (responseBody.success && responseBody.data && responseBody.data.token) {
-            console.log('✅ Token obtenido exitosamente');
+            //('✅ Token obtenido exitosamente');
             return { token: responseBody.data.token };
         }
     }
     
-    console.log('⚠️  No se pudo obtener token de autenticación');
+    //('⚠️  No se pudo obtener token de autenticación');
     return { token: null };
 }
 
 export default function (data) {
     if (!data.token) {
-        console.log('❌ Sin token de autenticación, omitiendo pruebas');
+        //('❌ Sin token de autenticación, omitiendo pruebas');
         return;
     }
 
@@ -83,16 +83,16 @@ export default function (data) {
                     let body = JSON.parse(r.body);
                     return body.success === true;
                 } catch (e) {
-                    console.log('Error parsing read response:', e);
+                    //('Error parsing read response:', e);
                     return false;
                 }
             },
         });
 
         if (readSuccess) {
-            console.log('✅ Lectura de clientes exitosa');
+            //('✅ Lectura de clientes exitosa');
         } else {
-            console.log(`❌ Error en lectura: ${readResponse.status} - ${readResponse.body.substring(0, 100)}`);
+            //(`❌ Error en lectura: ${readResponse.status} - ${readResponse.body.substring(0, 100)}`);
         }
 
         // 2. Probar creación de cliente
@@ -105,7 +105,7 @@ export default function (data) {
         });
 
         if (createSuccess) {
-            console.log('✅ Creación de cliente exitosa');
+            //('✅ Creación de cliente exitosa');
             
             // Extraer ID del cliente creado para actualización/eliminación
             try {
@@ -123,9 +123,9 @@ export default function (data) {
                     });
 
                     if (updateSuccess) {
-                        console.log('✅ Actualización de cliente exitosa');
+                        //('✅ Actualización de cliente exitosa');
                     } else {
-                        console.log(`❌ Error en actualización: ${updateResponse.status} - ${updateResponse.body.substring(0, 100)}`);
+                        //(`❌ Error en actualización: ${updateResponse.status} - ${updateResponse.body.substring(0, 100)}`);
                     }
 
                     // 4. Probar eliminación
@@ -136,16 +136,16 @@ export default function (data) {
                     });
 
                     if (deleteSuccess) {
-                        console.log('✅ Eliminación de cliente exitosa');
+                        //('✅ Eliminación de cliente exitosa');
                     } else {
-                        console.log(`❌ Error en eliminación: ${deleteResponse.status} - ${deleteResponse.body.substring(0, 100)}`);
+                        //(`❌ Error en eliminación: ${deleteResponse.status} - ${deleteResponse.body.substring(0, 100)}`);
                     }
                 }
             } catch (e) {
-                console.log('Error processing create response:', e);
+                //('Error processing create response:', e);
             }
         } else {
-            console.log(`❌ Error en creación: ${createResponse.status} - ${createResponse.body.substring(0, 200)}`);
+            //(`❌ Error en creación: ${createResponse.status} - ${createResponse.body.substring(0, 200)}`);
         }
     });
 

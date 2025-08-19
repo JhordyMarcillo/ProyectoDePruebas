@@ -23,7 +23,7 @@ export class ProveedorController {
         }
       });
     } catch (error) {
-      console.error('Error fetching proveedores:', error);
+      //('Error fetching proveedores:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -49,7 +49,7 @@ export class ProveedorController {
         data: proveedor
       });
     } catch (error) {
-      console.error('Error fetching proveedor:', error);
+      //('Error fetching proveedor:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -75,7 +75,7 @@ export class ProveedorController {
         data: { id: proveedorId, ...proveedorData }
       });
     } catch (error) {
-      console.error('Error creating proveedor:', error);
+      //('Error creating proveedor:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -109,7 +109,7 @@ export class ProveedorController {
         message: 'Proveedor actualizado exitosamente'
       });
     } catch (error) {
-      console.error('Error updating proveedor:', error);
+      //('Error updating proveedor:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -135,7 +135,7 @@ export class ProveedorController {
         message: 'Proveedor eliminado exitosamente'
       });
     } catch (error) {
-      console.error('Error deleting proveedor:', error);
+      //('Error deleting proveedor:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

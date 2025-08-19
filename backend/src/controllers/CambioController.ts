@@ -28,7 +28,7 @@ export class CambioController {
       } as ApiResponse<Cambio[]>);
 
     } catch (error) {
-      console.error('Error al obtener cambios:', error);
+      //('Error al obtener cambios:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -65,7 +65,7 @@ export class CambioController {
       } as ApiResponse<Cambio>);
 
     } catch (error) {
-      console.error('Error al obtener cambio:', error);
+      //('Error al obtener cambio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -95,7 +95,7 @@ export class CambioController {
       } as ApiResponse<Cambio[]>);
 
     } catch (error) {
-      console.error('Error al obtener cambios por tabla:', error);
+      //('Error al obtener cambios por tabla:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -125,7 +125,7 @@ export class CambioController {
       } as ApiResponse<Cambio[]>);
 
     } catch (error) {
-      console.error('Error al obtener cambios por usuario:', error);
+      //('Error al obtener cambios por usuario:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -144,7 +144,7 @@ export class CambioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener estadísticas de cambios:', error);
+      //('Error al obtener estadísticas de cambios:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

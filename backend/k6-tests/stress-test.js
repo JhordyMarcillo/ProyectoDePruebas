@@ -33,8 +33,8 @@ const userBehaviors = [
 ];
 
 export function setup() {
-    console.log('🔥 Iniciando prueba de estrés...');
-    console.log('⚡ Se probará el sistema con hasta 800 usuarios concurrentes');
+    //('🔥 Iniciando prueba de estrés...');
+    //('⚡ Se probará el sistema con hasta 800 usuarios concurrentes');
     
     // Verificar que el sistema esté disponible antes de empezar
     let healthCheck = http.get(HEALTH_URL);
@@ -154,7 +154,7 @@ function viewerBehavior() {
 
 export function teardown(data) {
     let duration = (Date.now() - data.startTime) / 1000;
-    console.log(`🏁 Prueba de estrés completada en ${duration.toFixed(2)} segundos`);
+    //(`🏁 Prueba de estrés completada en ${duration.toFixed(2)} segundos`);
 }
 
 export function handleSummary(data) {

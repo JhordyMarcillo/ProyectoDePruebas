@@ -28,7 +28,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener productos:', error);
+      //('Error al obtener productos:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -66,7 +66,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener producto:', error);
+      //('Error al obtener producto:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -109,7 +109,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al crear producto:', error);
+      //('Error al crear producto:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -182,7 +182,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al actualizar producto:', error);
+      //('Error al actualizar producto:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -239,7 +239,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al eliminar producto:', error);
+      //('Error al eliminar producto:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -279,7 +279,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al cambiar estado del producto:', error);
+      //('Error al cambiar estado del producto:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -321,7 +321,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al verificar stock:', error);
+      //('Error al verificar stock:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -361,7 +361,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al actualizar cantidad:', error);
+      //('Error al actualizar cantidad:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -422,7 +422,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al añadir stock:', error);
+      //('Error al añadir stock:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -443,7 +443,7 @@ export class ProductoController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener productos activos:', error);
+      //('Error al obtener productos activos:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

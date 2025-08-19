@@ -123,30 +123,30 @@ const startServer = async () => {
     // Verificar conexión a la base de datos
     const dbConnected = await testConnection();
     if (!dbConnected) {
-      console.error('❌ No se pudo conectar a la base de datos');
+      //('❌ No se pudo conectar a la base de datos');
       process.exit(1);
     }
 
     app.listen(config.port, () => {
-      console.log(`🚀 Servidor ejecutándose en puerto ${config.port}`);
-      console.log(`📚 Documentación disponible en http://localhost:${config.port}/api-docs`);
-      console.log(`🏥 Health check en http://localhost:${config.port}/health`);
-      console.log(`🌍 Entorno: ${config.nodeEnv}`);
+      //(`🚀 Servidor ejecutándose en puerto ${config.port}`);
+      //(`📚 Documentación disponible en http://localhost:${config.port}/api-docs`);
+      //(`🏥 Health check en http://localhost:${config.port}/health`);
+      //(`🌍 Entorno: ${config.nodeEnv}`);
     });
   } catch (error) {
-    console.error('❌ Error al iniciar el servidor:', error);
+    //('❌ Error al iniciar el servidor:', error);
     process.exit(1);
   }
 };
 
 // Manejo de señales para cierre graceful
 process.on('SIGTERM', () => {
-  console.log('🛑 Recibida señal SIGTERM, cerrando servidor...');
+  //('🛑 Recibida señal SIGTERM, cerrando servidor...');
   process.exit(0);
 });
 
 process.on('SIGINT', () => {
-  console.log('🛑 Recibida señal SIGINT, cerrando servidor...');
+  //('🛑 Recibida señal SIGINT, cerrando servidor...');
   process.exit(0);
 });
 

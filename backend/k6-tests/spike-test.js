@@ -33,8 +33,8 @@ const spikePatterns = [
 ];
 
 export function setup() {
-    console.log('🚀 Iniciando prueba de picos de tráfico...');
-    console.log('⚡ Se simularán picos súbitos de hasta 800 usuarios');
+    //('🚀 Iniciando prueba de picos de tráfico...');
+    //('⚡ Se simularán picos súbitos de hasta 800 usuarios');
     
     // Verificar sistema disponible
     let healthCheck = http.get(HEALTH_URL);
@@ -163,7 +163,7 @@ function healthFloodPattern(tags) {
 
 export function teardown(data) {
     let duration = (Date.now() - data.startTime) / 1000;
-    console.log(`🏁 Prueba de picos completada en ${duration.toFixed(2)} segundos`);
+    //(`🏁 Prueba de picos completada en ${duration.toFixed(2)} segundos`);
 }
 
 export function handleSummary(data) {

@@ -23,8 +23,8 @@ describe('Error Handler Middleware', () => {
       json: mockJson
     };
 
-    // Mock console.error para los tests
-    console.error = jest.fn();
+    // Mock // para los tests
+    // = jest.fn();
     
     // Reset environment
     process.env.NODE_ENV = 'test';
@@ -174,7 +174,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(console.error).toHaveBeenCalledWith('Error:', testError);
+      expect(//).toHaveBeenCalledWith('Error:', testError);
       expect(mockJson).toHaveBeenCalledWith({
         success: false,
         error: {
@@ -194,7 +194,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(console.error).not.toHaveBeenCalled();
+      expect(//).not.toHaveBeenCalled();
       expect(mockJson).toHaveBeenCalledWith({
         success: false,
         error: {
@@ -212,7 +212,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(console.error).not.toHaveBeenCalled();
+      expect(//).not.toHaveBeenCalled();
     });
 
     it('should handle AppError in development with stack trace', () => {
@@ -225,7 +225,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(appError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(console.error).toHaveBeenCalledWith('Error:', appError);
+      expect(//).toHaveBeenCalledWith('Error:', appError);
       expect(mockStatus).toHaveBeenCalledWith(422);
       expect(mockJson).toHaveBeenCalledWith({
         success: false,

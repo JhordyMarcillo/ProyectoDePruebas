@@ -32,8 +32,8 @@ const operationWeights = {
 };
 
 export function setup() {
-    console.log('⏱️  Iniciando prueba de carga sostenida...');
-    console.log('🎯 Se mantendrá carga constante por 15+ minutos');
+    //('⏱️  Iniciando prueba de carga sostenida...');
+    //('🎯 Se mantendrá carga constante por 15+ minutos');
     
     // Verificar disponibilidad del sistema
     let healthCheck = http.get(HEALTH_URL);
@@ -175,7 +175,7 @@ function selectWeightedOperation(operations) {
 
 export function teardown(data) {
     let duration = (Date.now() - data.startTime) / 1000 / 60; // En minutos
-    console.log(`🏁 Prueba de carga sostenida completada en ${duration.toFixed(2)} minutos`);
+    //(`🏁 Prueba de carga sostenida completada en ${duration.toFixed(2)} minutos`);
 }
 
 export function handleSummary(data) {

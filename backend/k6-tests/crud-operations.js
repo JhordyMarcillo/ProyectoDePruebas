@@ -65,7 +65,7 @@ const testData = {
 
 export function setup() {
     // Login para obtener token
-    console.log('🔐 Obteniendo token de autenticación...');
+    //('🔐 Obteniendo token de autenticación...');
     
     let loginPayload = JSON.stringify({
         usuario: 'admin',
@@ -76,25 +76,25 @@ export function setup() {
         headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log(`Login response status: ${loginResponse.status}`);
-    console.log(`Login response body: ${loginResponse.body}`);
+    //(`Login response status: ${loginResponse.status}`);
+    //(`Login response body: ${loginResponse.body}`);
 
     if (loginResponse.status === 200) {
         let responseBody = JSON.parse(loginResponse.body);
         if (responseBody.success && responseBody.data && responseBody.data.token) {
-            console.log('✅ Token obtenido exitosamente');
+            //('✅ Token obtenido exitosamente');
             return { token: responseBody.data.token };
         }
     }
     
-    console.log('⚠️  No se pudo obtener token de autenticación');
-    console.log(`Response: ${loginResponse.body}`);
+    //('⚠️  No se pudo obtener token de autenticación');
+    //(`Response: ${loginResponse.body}`);
     return { token: null };
 }
 
 export default function (data) {
     if (!data.token) {
-        console.log('❌ Sin token de autenticación, omitiendo pruebas CRUD');
+        //('❌ Sin token de autenticación, omitiendo pruebas CRUD');
         return;
     }
 
@@ -198,7 +198,7 @@ function performRead(entity, headers) {
             });
         }
     } catch (e) {
-        console.log(`Error reading specific ${entity}:`, e);
+        //(`Error reading specific ${entity}:`, e);
     }
 }
 
@@ -225,7 +225,7 @@ function performUpdate(entity, headers) {
                 });
             }
         } catch (e) {
-            console.log(`Error updating ${entity}:`, e);
+            //(`Error updating ${entity}:`, e);
         }
     }
 }
@@ -250,7 +250,7 @@ function performDelete(entity, headers) {
                 });
             }
         } catch (e) {
-            console.log(`Error deleting ${entity}:`, e);
+            //(`Error deleting ${entity}:`, e);
         }
     }
 }

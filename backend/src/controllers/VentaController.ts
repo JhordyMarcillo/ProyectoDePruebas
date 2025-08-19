@@ -33,7 +33,7 @@ export class VentaController {
       } as ApiResponse<Venta[]>);
 
     } catch (error) {
-      console.error('Error al obtener ventas:', error);
+      //('Error al obtener ventas:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -70,7 +70,7 @@ export class VentaController {
       } as ApiResponse<Venta>);
 
     } catch (error) {
-      console.error('Error al obtener venta:', error);
+      //('Error al obtener venta:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -202,7 +202,7 @@ export class VentaController {
       } as ApiResponse<Venta>);
 
     } catch (error) {
-      console.error('Error al crear venta:', error);
+      //('Error al crear venta:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -251,7 +251,7 @@ export class VentaController {
       } as ApiResponse<Venta>);
 
     } catch (error) {
-      console.error('Error al actualizar venta:', error);
+      //('Error al actualizar venta:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -296,7 +296,7 @@ export class VentaController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al eliminar venta:', error);
+      //('Error al eliminar venta:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -325,7 +325,7 @@ export class VentaController {
       } as ApiResponse<Venta[]>);
 
     } catch (error) {
-      console.error('Error al obtener ventas del cliente:', error);
+      //('Error al obtener ventas del cliente:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -370,7 +370,7 @@ export class VentaController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener estadísticas de ventas:', error);
+      //('Error al obtener estadísticas de ventas:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -380,12 +380,12 @@ export class VentaController {
 
   static async generarFactura(req: Request, res: Response): Promise<void> {
     try {
-      console.log('=== GENERAR FACTURA - INICIO ===');
+      //('=== GENERAR FACTURA - INICIO ===');
       const id = parseInt(req.params.id!);
-      console.log('ID de venta solicitada:', id);
+      //('ID de venta solicitada:', id);
 
       if (isNaN(id)) {
-        console.log('ID inválido:', req.params.id);
+        //('ID inválido:', req.params.id);
         res.status(400).send('<h1>ID de venta inválido</h1>');
         return;
       }
@@ -395,13 +395,13 @@ export class VentaController {
       const ventaResult = await executeQuery<RowDataPacket[]>(ventaQuery, [id]);
       
       if (ventaResult.length === 0) {
-        console.log('Venta no encontrada para ID:', id);
+        //('Venta no encontrada para ID:', id);
         res.status(404).send('<h1>Venta no encontrada</h1>');
         return;
       }
 
       const venta: any = ventaResult[0];
-      console.log('Venta encontrada:', venta);
+      //('Venta encontrada:', venta);
 
       // Obtener datos del cliente
       let cliente: any = null;
@@ -427,10 +427,10 @@ export class VentaController {
           };
         }
       } catch (clienteError) {
-        console.log('Error al buscar cliente, usando datos por defecto:', clienteError);
+        //('Error al buscar cliente, usando datos por defecto:', clienteError);
       }
 
-      console.log('Datos del cliente:', clienteInfo);
+      //('Datos del cliente:', clienteInfo);
 
       // Los productos y servicios ya vienen parseados desde la base de datos
       let productos: any[] = [];
@@ -446,7 +446,7 @@ export class VentaController {
           productos = [];
         }
       } catch (e) {
-        console.log('Error parseando productos:', e);
+        //('Error parseando productos:', e);
         productos = [];
       }
 
@@ -460,12 +460,12 @@ export class VentaController {
           servicios = [];
         }
       } catch (e) {
-        console.log('Error parseando servicios:', e);
+        //('Error parseando servicios:', e);
         servicios = [];
       }
 
-      console.log('Productos:', productos);
-      console.log('Servicios:', servicios);
+      //('Productos:', productos);
+      //('Servicios:', servicios);
 
       // Generar HTML de factura básica (exactamente como el PHP original)
       const facturaHTML = `
@@ -590,14 +590,14 @@ export class VentaController {
       `;
 
       // Configurar headers para HTML
-      console.log('Enviando factura HTML...');
+      //('Enviando factura HTML...');
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.send(facturaHTML);
-      console.log('=== FACTURA GENERADA EXITOSAMENTE ===');
+      //('=== FACTURA GENERADA EXITOSAMENTE ===');
 
     } catch (error) {
-      console.error('=== ERROR AL GENERAR FACTURA ===');
-      console.error('Error completo:', error);
+      //('=== ERROR AL GENERAR FACTURA ===');
+      //('Error completo:', error);
       res.status(500).send(`
         <h1>Error al generar la factura</h1>
         <p>Error: ${error}</p>

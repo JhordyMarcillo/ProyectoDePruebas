@@ -28,7 +28,7 @@ const testCredentials = {
 
 export function setup() {
     // Configuración inicial - crear usuario de prueba si no existe
-    console.log('🚀 Iniciando configuración de pruebas de autenticación...');
+    //('🚀 Iniciando configuración de pruebas de autenticación...');
     return { baseUrl: BASE_URL };
 }
 
@@ -58,7 +58,7 @@ export default function (data) {
                     authToken = responseBody.data.token;
                 }
             } catch (e) {
-                console.log('Error parsing login response:', e);
+                //('Error parsing login response:', e);
             }
         }
 

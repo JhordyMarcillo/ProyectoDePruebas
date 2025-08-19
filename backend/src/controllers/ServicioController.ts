@@ -28,7 +28,7 @@ export class ServicioController {
       } as ApiResponse<Servicio[]>);
 
     } catch (error) {
-      console.error('Error al obtener servicios:', error);
+      //('Error al obtener servicios:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -47,7 +47,7 @@ export class ServicioController {
       } as ApiResponse<Servicio[]>);
 
     } catch (error) {
-      console.error('Error al obtener servicios activos:', error);
+      //('Error al obtener servicios activos:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -84,7 +84,7 @@ export class ServicioController {
       } as ApiResponse<Servicio>);
 
     } catch (error) {
-      console.error('Error al obtener servicio:', error);
+      //('Error al obtener servicio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -109,7 +109,7 @@ export class ServicioController {
       } as ApiResponse<Servicio>);
 
     } catch (error) {
-      console.error('Error al crear servicio:', error);
+      //('Error al crear servicio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -160,7 +160,7 @@ export class ServicioController {
       } as ApiResponse<Servicio>);
 
     } catch (error) {
-      console.error('Error al actualizar servicio:', error);
+      //('Error al actualizar servicio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -216,7 +216,7 @@ export class ServicioController {
       } as ApiResponse<Servicio>);
 
     } catch (error) {
-      console.error('Error al cambiar estado del servicio:', error);
+      //('Error al cambiar estado del servicio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -260,7 +260,7 @@ export class ServicioController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al eliminar servicio:', error);
+      //('Error al eliminar servicio:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

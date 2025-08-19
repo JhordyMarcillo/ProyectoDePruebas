@@ -46,7 +46,7 @@ export class ReporteController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener cambios:', error);
+      //('Error al obtener cambios:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -78,7 +78,7 @@ export class ReporteController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener cambios por fecha:', error);
+      //('Error al obtener cambios por fecha:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -107,7 +107,7 @@ export class ReporteController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener cambios por tabla:', error);
+      //('Error al obtener cambios por tabla:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -126,7 +126,7 @@ export class ReporteController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener estadísticas:', error);
+      //('Error al obtener estadísticas:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

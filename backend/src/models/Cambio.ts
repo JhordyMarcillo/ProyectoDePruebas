@@ -227,7 +227,7 @@ export class CambioModel {
         tabla_afectada
       });
     } catch (error) {
-      console.error('Error al registrar cambio:', error);
+      //('Error al registrar cambio:', error);
       // No fallar si no se puede registrar el cambio
     }
   }

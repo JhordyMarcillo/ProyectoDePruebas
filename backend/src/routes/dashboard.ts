@@ -25,7 +25,7 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
         const result = await executeQuery(sql);
         stats[key] = result[0]?.total || 0;
       } catch (error) {
-        console.error(`Error en consulta ${key}:`, error);
+        //(`Error en consulta ${key}:`, error);
         stats[key] = 0;
       }
     }
@@ -47,7 +47,7 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
     });
 
   } catch (error) {
-    console.error('Error obteniendo estadísticas:', error);
+    //('Error obteniendo estadísticas:', error);
     res.status(500).json({
       success: false,
       message: 'Error interno del servidor'

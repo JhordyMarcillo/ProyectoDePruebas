@@ -75,7 +75,7 @@ export class AuthController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error en login:', error);
+      //('Error en login:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -120,7 +120,7 @@ export class AuthController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error en registro:', error);
+      //('Error en registro:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -157,7 +157,7 @@ export class AuthController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al obtener perfil:', error);
+      //('Error al obtener perfil:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
@@ -208,7 +208,7 @@ export class AuthController {
       } as ApiResponse);
 
     } catch (error) {
-      console.error('Error al actualizar perfil:', error);
+      //('Error al actualizar perfil:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'
