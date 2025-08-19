@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+import * as { validationResult } from 'express-validator';
 import { ProductoController } from '../../controllers/ProductoController';
 import { ProductoModel } from '../../models/Producto';
 import { CambioModel } from '../../models/Cambio';
 import { Producto, AuthPayload } from '../../types';
+import { validationResult } from 'express-validator/lib/validation-result';
 
 // Mock dependencies
 jest.mock('../../models/Producto');
