@@ -72,58 +72,63 @@ describe('Auth Middleware', () => {
 
   describe('authenticateToken', () => {
     it('should authenticate user with valid token in Authorization header', () => {
-      // Arrange
-      const mockDecoded: AuthPayload = {
-        userId: 1,
-        username: 'testuser',
-        perfil: 'admin',
-        permisos: ['Usuarios']
-      };
+  // Arrange
+  const mockDecoded: AuthPayload = {
+    userId: 1,
+    username: 'testuser',
+    perfil: 'admin',
+    permisos: ['Usuarios']
+  };
 
-      mockRequest.headers = {
-        authorization: 'Bearer valid-token'
-      };
+  mockRequest.headers = {
+    authorization: 'Bearer valid-token'
+  };
 
-      //mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-       // callback(null, mockDecoded);
-      //});
+  // Mockear la función de jwt.verify para que llame al callback con datos quemados
+  const mockJwt = require('jsonwebtoken');
+  jest.spyOn(mockJwt, 'verify').mockImplementation((token, secret, callback: any) => {
+    callback(null, mockDecoded);
+  });
 
-      // Act
-      authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
+  // Act
+  authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
 
+  // Assert
+  expect(mockJwt.verify).toHaveBeenCalledWith('valid-token', 'test-secret', expect.any(Function));
+  expect((mockRequest as any).user).toEqual(mockDecoded);
+  expect(mockNext).toHaveBeenCalled();
+  expect(mockStatus).not.toHaveBeenCalled();
+});
 
-      // Assert
-      //expect(mockJwt.verify).toHaveBeenCalledWith('valid-token', 'test-secret', expect.any(Function));
-      expect(mockRequest.user).toEqual(mockDecoded);
-      expect(mockNext).toHaveBeenCalled();
-      expect(mockStatus).not.toHaveBeenCalled();
-    });
 
     it('should authenticate user with valid token in query parameter', () => {
-      // Arrange
-      const mockDecoded: AuthPayload = {
-        userId: 1,
-        username: 'testuser',
-        perfil: 'admin',
-        permisos: ['Usuarios']
-      };
+  // Arrange
+  const mockDecoded: AuthPayload = {
+    userId: 1,
+    username: 'testuser',
+    perfil: 'admin',
+    permisos: ['Usuarios']
+  };
 
-      mockRequest.query = {
-        token: 'valid-query-token'
-      };
+  mockRequest.query = {
+    token: 'valid-query-token'
+  };
 
-      //mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-      //  callback(null, mockDecoded);
-      //});
+  // Mockear jwt.verify para devolver datos quemados
+  const mockJwt = require('jsonwebtoken');
+  jest.spyOn(mockJwt, 'verify').mockImplementation((token, secret, callback: any) => {
+    callback(null, mockDecoded);
+  });
 
-      // Act
-      authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
+  // Act
+  authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
 
-      // Assert
-      //expect(mockJwt.verify).toHaveBeenCalledWith('valid-query-token', 'test-secret', expect.any(Function));
-      expect(mockRequest.user).toEqual(mockDecoded);
-      expect(mockNext).toHaveBeenCalled();
-    });
+  // Assert
+  expect(mockJwt.verify).toHaveBeenCalledWith('valid-query-token', 'test-secret', expect.any(Function));
+  expect((mockRequest as any).user).toEqual(mockDecoded);
+  expect(mockNext).toHaveBeenCalled();
+});
+
 
     it('should return 401 when no token is provided', () => {
       // Arrange
@@ -142,26 +147,29 @@ describe('Auth Middleware', () => {
     });
 
     it('should return 403 when token is invalid', () => {
-      // Arrange
-      mockRequest.headers = {
-        authorization: 'Bearer invalid-token'
-      };
+  // Arrange
+  mockRequest.headers = {
+    authorization: 'Bearer invalid-token'
+  };
 
-     // mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-     //   callback(new Error('Invalid token'), null);
-     // });
+  // Mockear jwt.verify para simular token inválido
+  const mockJwt = require('jsonwebtoken');
+  jest.spyOn(mockJwt, 'verify').mockImplementation((token, secret, callback: any) => {
+    callback(new Error('Invalid token'), null);
+  });
 
-      // Act
-      authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
+  // Act
+  authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
 
-      // Assert
-      expect(mockStatus).toHaveBeenCalledWith(403);
-      expect(mockJson).toHaveBeenCalledWith({
-        success: false,
-        message: 'Token inválido'
-      });
-      expect(mockNext).not.toHaveBeenCalled();
-    });
+  // Assert
+  expect(mockStatus).toHaveBeenCalledWith(403);
+  expect(mockJson).toHaveBeenCalledWith({
+    success: false,
+    message: 'Token inválido'
+  });
+  expect(mockNext).not.toHaveBeenCalled();
+});
+
 
     it('should handle malformed Authorization header', () => {
       // Arrange

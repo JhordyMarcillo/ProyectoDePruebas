@@ -245,15 +245,6 @@ describe('ProductoController', () => {
   mockRequest.body = { precio_producto: -10, cantidad_producto: 'invalid' };
 
   // Mockeamos ProductoController.update para que devuelva los errores quemados
-  const updateSpy = jest
-    .spyOn(ProductoController, 'update')
-    .mockImplementation(async (req, res) => {
-      return res.status(400).json({
-        success: false,
-        message: 'Datos de entrada inválidos',
-        errors: mockErrors
-      });
-    });
 
   // Act
   await ProductoController.update(mockRequest as Request, mockResponse as Response);
@@ -267,9 +258,6 @@ describe('ProductoController', () => {
   });
   expect(mockProductoModel.findById).not.toHaveBeenCalled();
   expect(mockProductoModel.update).not.toHaveBeenCalled();
-
-  // Restauramos la implementación original
-  updateSpy.mockRestore();
 });
 
     it('should update producto successfully', async () => {
@@ -1519,15 +1507,6 @@ describe('ProductoController', () => {
   };
 
   // Mockeamos ProductoController.create para devolver los errores quemados
-  const createSpy = jest
-    .spyOn(ProductoController, 'create')
-    .mockImplementation(async (req, res) => {
-      return res.status(500).json({
-        success: false,
-        message: 'Datos de entrada inválidos',
-        errors: mockValidationErrors
-      });
-    });
 
   // Act
   await ProductoController.create(mockRequest as Request, mockResponse as Response);
@@ -1539,7 +1518,6 @@ describe('ProductoController', () => {
     message: 'Datos de entrada inválidos',
     errors: mockValidationErrors
   });
-  createSpy.mockRestore();
 });
 
 
@@ -1629,4 +1607,5 @@ describe('ProductoController', () => {
       });
     });
   });
+})
 });

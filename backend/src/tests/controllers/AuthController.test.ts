@@ -12,6 +12,11 @@ jest.mock('jsonwebtoken');
 const mockUsuarioModel = UsuarioModel as jest.Mocked<typeof UsuarioModel>;
 const mockJwt = jwt as jest.Mocked<typeof jwt>;
 
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn().mockReturnValue('mock-token'),
+  verify: jest.fn()
+}));
+
 // Extended Request interface for testing
 interface RequestWithUser extends Request {
   user?: {
@@ -44,50 +49,48 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should login successfully with valid credentials', async () => {
-      // Arrange
-      const loginData = {
-        usuario: 'testuser',
-        password: 'testpassword'
-      };
+  // Arrange
+  const loginData = {
+    usuario: 'testuser',
+    password: 'testpassword'
+  };
 
-      const mockUser: Usuario = {
-        id: 1,
-        usuario: 'testuser',
-        password: 'hashedpassword',
-        nombre: 'Test',
-        apellido: 'User',
-        email: 'test@example.com',
-        genero: 'M',
-        fecha_nacimiento: new Date('1990-01-01'),
-        cedula: '12345678',
-        perfil: 'admin',
-        estado: 'activo',
-        permisos: ['Cliente', 'Ventas'],
-        fecha_creacion: new Date()
-      };
+  const mockUser: Usuario = {
+    id: 1,
+    usuario: 'testuser',
+    password: 'hashedpassword',
+    nombre: 'Test',
+    apellido: 'User',
+    email: 'test@example.com',
+    genero: 'M',
+    fecha_nacimiento: new Date('1990-01-01'),
+    cedula: '12345678',
+    perfil: 'admin',
+    estado: 'activo',
+    permisos: ['Cliente', 'Ventas'],
+    fecha_creacion: new Date()
+  };
 
-      mockRequest.body = loginData;
-      mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
-      mockUsuarioModel.updateLastAccess.mockResolvedValue(undefined);
-      //mockJwt.sign.mockReturnValue('mock-token' as never);
+  mockRequest.body = loginData;
+  mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
+  mockUsuarioModel.updateLastAccess.mockResolvedValue(undefined);
 
-      // Act
-      await AuthController.login(mockRequest as RequestWithUser, mockResponse as Response);
+  // Act
+  await AuthController.login(mockRequest as RequestWithUser, mockResponse as Response);
 
-      // Assert
-      expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
-      //expect(mockUsuarioModel.updateLastAccess).toHaveBeenCalledWith(0);
-      expect(mockJwt.sign).toHaveBeenCalled();
-      expect(mockJson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          success: true,
-          message: 'Inicio de sesión exitoso',
-          data: expect.objectContaining({
-            token: 'mock-token'
-          })
-        })
-      );
-    });
+  // Assert
+  expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
+  expect(mockJwt.sign).toHaveBeenCalled(); // Ahora sí está definido
+  expect(mockJson).toHaveBeenCalledWith(
+    expect.objectContaining({
+      success: true,
+      message: 'Inicio de sesión exitoso',
+      data: expect.objectContaining({
+        token: 'mock-token'
+      })
+    })
+  );
+});
 
     it('should fail with missing credentials', async () => {
       // Arrange
