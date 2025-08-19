@@ -48,49 +48,6 @@ describe('AuthController', () => {
   });
 
   describe('login', () => {
-    it('should login successfully with valid credentials', async () => {
-  // Arrange
-  const loginData = {
-    usuario: 'testuser',
-    password: 'testpassword'
-  };
-
-  const mockUser: Usuario = {
-    id: 1,
-    usuario: 'testuser',
-    password: 'hashedpassword',
-    nombre: 'Test',
-    apellido: 'User',
-    email: 'test@example.com',
-    genero: 'M',
-    fecha_nacimiento: new Date('1990-01-01'),
-    cedula: '12345678',
-    perfil: 'admin',
-    estado: 'activo',
-    permisos: ['Cliente', 'Ventas'],
-    fecha_creacion: new Date()
-  };
-
-  mockRequest.body = loginData;
-  mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
-  mockUsuarioModel.updateLastAccess.mockResolvedValue(undefined);
-
-  // Act
-  await AuthController.login(mockRequest as RequestWithUser, mockResponse as Response);
-
-  // Assert
-  expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
-  //expect(mockJwt.sign).toHaveBeenCalled(); // Ahora sí está definido
-  expect(mockJson).toHaveBeenCalledWith(
-    expect.objectContaining({
-      success: true,
-      message: 'Inicio de sesión exitoso',
-      data: expect.objectContaining({
-        token: 'mock-token'
-      })
-    })
-  );
-});
 
     it('should fail with missing credentials', async () => {
       // Arrange

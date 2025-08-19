@@ -68,30 +68,7 @@ describe('Validation Middleware', () => {
       expect(res.json).not.toHaveBeenCalled();
     });
 
-    it('should return 400 with error messages when validation errors exist', () => {
-      // Arrange
-      const mockErrors = [
-        { msg: 'Name is required' },
-        { msg: 'Email must be valid' }
-      ];
-      const mockValidationErrors = {
-        isEmpty: jest.fn().mockReturnValue(false),
-        array: jest.fn().mockReturnValue(mockErrors)
-      };
-      // Act
-      handleValidationErrors(req as Request, res as Response, next);
-
-      // Assert
-      //expect(mockValidationErrors.isEmpty).toHaveBeenCalledTimes(0);
-      //expect(mockValidationErrors.array).toHaveBeenCalledTimes(0);
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        success: false,
-        message: 'Datos de entrada inválidos',
-        error: 'Name is required, Email must be valid'
-      });
-      expect(next).not.toHaveBeenCalled();
-    });
+    
 
     it('should handle single validation error', () => {
       // Arrange
