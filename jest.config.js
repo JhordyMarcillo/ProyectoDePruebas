@@ -28,8 +28,6 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
 
-  // Setup (si tienes un archivo de inicialización para los tests)
-  setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
 
   // Transformación de TS a JS
   transform: {
