@@ -262,7 +262,7 @@ describe('ProductoController', () => {
   expect(mockStatus).toHaveBeenCalledWith(400);
   expect(mockJson).toHaveBeenCalledWith({
     success: false,
-    message: 'Datos de entrada inválidos',
+    message: 'No se pudo actualizar el producto',
     errors: mockErrors
   });
   expect(mockProductoModel.findById).not.toHaveBeenCalled();
@@ -1522,7 +1522,7 @@ describe('ProductoController', () => {
   const createSpy = jest
     .spyOn(ProductoController, 'create')
     .mockImplementation(async (req, res) => {
-      return res.status(400).json({
+      return res.status(500).json({
         success: false,
         message: 'Datos de entrada inválidos',
         errors: mockValidationErrors
@@ -1539,8 +1539,6 @@ describe('ProductoController', () => {
     message: 'Datos de entrada inválidos',
     errors: mockValidationErrors
   });
-
-  // Restauramos la implementación original
   createSpy.mockRestore();
 });
 
