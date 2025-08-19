@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as { validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import { ProductoController } from '../../controllers/ProductoController';
 import { ProductoModel } from '../../models/Producto';
 import { CambioModel } from '../../models/Cambio';

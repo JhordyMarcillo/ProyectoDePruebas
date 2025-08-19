@@ -1,5 +1,5 @@
 import request from 'supertest';
-import * as express from 'express';
+import express from 'express';
 import jwt from 'jsonwebtoken';
 import productosRouter from '../../routes/productos';
 import { ProductoController } from '../../controllers/ProductoController';
