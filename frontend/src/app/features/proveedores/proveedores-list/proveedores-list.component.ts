@@ -149,7 +149,7 @@ export class ProveedoresListComponent implements OnInit {
   }
 
   eliminarProveedor(proveedor: Proveedor) {
-    if (confirm(`¿Está seguro de eliminar el proveedor "${proveedor.nombre_empresa}"?`)) {
+    if (confirm(`¿Está seguro de eliminar el proveedor '${proveedor.nombre_empresa}'?`)) {
       this.proveedoresService.deleteProveedor(proveedor.id!).subscribe({
         next: () => {
           this.showMessage('success', 'Proveedor eliminado exitosamente');
@@ -167,7 +167,7 @@ export class ProveedoresListComponent implements OnInit {
     const nuevoEstado = proveedor.estado === 'activo' ? 'inactivo' : 'activo';
     const accion = nuevoEstado === 'activo' ? 'activar' : 'desactivar';
     
-    if (confirm(`¿Está seguro de ${accion} el proveedor "${proveedor.nombre_empresa}"?`)) {
+    if (confirm(`¿Está seguro de ${accion} el proveedor '${proveedor.nombre_empresa}'?`)) {
       this.proveedoresService.updateProveedor(proveedor.id!, { estado: nuevoEstado }).subscribe({
         next: () => {
           this.showMessage('success', `Proveedor ${accion === 'activar' ? 'activado' : 'desactivado'} exitosamente`);

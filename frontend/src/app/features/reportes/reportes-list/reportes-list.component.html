@@ -1,26 +1,26 @@
 <!-- Reportes con diseño unificado -->
-<div class="main-content-unified">
+<div class='main-content-unified'>
   <!-- Mini Menú unificado -->
-  <div class="mini-menu-unified">
-    <button class="tab-button active">
-      <i class="fas fa-chart-line"></i> Listado Reportes
+  <div class='mini-menu-unified'>
+    <button class='tab-button active'>
+      <i class='fas fa-chart-line'></i> Listado Reportes
     </button>
   </div>
 
   <!-- Lista de Reportes -->
-  <section id="listSection">
-    <div class="content">
-      <div class="table-wrapper">
-        <h2><i class="fas fa-file-alt"></i> Listado de Cambios del Sistema</h2>
-        <div class="table-container">
-          <div *ngIf="loading" class="loading">
-            <i class="fas fa-spinner fa-spin"></i> Cargando reportes...
+  <section id='listSection'>
+    <div class='content'>
+      <div class='table-wrapper'>
+        <h2><i class='fas fa-file-alt'></i> Listado de Cambios del Sistema</h2>
+        <div class='table-container'>
+          <div *ngIf='loading' class='loading'>
+            <i class='fas fa-spinner fa-spin'></i> Cargando reportes...
           </div>
-          <div *ngIf="error" class="error">
-            <i class="fas fa-exclamation-triangle"></i> {{ error }}
+          <div *ngIf='error' class='error'>
+            <i class='fas fa-exclamation-triangle'></i> {{ error }}
           </div>
           
-          <table class="unified-table" *ngIf="!loading && !error">
+          <table class='unified-table' *ngIf='!loading && !error'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cambio of cambios" class="user-row">
+              <tr *ngFor='let cambio of cambios' class='user-row'>
                 <td>{{ cambio.id }}</td>
                 <td>{{ cambio.id_cambiado }}</td>
                 <td>{{ cambio.descripcion }}</td>
@@ -41,9 +41,9 @@
                 <td>{{ cambio.tabla_afectada }}</td>
               </tr>
               
-              <tr *ngIf="cambios.length === 0" class="user-row">
-                <td colspan="6" style="text-align: center;">
-                  <i class="fas fa-info-circle"></i> No hay datos disponibles.
+              <tr *ngIf='cambios.length === 0' class='user-row'>
+                <td colspan='6' style='text-align: center;'>
+                  <i class='fas fa-info-circle'></i> No hay datos disponibles.
                 </td>
               </tr>
             </tbody>
@@ -54,5 +54,5 @@
   </section>
 
   <!-- Contenedor para mensajes flotantes -->
-  <div id="messageContainer"></div>
+  <div id='messageContainer'></div>
 </div>

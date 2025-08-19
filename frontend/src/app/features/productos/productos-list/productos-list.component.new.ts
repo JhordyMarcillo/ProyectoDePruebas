@@ -188,7 +188,7 @@ export class ProductosListComponent implements OnInit {
   }
 
   eliminarProducto(producto: Producto) {
-    if (confirm(`¿Está seguro de eliminar el producto "${producto.nombre_producto}"?`)) {
+    if (confirm(`¿Está seguro de eliminar el producto '${producto.nombre_producto}'?`)) {
       this.productosService.deleteProducto(producto.id!).subscribe({
         next: () => {
           this.showMessage('success', 'Producto eliminado exitosamente');
@@ -206,7 +206,7 @@ export class ProductosListComponent implements OnInit {
     const nuevoEstado = producto.estado === 'activo' ? 'inactivo' : 'activo';
     const accion = nuevoEstado === 'activo' ? 'activar' : 'desactivar';
     
-    if (confirm(`¿Está seguro de ${accion} el producto "${producto.nombre_producto}"?`)) {
+    if (confirm(`¿Está seguro de ${accion} el producto '${producto.nombre_producto}'?`)) {
       this.productosService.updateProducto(producto.id!, { estado: nuevoEstado }).subscribe({
         next: () => {
           this.showMessage('success', `Producto ${accion === 'activar' ? 'activado' : 'desactivado'} exitosamente`);

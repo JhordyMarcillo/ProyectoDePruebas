@@ -1,40 +1,40 @@
 <!-- Servicios management con diseño unificado -->
-<div class="main-content-unified">
+<div class='main-content-unified'>
   <!-- Mini Menu unificado -->
-  <div class="mini-menu-unified">
+  <div class='mini-menu-unified'>
     <button 
-      class="tab-button" 
-      [class.active]="activeTab === 'list'"
-      (click)="setActiveTab('list')">
-      <i class="fas fa-concierge-bell"></i> Servicios
+      class='tab-button' 
+      [class.active]='activeTab === 'list''
+      (click)='setActiveTab('list')'>
+      <i class='fas fa-concierge-bell'></i> Servicios
     </button>
     <button 
-      class="tab-button" 
-      [class.active]="activeTab === 'new'"
-      (click)="setActiveTab('new')">
-      <i class="fas" [class.fa-plus]="!editingServicio" [class.fa-edit]="editingServicio"></i>
+      class='tab-button' 
+      [class.active]='activeTab === 'new''
+      (click)='setActiveTab('new')'>
+      <i class='fas' [class.fa-plus]='!editingServicio' [class.fa-edit]='editingServicio'></i>
       {{ editingServicio ? 'Editar Servicio' : 'Nuevo Servicio' }}
     </button>
   </div>
 
   <!-- Lista de Servicios -->
-  <section *ngIf="activeTab === 'list'" class="content">
-    <div class="table-wrapper">
-      <h2><i class="fas fa-concierge-bell"></i> Listado de Servicios</h2>
+  <section *ngIf='activeTab === 'list'' class='content'>
+    <div class='table-wrapper'>
+      <h2><i class='fas fa-concierge-bell'></i> Listado de Servicios</h2>
       
-      <div *ngIf="loading" class="loading">
-        <i class="fas fa-spinner fa-spin"></i> Cargando servicios...
+      <div *ngIf='loading' class='loading'>
+        <i class='fas fa-spinner fa-spin'></i> Cargando servicios...
       </div>
 
-      <div *ngIf="error" class="error-message">
-        <i class="fas fa-exclamation-triangle"></i> {{ error }}
-        <button class="btn-activate" (click)="loadServicios()" title="Reintentar">
-          <i class="fas fa-redo"></i>
+      <div *ngIf='error' class='error-message'>
+        <i class='fas fa-exclamation-triangle'></i> {{ error }}
+        <button class='btn-activate' (click)='loadServicios()' title='Reintentar'>
+          <i class='fas fa-redo'></i>
         </button>
       </div>
 
-      <div class="table-container" *ngIf="!loading && !error">
-        <table class="unified-table">
+      <div class='table-container' *ngIf='!loading && !error'>
+        <table class='unified-table'>
           <thead>
             <tr>
               <th>ID</th>
@@ -49,41 +49,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let servicio of servicios">
+            <tr *ngFor='let servicio of servicios'>
               <td>{{ servicio.id }}</td>
               <td>{{ servicio.nombre }}</td>
               <td>{{ servicio.descripcion || 'Sin descripción' }}</td>
               <td>
-                <span *ngIf="servicio.productos && servicio.productos.length > 0">
+                <span *ngIf='servicio.productos && servicio.productos.length > 0'>
                   {{ servicio.productos.length }} producto(s)
                 </span>
-                <span *ngIf="!servicio.productos || servicio.productos.length === 0">
+                <span *ngIf='!servicio.productos || servicio.productos.length === 0'>
                   Sin productos
                 </span>
               </td>
               <td>{{ formatCurrency(servicio.costo_servicio) }}</td>
               <td>{{ formatCurrency(servicio.coste_total) }}</td>
               <td>
-                <span class="badge" [class.badge-success]="servicio.estado === 'activo'" 
-                      [class.badge-danger]="servicio.estado === 'inactivo'">
+                <span class='badge' [class.badge-success]='servicio.estado === 'activo'' 
+                      [class.badge-danger]='servicio.estado === 'inactivo''>
                   {{ servicio.estado }}
                 </span>
               </td>
               <td>{{ formatDate(servicio.fecha_creacion!) }}</td>
-              <td class="actions">
-                <div class="action-buttons">
-                  <button class="btn-edit" (click)="editServicio(servicio)" title="Editar">
-                    <i class="fas fa-edit"></i>
+              <td class='actions'>
+                <div class='action-buttons'>
+                  <button class='btn-edit' (click)='editServicio(servicio)' title='Editar'>
+                    <i class='fas fa-edit'></i>
                   </button>
                   <button 
-                    [class]="servicio.estado === 'activo' ? 'btn-deactivate' : 'btn-activate'"
-                    (click)="toggleEstado(servicio)" 
-                    [title]="servicio.estado === 'activo' ? 'Desactivar' : 'Activar'">
-                    <i class="fas" [class.fa-ban]="servicio.estado === 'activo'" 
-                       [class.fa-check]="servicio.estado === 'inactivo'"></i>
+                    [class]='servicio.estado === 'activo' ? 'btn-deactivate' : 'btn-activate''
+                    (click)='toggleEstado(servicio)' 
+                    [title]='servicio.estado === 'activo' ? 'Desactivar' : 'Activar''>
+                    <i class='fas' [class.fa-ban]='servicio.estado === 'activo'' 
+                       [class.fa-check]='servicio.estado === 'inactivo''></i>
                   </button>
-                  <button class="btn-delete" (click)="deleteServicio(servicio)" title="Eliminar">
-                    <i class="fas fa-trash"></i>
+                  <button class='btn-delete' (click)='deleteServicio(servicio)' title='Eliminar'>
+                    <i class='fas fa-trash'></i>
                   </button>
                 </div>
               </td>
@@ -92,21 +92,21 @@
         </table>
 
         <!-- Pagination -->
-        <div class="pagination" *ngIf="totalPages > 1">
-          <button class="btn btn-sm" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
-            <i class="fas fa-chevron-left"></i>
+        <div class='pagination' *ngIf='totalPages > 1'>
+          <button class='btn btn-sm' [disabled]='currentPage === 1' (click)='goToPage(currentPage - 1)'>
+            <i class='fas fa-chevron-left'></i>
           </button>
           <span>Página {{ currentPage }} de {{ totalPages }} ({{ total }} registros)</span>
-          <button class="btn btn-sm" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
-            <i class="fas fa-chevron-right"></i>
+          <button class='btn btn-sm' [disabled]='currentPage === totalPages' (click)='goToPage(currentPage + 1)'>
+            <i class='fas fa-chevron-right'></i>
           </button>
         </div>
 
-        <div *ngIf="servicios.length === 0" class="no-data">
-          <i class="fas fa-box-open"></i>
+        <div *ngIf='servicios.length === 0' class='no-data'>
+          <i class='fas fa-box-open'></i>
           <p>No hay servicios registrados</p>
-          <button class="btn btn-primary" (click)="setActiveTab('new')">
-            <i class="fas fa-plus"></i> Crear Primer Servicio
+          <button class='btn btn-primary' (click)='setActiveTab('new')'>
+            <i class='fas fa-plus'></i> Crear Primer Servicio
           </button>
         </div>
       </div>
@@ -114,119 +114,119 @@
   </section>
 
   <!-- Formulario para Nuevo/Editar Servicio -->
-  <section *ngIf="activeTab === 'new'" class="content">
-    <form class="servicio-form" (ngSubmit)="editingServicio ? updateServicio() : createServicio()">
-      <h1 class="centered-title">
+  <section *ngIf='activeTab === 'new'' class='content'>
+    <form class='servicio-form' (ngSubmit)='editingServicio ? updateServicio() : createServicio()'>
+      <h1 class='centered-title'>
         {{ editingServicio ? 'Actualizar Servicio' : 'Registro Nuevo Servicio' }}
       </h1>
 
-      <div class="form-group">
+      <div class='form-group'>
         <input 
-          type="text" 
-          id="nombre_servicio" 
-          [(ngModel)]="servicioForm.nombre"
-          name="nombre_servicio"
-          [readonly]="!!editingServicio"
+          type='text' 
+          id='nombre_servicio' 
+          [(ngModel)]='servicioForm.nombre'
+          name='nombre_servicio'
+          [readonly]='!!editingServicio'
           required 
-          placeholder=" ">
-        <label for="nombre_servicio">Nombre del Servicio:</label>
+          placeholder=' '>
+        <label for='nombre_servicio'>Nombre del Servicio:</label>
       </div>
 
-      <div class="form-group">
+      <div class='form-group'>
         <select 
-          id="producto_servicio" 
-          [(ngModel)]="selectedProductId"
-          name="producto_servicio">
-          <option [value]="null">Seleccionar producto</option>
+          id='producto_servicio' 
+          [(ngModel)]='selectedProductId'
+          name='producto_servicio'>
+          <option [value]='null'>Seleccionar producto</option>
           <option 
-            *ngFor="let producto of productos" 
-            [value]="producto.id"
-            [attr.data-costo]="producto.precio_producto">
+            *ngFor='let producto of productos' 
+            [value]='producto.id'
+            [attr.data-costo]='producto.precio_producto'>
             {{ producto.nombre_producto }} - {{ formatCurrency(producto.precio_producto) }}
           </option>
         </select>
-        <label for="producto_servicio">Producto:</label>
+        <label for='producto_servicio'>Producto:</label>
       </div>
 
-      <div class="form-group">
+      <div class='form-group'>
         <input 
-          type="number" 
-          id="cantidad_producto_servicio" 
-          [(ngModel)]="selectedProductQuantity"
-          name="cantidad_producto_servicio"
-          step="1" 
-          min="1"
-          placeholder=" ">
-        <label for="cantidad_producto_servicio">Cantidad del Producto:</label>
+          type='number' 
+          id='cantidad_producto_servicio' 
+          [(ngModel)]='selectedProductQuantity'
+          name='cantidad_producto_servicio'
+          step='1' 
+          min='1'
+          placeholder=' '>
+        <label for='cantidad_producto_servicio'>Cantidad del Producto:</label>
       </div>
 
-      <button type="button" class="btn btn-secondary" (click)="addProduct()">Añadir Producto</button>
+      <button type='button' class='btn btn-secondary' (click)='addProduct()'>Añadir Producto</button>
 
       <!-- Lista de productos añadidos -->
-      <div class="added-products-container" *ngIf="servicioForm.productos.length > 0">
+      <div class='added-products-container' *ngIf='servicioForm.productos.length > 0'>
         <h3>Productos Añadidos</h3>
-        <ul class="added-products-list">
-          <li *ngFor="let producto of servicioForm.productos; let i = index">
+        <ul class='added-products-list'>
+          <li *ngFor='let producto of servicioForm.productos; let i = index'>
             {{ producto.nombre }} - Cantidad: {{ producto.cantidad }} - 
             Costo: {{ formatCurrency(producto.costo * producto.cantidad) }}
-            <button type="button" class="btn btn-sm btn-danger remove-product" (click)="removeProduct(i)">
+            <button type='button' class='btn btn-sm btn-danger remove-product' (click)='removeProduct(i)'>
               Eliminar
             </button>
           </li>
         </ul>
       </div>
 
-      <div class="form-group">
+      <div class='form-group'>
         <textarea 
-          id="descripcion_servicio" 
-          [(ngModel)]="servicioForm.descripcion"
-          name="descripcion_servicio"
-          rows="4" 
-          placeholder=" "></textarea>
-        <label for="descripcion_servicio">Descripción del Servicio:</label>
+          id='descripcion_servicio' 
+          [(ngModel)]='servicioForm.descripcion'
+          name='descripcion_servicio'
+          rows='4' 
+          placeholder=' '></textarea>
+        <label for='descripcion_servicio'>Descripción del Servicio:</label>
       </div>
 
-      <div class="form-group">
+      <div class='form-group'>
         <input 
-          type="number" 
-          id="costo_servicio" 
-          [(ngModel)]="servicioForm.costo_servicio"
-          name="costo_servicio"
-          (input)="calculateTotal()"
-          step="0.01" 
-          min="0"
+          type='number' 
+          id='costo_servicio' 
+          [(ngModel)]='servicioForm.costo_servicio'
+          name='costo_servicio'
+          (input)='calculateTotal()'
+          step='0.01' 
+          min='0'
           required 
-          placeholder=" ">
-        <label for="costo_servicio">Costo del Servicio:</label>
+          placeholder=' '>
+        <label for='costo_servicio'>Costo del Servicio:</label>
       </div>
 
-      <div class="form-group">
+      <div class='form-group'>
         <input 
-          type="number" 
-          id="total_costo_servicio" 
-          [value]="totalCosto"
-          step="0.01" 
+          type='number' 
+          id='total_costo_servicio' 
+          [value]='totalCosto'
+          step='0.01' 
           readonly 
-          placeholder=" ">
-        <label for="total_costo_servicio">Costo Total:</label>
+          placeholder=' '>
+        <label for='total_costo_servicio'>Costo Total:</label>
       </div>
 
-      <div class="form-group" *ngIf="editingServicio">
+      <div class='form-group' *ngIf='editingServicio'>
         <select 
-          id="estado_servicio" 
-          [(ngModel)]="servicioForm.estado"
-          name="estado_servicio">
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
+          id='estado_servicio' 
+          [(ngModel)]='servicioForm.estado'
+          name='estado_servicio'>
+          <option value='activo'>Activo</option>
+          <option value='inactivo'>Inactivo</option>
         </select>
-        <label for="estado_servicio">Estado:</label>
+        <label for='estado_servicio'>Estado:</label>
       </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">
+      <div class='form-actions'>
+        <button type='submit' class='btn btn-primary'>
           {{ editingServicio ? 'Actualizar Servicio' : 'Guardar Servicio' }}
         </button>
-        <button type="button" class="btn btn-secondary" (click)="setActiveTab('list')">
+        <button type='button' class='btn btn-secondary' (click)='setActiveTab('list')'>
           Cancelar
         </button>
       </div>

@@ -201,7 +201,7 @@
 .form-group input:not(:placeholder-shown) + label,
 .form-group input:valid + label,
 .form-group select:focus + label,
-.form-group select:not([value=""]) + label {
+.form-group select:not([value='']) + label {
   top: -8px;
   left: 10px;
   font-size: 12px;
@@ -237,7 +237,7 @@
   gap: 8px;
 }
 
-.permission-item input[type="checkbox"] {
+.permission-item input[type='checkbox'] {
   width: auto;
   margin: 0;
   transform: scale(1.2);

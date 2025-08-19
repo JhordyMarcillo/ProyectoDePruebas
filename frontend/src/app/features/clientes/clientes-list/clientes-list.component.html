@@ -1,27 +1,27 @@
 <!-- Estructura unificada con diseño estandarizado -->
-<div class="main-content-unified">
+<div class='main-content-unified'>
   <!-- Mini Menú unificado -->
-  <div class="mini-menu-unified">
-    <button class="tab-button" [class.active]="activeTab === 'list'" (click)="setActiveTab('list')">
-      <i class="fas fa-list"></i> Clientes
+  <div class='mini-menu-unified'>
+    <button class='tab-button' [class.active]='activeTab === 'list'' (click)='setActiveTab('list')'>
+      <i class='fas fa-list'></i> Clientes
     </button>
-    <button class="tab-button" [class.active]="activeTab === 'new'" (click)="setActiveTab('new')">
-      <i class="fas fa-plus"></i> Nuevo Cliente
+    <button class='tab-button' [class.active]='activeTab === 'new'' (click)='setActiveTab('new')'>
+      <i class='fas fa-plus'></i> Nuevo Cliente
     </button>
   </div>
 
   <!-- Lista de Clientes -->
-  <section id="listSection" [style.display]="activeTab === 'list' ? 'block' : 'none'">
-    <div class="table-container">
-      <h2><i class="fas fa-users"></i> Listado de Clientes</h2>
-      <div *ngIf="loading" class="loading">
-        <i class="fas fa-spinner fa-spin"></i> Cargando clientes...
+  <section id='listSection' [style.display]='activeTab === 'list' ? 'block' : 'none''>
+    <div class='table-container'>
+      <h2><i class='fas fa-users'></i> Listado de Clientes</h2>
+      <div *ngIf='loading' class='loading'>
+        <i class='fas fa-spinner fa-spin'></i> Cargando clientes...
       </div>
-      <div *ngIf="error" class="error">
-        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+      <div *ngIf='error' class='error'>
+        <i class='fas fa-exclamation-triangle'></i> {{ error }}
       </div>
       
-      <table class="unified-table" *ngIf="!loading && !error">
+      <table class='unified-table' *ngIf='!loading && !error'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -38,7 +38,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cliente of clientes" class="user-row">
+              <tr *ngFor='let cliente of clientes' class='user-row'>
                 <td>{{ cliente.id }}</td>
                 <td>{{ cliente.nombre }}</td>
                 <td>{{ cliente.apellido }}</td>
@@ -49,29 +49,29 @@
                 <td>{{ cliente.numero }}</td>
                 <td>{{ cliente.locacion }}</td>
                 <td>
-                  <span [class]="'status-' + cliente.estado">{{ cliente.estado }}</span>
+                  <span [class]=''status-' + cliente.estado'>{{ cliente.estado }}</span>
                 </td>
-                <td class="actions">
-                  <div class="action-buttons">
+                <td class='actions'>
+                  <div class='action-buttons'>
                     <button 
-                      *ngIf="cliente.estado === 'inactivo'" 
-                      class="btn-activate" 
-                      (click)="activateCliente(cliente.id!)"
-                      title="Activar">
-                      <i class="fas fa-check"></i>
+                      *ngIf='cliente.estado === 'inactivo'' 
+                      class='btn-activate' 
+                      (click)='activateCliente(cliente.id!)'
+                      title='Activar'>
+                      <i class='fas fa-check'></i>
                     </button>
                     <button 
-                      *ngIf="cliente.estado === 'activo'" 
-                      class="btn-deactivate" 
-                      (click)="deactivateCliente(cliente.id!)"
-                      title="Desactivar">
-                      <i class="fas fa-ban"></i>
+                      *ngIf='cliente.estado === 'activo'' 
+                      class='btn-deactivate' 
+                      (click)='deactivateCliente(cliente.id!)'
+                      title='Desactivar'>
+                      <i class='fas fa-ban'></i>
                     </button>
                     <button 
-                      class="btn-edit" 
-                      (click)="editCliente(cliente)"
-                      title="Editar">
-                      <i class="fas fa-edit"></i>
+                      class='btn-edit' 
+                      (click)='editCliente(cliente)'
+                      title='Editar'>
+                      <i class='fas fa-edit'></i>
                     </button>
                   </div>
                 </td>
@@ -79,82 +79,82 @@
             </tbody>
           </table>
           
-          <p *ngIf="clientes.length === 0 && !loading && !error">No hay datos disponibles.</p>
+          <p *ngIf='clientes.length === 0 && !loading && !error'>No hay datos disponibles.</p>
     </div>
   </section>
 
   <!-- Formulario de Cliente -->
-  <section id="formSection" [style.display]="activeTab === 'new' || activeTab === 'edit' ? 'block' : 'none'">
-    <div class="content">
-      <form (ngSubmit)="guardarCliente()" #clienteForm="ngForm" class="unified-form">
-        <h1 class="centered-title">
-          <i class="fas fa-user-plus" *ngIf="!isEditing"></i>
-          <i class="fas fa-user-edit" *ngIf="isEditing"></i>
+  <section id='formSection' [style.display]='activeTab === 'new' || activeTab === 'edit' ? 'block' : 'none''>
+    <div class='content'>
+      <form (ngSubmit)='guardarCliente()' #clienteForm='ngForm' class='unified-form'>
+        <h1 class='centered-title'>
+          <i class='fas fa-user-plus' *ngIf='!isEditing'></i>
+          <i class='fas fa-user-edit' *ngIf='isEditing'></i>
           {{ isEditing ? 'Editar Cliente' : 'Registro Nuevo Cliente' }}
         </h1>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nombre">Nombres</label>
-            <input type="text" id="nombre" name="nombre" [(ngModel)]="nuevoCliente.nombre" required>
+        <div class='form-row'>
+          <div class='form-group'>
+            <label for='nombre'>Nombres</label>
+            <input type='text' id='nombre' name='nombre' [(ngModel)]='nuevoCliente.nombre' required>
           </div>
           
-          <div class="form-group">
-            <label for="apellido">Apellidos</label>
-            <input type="text" id="apellido" name="apellido" [(ngModel)]="nuevoCliente.apellido" required>
+          <div class='form-group'>
+            <label for='apellido'>Apellidos</label>
+            <input type='text' id='apellido' name='apellido' [(ngModel)]='nuevoCliente.apellido' required>
           </div>
         </div>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" [(ngModel)]="nuevoCliente.email">
+        <div class='form-row'>
+          <div class='form-group'>
+            <label for='email'>Email</label>
+            <input type='email' id='email' name='email' [(ngModel)]='nuevoCliente.email'>
           </div>
           
-          <div class="form-group">
-            <label for="genero">Género</label>
-            <select id="genero" name="genero" [(ngModel)]="nuevoCliente.genero" required>
-              <option value="" disabled>Seleccionar género</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
+          <div class='form-group'>
+            <label for='genero'>Género</label>
+            <select id='genero' name='genero' [(ngModel)]='nuevoCliente.genero' required>
+              <option value='' disabled>Seleccionar género</option>
+              <option value='M'>Masculino</option>
+              <option value='F'>Femenino</option>
             </select>
           </div>
         </div>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="cedula">Cédula</label>
-            <input type="text" id="cedula" name="cedula" [(ngModel)]="nuevoCliente.cedula" required>
+        <div class='form-row'>
+          <div class='form-group'>
+            <label for='cedula'>Cédula</label>
+            <input type='text' id='cedula' name='cedula' [(ngModel)]='nuevoCliente.cedula' required>
           </div>
           
-          <div class="form-group">
-            <label for="numero">Número de Teléfono</label>
-            <input type="text" id="numero" name="numero" [(ngModel)]="nuevoCliente.numero" required>
+          <div class='form-group'>
+            <label for='numero'>Número de Teléfono</label>
+            <input type='text' id='numero' name='numero' [(ngModel)]='nuevoCliente.numero' required>
           </div>
         </div>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" [(ngModel)]="nuevoCliente.fecha_nacimiento" required>
+        <div class='form-row'>
+          <div class='form-group'>
+            <label for='fecha_nacimiento'>Fecha de Nacimiento</label>
+            <input type='date' id='fecha_nacimiento' name='fecha_nacimiento' [(ngModel)]='nuevoCliente.fecha_nacimiento' required>
           </div>
           
-          <div class="form-group">
-            <label for="locacion">Locación</label>
-            <input type="text" id="locacion" name="locacion" [(ngModel)]="nuevoCliente.locacion">
+          <div class='form-group'>
+            <label for='locacion'>Locación</label>
+            <input type='text' id='locacion' name='locacion' [(ngModel)]='nuevoCliente.locacion'>
           </div>
         </div>
         
-        <div class="form-actions">
-          <button type="submit" class="btn-save" [disabled]="loading">
-            <i class="fas fa-save"></i>
+        <div class='form-actions'>
+          <button type='submit' class='btn-save' [disabled]='loading'>
+            <i class='fas fa-save'></i>
             {{ isEditing ? 'Actualizar Cliente' : 'Guardar Cliente' }}
           </button>
-          <button type="button" class="btn-cancel" (click)="limpiarFormulario()" title="Limpiar">
-            <i class="fas fa-broom"></i>
+          <button type='button' class='btn-cancel' (click)='limpiarFormulario()' title='Limpiar'>
+            <i class='fas fa-broom'></i>
           </button>
-          <button type="button" class="btn-cancel" *ngIf="isEditing" (click)="cancelarEdicion()" title="Cancelar">
-            <i class="fas fa-times"></i>
+          <button type='button' class='btn-cancel' *ngIf='isEditing' (click)='cancelarEdicion()' title='Cancelar'>
+            <i class='fas fa-times'></i>
           </button>
         </div>
       </form>
@@ -162,7 +162,7 @@
   </section>
 
   <!-- Contenedor para mensajes -->
-  <div class="message-container" *ngIf="message" [class]="'message ' + messageType">
+  <div class='message-container' *ngIf='message' [class]=''message ' + messageType'>
     {{ message }}
   </div>
 </div>

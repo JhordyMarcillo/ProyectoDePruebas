@@ -9,7 +9,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-image: url("/assets/img/Emp.png");
+  background-image: url('/assets/img/Emp.png');
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -22,7 +22,7 @@
 }
 
 .login-body::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
