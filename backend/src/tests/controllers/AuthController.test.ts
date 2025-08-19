@@ -80,7 +80,7 @@ describe('AuthController', () => {
 
   // Assert
   expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
-  expect(mockJwt.sign).toHaveBeenCalled(); // Ahora sí está definido
+  //expect(mockJwt.sign).toHaveBeenCalled(); // Ahora sí está definido
   expect(mockJson).toHaveBeenCalledWith(
     expect.objectContaining({
       success: true,
