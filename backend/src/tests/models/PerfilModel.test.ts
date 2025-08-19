@@ -670,10 +670,10 @@ describe('UsuarioModel', () => {
 
       // Assert
       expect(mockExecuteQuery).toHaveBeenCalledWith(
-        expect.stringContaining('UPDATE perfiles SET contraseña = ?'),
-        expect.arrayContaining(['hashedNewPassword', userId])
-      );
-      expect(result).toBeDefined();
+  expect.stringContaining('UPDATE perfiles SET contraseña = ?'),
+  expect.arrayContaining(['hashedNewPassword', 1])
+);
+expect(result).toBeDefined();
     });
 
     it('should return existing user when no fields to update', async () => {

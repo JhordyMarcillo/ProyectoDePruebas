@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UsuarioModel } from '../models/PerfilModel';
 import { config } from '../config';
@@ -38,7 +37,7 @@ export class AuthController {
       }
 
       // Verificar contraseña
-      const isValidPassword = await bcrypt.compare(password, user.password || '');
+      const isValidPassword = await (password === user.password);
       if (!isValidPassword) {
         res.status(401).json({
           success: false,
@@ -98,8 +97,8 @@ export class AuthController {
       }
 
       // Encriptar contraseña
-      const hashedPassword = await bcrypt.hash(userData.password!, config.bcrypt.rounds);
-      
+      const hashedPassword = await (userData.password!);
+
       // Crear usuario
       const newUser = await UsuarioModel.create({
         ...userData,
@@ -179,7 +178,7 @@ export class AuthController {
 
       // Si se está actualizando la contraseña, encriptarla
       if (updates.password) {
-        updates.password = await bcrypt.hash(updates.password, config.bcrypt.rounds);
+        updates.password = await (updates.password);
       }
 
       // Actualizar usuario

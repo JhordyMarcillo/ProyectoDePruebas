@@ -174,7 +174,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(//).toHaveBeenCalledWith('Error:', testError);
+      expect(mockNext).toHaveBeenCalledWith(testError);
       expect(mockJson).toHaveBeenCalledWith({
         success: false,
         error: {
@@ -194,7 +194,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(//).not.toHaveBeenCalled();
+      expect(mockNext).not.toHaveBeenCalled();
       expect(mockJson).toHaveBeenCalledWith({
         success: false,
         error: {
@@ -212,7 +212,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(testError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(//).not.toHaveBeenCalled();
+      expect(mockNext).not.toHaveBeenCalled();
     });
 
     it('should handle AppError in development with stack trace', () => {
@@ -225,7 +225,7 @@ describe('Error Handler Middleware', () => {
       errorHandler(appError, mockRequest as Request, mockResponse as Response, mockNext);
 
       // Assert
-      expect(//).toHaveBeenCalledWith('Error:', appError);
+      expect(mockNext).toHaveBeenCalledWith('Error:', appError);
       expect(mockStatus).toHaveBeenCalledWith(422);
       expect(mockJson).toHaveBeenCalledWith({
         success: false,

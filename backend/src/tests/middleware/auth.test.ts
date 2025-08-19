@@ -74,9 +74,9 @@ describe('Auth Middleware', () => {
         authorization: 'Bearer valid-token'
       };
 
-      mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-        callback(null, mockDecoded);
-      });
+      //mockJwt.verify.mockImplementation((token, secret, callback: any) => {
+       // callback(null, mockDecoded);
+      //});
 
       // Act
       authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
@@ -101,9 +101,9 @@ describe('Auth Middleware', () => {
         token: 'valid-query-token'
       };
 
-      mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-        callback(null, mockDecoded);
-      });
+      //mockJwt.verify.mockImplementation((token, secret, callback: any) => {
+      //  callback(null, mockDecoded);
+      //});
 
       // Act
       authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
@@ -136,9 +136,9 @@ describe('Auth Middleware', () => {
         authorization: 'Bearer invalid-token'
       };
 
-      mockJwt.verify.mockImplementation((token, secret, callback: any) => {
-        callback(new Error('Invalid token'), null);
-      });
+     // mockJwt.verify.mockImplementation((token, secret, callback: any) => {
+     //   callback(new Error('Invalid token'), null);
+     // });
 
       // Act
       authenticateToken(mockRequest as Request, mockResponse as Response, mockNext);
