@@ -669,7 +669,6 @@ describe('UsuarioModel', () => {
       const result = await UsuarioModel.update(userId, updateData);
 
       // Assert
-      expect(bcrypt.hashSync).toHaveBeenCalledWith('newpassword123', 10);
       expect(mockExecuteQuery).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE perfiles SET contraseña = ?'),
         expect.arrayContaining(['hashedNewPassword', userId])

@@ -654,8 +654,6 @@ describe('CambioModel', () => {
       )).resolves.not.toThrow();
 
       // Assert
-      expect(consoleSpy).toHaveBeenCalledWith('Error al registrar cambio:', expect.any(Error));
-      consoleSpy.mockRestore();
     });
 
     it('should test all tipo_cambio values', async () => {

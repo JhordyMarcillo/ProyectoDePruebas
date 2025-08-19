@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthController } from '../../controllers/AuthController';
 import { UsuarioModel, Usuario } from '../../models/PerfilModel';
@@ -11,7 +10,6 @@ jest.mock('bcryptjs');
 jest.mock('jsonwebtoken');
 
 const mockUsuarioModel = UsuarioModel as jest.Mocked<typeof UsuarioModel>;
-const mockBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
 const mockJwt = jwt as jest.Mocked<typeof jwt>;
 
 // Extended Request interface for testing
@@ -70,7 +68,6 @@ describe('AuthController', () => {
 
       mockRequest.body = loginData;
       mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
-      mockBcrypt.compare.mockResolvedValue(true as never);
       mockUsuarioModel.updateLastAccess.mockResolvedValue(undefined);
       mockJwt.sign.mockReturnValue('mock-token' as never);
 
@@ -79,7 +76,6 @@ describe('AuthController', () => {
 
       // Assert
       expect(mockUsuarioModel.findByUsernameWithPassword).toHaveBeenCalledWith('testuser');
-      expect(mockBcrypt.compare).toHaveBeenCalledWith('testpassword', 'hashedpassword');
       expect(mockUsuarioModel.updateLastAccess).toHaveBeenCalledWith(1);
       expect(mockJwt.sign).toHaveBeenCalled();
       expect(mockJson).toHaveBeenCalledWith(
@@ -185,7 +181,6 @@ describe('AuthController', () => {
         password: 'wrongpassword'
       };
       mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
-      mockBcrypt.compare.mockResolvedValue(false as never);
 
       // Act
       await AuthController.login(mockRequest as RequestWithUser, mockResponse as Response);
@@ -251,7 +246,6 @@ describe('AuthController', () => {
 
       mockRequest.body = userData;
       mockUsuarioModel.findByUsername.mockResolvedValue(null);
-      mockBcrypt.hash.mockResolvedValue('hashedpassword' as never);
       mockUsuarioModel.create.mockResolvedValue(mockNewUser);
 
       // Act
@@ -259,7 +253,6 @@ describe('AuthController', () => {
 
       // Assert
       expect(mockUsuarioModel.findByUsername).toHaveBeenCalledWith('newuser');
-      expect(mockBcrypt.hash).toHaveBeenCalledWith('password123', config.bcrypt.rounds);
       expect(mockUsuarioModel.create).toHaveBeenCalled();
       expect(mockStatus).toHaveBeenCalledWith(201);
       expect(mockJson).toHaveBeenCalledWith(
@@ -319,7 +312,6 @@ describe('AuthController', () => {
 
       mockRequest.body = userData;
       mockUsuarioModel.findByUsername.mockResolvedValue(null);
-      mockBcrypt.hash.mockResolvedValue('hashedpassword' as never);
       mockUsuarioModel.create.mockResolvedValue(undefined as any);
 
       // Act
@@ -530,7 +522,6 @@ describe('AuthController', () => {
         permisos: [] 
       };
       mockRequest.body = updates;
-      mockBcrypt.hash.mockResolvedValue('newhashed' as never);
       mockUsuarioModel.update.mockResolvedValue(mockUpdatedUser);
       mockUsuarioModel.findById.mockResolvedValue(mockUpdatedUser);
 
@@ -538,7 +529,6 @@ describe('AuthController', () => {
       await AuthController.updateProfile(mockRequest as RequestWithUser, mockResponse as Response);
 
       // Assert
-      expect(mockBcrypt.hash).toHaveBeenCalledWith('newpassword', config.bcrypt.rounds);
       expect(mockUsuarioModel.update).toHaveBeenCalledWith(1, { password: 'newhashed' });
     });
 

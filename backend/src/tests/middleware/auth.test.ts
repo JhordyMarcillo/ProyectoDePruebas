@@ -11,11 +11,22 @@ import {
 import { config } from '../../config';
 import { AuthPayload } from '../../types';
 
+// Mocks de request, response y next
+const mockRequest = {} as Partial<Request>;
+const mockResponse = {
+  status: jest.fn().mockReturnThis(),
+  json: jest.fn()
+} as Partial<Response>;
+const mockNext = jest.fn();
+
+// 🔹 Mock de jsonwebtoken
+jest.mock('jsonwebtoken');
+const mockJwt = jwt as jest.Mocked<typeof jwt>;
+
 // Mock dependencies
 jest.mock('jsonwebtoken');
 jest.mock('../../config');
 
-const mockJwt = jwt as jest.Mocked<typeof jwt>;
 const mockConfig = config as jest.Mocked<typeof config>;
 
 describe('Auth Middleware', () => {
