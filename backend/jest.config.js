@@ -22,3 +22,10 @@ module.exports = {
   testTimeout: 10000,
   verbose: true
 };
+
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  testMatch: ['**/tests/**/*.test.ts'], 
+};
