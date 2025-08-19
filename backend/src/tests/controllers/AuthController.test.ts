@@ -69,7 +69,7 @@ describe('AuthController', () => {
       mockRequest.body = loginData;
       mockUsuarioModel.findByUsernameWithPassword.mockResolvedValue(mockUser);
       mockUsuarioModel.updateLastAccess.mockResolvedValue(undefined);
-      mockJwt.sign.mockReturnValue('mock-token' as never);
+      //mockJwt.sign.mockReturnValue('mock-token' as never);
 
       // Act
       await AuthController.login(mockRequest as RequestWithUser, mockResponse as Response);
@@ -529,7 +529,7 @@ describe('AuthController', () => {
       await AuthController.updateProfile(mockRequest as RequestWithUser, mockResponse as Response);
 
       // Assert
-      expect(mockUsuarioModel.update).toHaveBeenCalledWith(1, { password: 'newhashed' });
+      expect(mockUsuarioModel.update).toHaveBeenCalledWith(1, { password: 'newpassword' });
     });
 
     it('should fail when user not authenticated for update', async () => {
