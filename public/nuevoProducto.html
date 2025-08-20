@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Cliente</title>
+    <title>Registro de Producto</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -177,9 +177,7 @@
     font-weight: 600;
     margin-bottom: 20px;
     color: #333;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    text-align: center;
 }
 
 .form-grid {
@@ -248,13 +246,12 @@
 }
 
 .cancel-btn {
-    background-color: #dc3545;
-    color: #fff;
-    padding: 12px;
+    background-color: #f1f3f5;
+    color: #555;
 }
 
 .cancel-btn:hover {
-    background-color: #c82333;
+    background-color: #e9ecef;
     transform: translateY(-2px);
 }
 </style>
@@ -270,9 +267,9 @@
                 <ul>
                     <li><a href="./principal.html"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="./asignar.html"><i class="fas fa-tasks"></i> Asignar</a></li>
-                    <li class="active"><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
+                    <li><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
                     <li><a href="./ventas.html"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
-                    <li><a href="./inventario.html"><i class="fas fa-boxes"></i> Inventario</a></li>
+                    <li class="active"><a href="./inventario.html"><i class="fas fa-boxes"></i> Inventario</a></li>
                     <li><a href="./servicios.html"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
                     <li><a href="./proveedores.html"><i class="fas fa-truck-loading"></i> Proveedores</a></li>
                     <li><a href="./reportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
@@ -293,56 +290,56 @@
             
             <div class="content-panel">
                 <div class="header-buttons">
-                    <button class="tab-btn"><i class="fas fa-users"></i> Clientes</button>
-                    <button class="tab-btn active"><i class="fas fa-user-plus"></i> Nuevo Cliente</button>
+                    <button class="tab-btn"><i class="fas fa-boxes"></i> Productos</button>
+                    <button class="tab-btn active"><i class="fas fa-plus"></i> Nuevo Producto</button>
                 </div>
                 
                 <div class="form-container">
-                    <h2 class="form-title"><i class="fas fa-user-plus"></i> Registro Nuevo Cliente</h2>
-                    <form id="clientForm">
+                    <h2 class="form-title">Registro Nuevo Producto</h2>
+                    <form id="productForm">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="nombres">Nombres</label>
-                                <input type="text" id="nombres" name="nombres" required>
+                                <label for="nombre_producto">Nombre del Producto *</label>
+                                <input type="text" id="nombre_producto" name="nombre_producto" required>
                             </div>
                             <div class="form-group">
-                                <label for="apellidos">Apellidos</label>
-                                <input type="text" id="apellidos" name="apellidos" required>
+                                <label for="proveedor">Proveedor *</label>
+                                <select id="proveedor" name="proveedor" required>
+                                    <option value="">Seleccione un Proveedor</option>
+                                    </select>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required>
+                                <label for="precio_compra">Precio de Compra *</label>
+                                <input type="number" id="precio_compra" name="precio_compra" value="0" min="0" required>
                             </div>
                             <div class="form-group">
-                                <label for="genero">Género</label>
-                                <select id="genero" name="genero">
-                                    <option value="">Seleccione...</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="femenino">Femenino</option>
-                                    <option value="otro">Otro</option>
+                                <label for="precio_venta">Precio de Venta *</label>
+                                <input type="number" id="precio_venta" name="precio_venta" value="0" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidad_stock">Cantidad/Stock *</label>
+                                <input type="number" id="cantidad_stock" name="cantidad_stock" value="0" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca">Marca *</label>
+                                <input type="text" id="marca" name="marca" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="codigo_producto">Código del Producto *</label>
+                                <input type="text" id="codigo_producto" name="codigo_producto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <select id="estado" name="estado">
+                                    <option value="activo">Activo</option>
+                                    <option value="inactivo">Inactivo</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="cedula">Cédula</label>
-                                <input type="text" id="cedula" name="cedula">
-                            </div>
-                            <div class="form-group">
-                                <label for="numero">Número de Teléfono</label>
-                                <input type="text" id="numero" name="numero">
-                            </div>
-                            <div class="form-group">
-                                <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                                <input type="date" id="fechaNacimiento" name="fechaNacimiento">
-                            </div>
-                            <div class="form-group">
-                                <label for="locacion">Locación</label>
-                                <input type="text" id="locacion" name="locacion">
                             </div>
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Cliente</button>
-                            <button type="button" class="cancel-btn"><i class="fas fa-times"></i></button>
+                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Producto</button>
+                            <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button>
                         </div>
                     </form>
                 </div>
