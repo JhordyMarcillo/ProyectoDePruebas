@@ -63,6 +63,11 @@ jobs:
           cd backend
           npm install
 
+      - name: Crear servidor dummy
+        run: |
+          node -e "require('http').createServer((_,res)=>{res.end(JSON.stringify({token:'fake'}))}).listen(3000)" &
+          sleep 2
+
 
       - name: Ejecutar pruebas k6
         run: |
