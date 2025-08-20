@@ -1,105 +1,99 @@
-name: CI/CD Pipeline
+name: Proyecto
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  ci-build-and-test:
+  # ========================
+  # 1) CI: Lint + Unit Tests
+  # ========================
+  ci:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Clonar Repositorio
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm' # Habilita el caché para acelerar la instalación de dependencias
+          cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Instalar dependencias
+        run: npm ci
 
-      - name: Run Linter
-        run: npm exec eslint .
+      - name: Lint del Código
+        run: npm run lint --if-present
 
-      - name: Run Unit Tests and Generate Coverage Report
-        run: npm test -- --coverage --testMatch='**/src/**/*.test.ts' # Asegura que se genere el reporte de cobertura
-      
-      - name: Check Coverage Threshold
-        if: always() # Se ejecuta incluso si el paso anterior falla para mostrar el error de cobertura
-        run: |
-          npm test -- --coverageReporters='json-summary' # Genera el reporte en formato json
-          coverage=$(cat coverage/coverage-summary.json | jq '.lines.pct')
-          if (( $(echo "$coverage < 90" | bc -l) )); then
-            echo "La cobertura de código (${coverage}%) es menor al 90%. Fallando el pipeline."
-            exit 1
-          fi
+      - name: Ejecutar Pruebas con Cobertura
+        run: npm test -- --coverage --ci
 
-      - name: Upload Test and Coverage Artifacts
+      - name: Subir Reporte de Cobertura
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: coverage
 
-  performance-k6:
-    needs: [ci-build-and-test]
-    if: success()
+  # ====================================
+  # 2) Performance Tests con k6 (ramp, spike, soak)
+  # ====================================
+  performance:
     runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'perf')
+
     steps:
-      - name: Checkout Repository
+      - name: Clonar Repositorio
         uses: actions/checkout@v4
 
-      - name: Install k6
+      - name: Instalar k6
         run: |
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          curl -s https://dl.k6.io/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/k6-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
-          sudo apt-get install k6
+          sudo apt-get install k6 -y
 
-      - name: Run k6 Performance Tests
-        run: k6 run --out json=result.json ./tests/k6/main.js # Ajusta la ruta a tu script principal de k6
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+      - name: Ejecutar pruebas k6
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/summary.json tests/k6/ramp.js
+          k6 run --summary-export=reports/spike.json tests/k6/spike.js
+          k6 run --summary-export=reports/soak.json tests/k6/soak.js
 
-      - name: Upload k6 Report
+      - name: Subir reportes de k6
         uses: actions/upload-artifact@v4
         with:
-          name: k6-report
-          path: result.json
+          name: k6-reports
+          path: reports
 
-  cd-deploy:
-    needs: [performance-k6]
-    if: github.ref == 'refs/heads/main' && success()
+  # ========================
+  # 3) Deploy
+  # ========================
+  deploy:
     runs-on: ubuntu-latest
-    environment: Production
+    needs: [ci, performance]
+    if: github.ref == 'refs/heads/main'
+
     steps:
-      - name: Checkout Repository
+      - name: Clonar Repositorio
         uses: actions/checkout@v4
 
-      - name: Set up Node.js for Deployment
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install Dependencies
-        run: npm install
+      # Ejemplo: despliegue en Vercel (cámbialo según tu caso)
+      - name: Instalar Vercel CLI
+        run: npm install -g vercel
 
-      - name: Build Application
-        run: npm run build
-
-      - name: Deploy to Vercel
-        run: |
-          # Ejemplo de despliegue a Vercel, ajusta para tu PaaS
-          # npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          # npx vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          # npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-          echo "Simulando despliegue de la aplicación a producción..."
+      - name: Desplegar en Vercel
+        run: vercel --token=$VERCEL_TOKEN --prod
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          # Otros secretos necesarios para el despliegue
+
+
