@@ -33,7 +33,7 @@ module.exports = {
 
   // Ajustes extra
   testTimeout: 10000,
-  verbose: true
+  verbose: true,
   collectCoverage: true,
   coverageThreshold: {
     global: {

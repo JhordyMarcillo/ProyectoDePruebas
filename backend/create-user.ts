@@ -7,7 +7,7 @@ async function createTestUser() {
       nombre: 'Admin',
       apellido: 'Test',
       email: 'admin@test.com',
-      genero: 'M' as const,
+      genero: 'M',
       fecha_nacimiento: '1990-01-01',
       cedula: '1234567890',
       usuario: 'admin',

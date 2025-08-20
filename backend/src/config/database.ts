@@ -24,7 +24,7 @@ export const getConnection = async () => {
 };
 
 // Función para ejecutar queries
-export const executeQuery = async <T = any>(
+export const executeQuery = async <T>(
   query: string,
   params: any[] = []
 ): Promise<T> => {

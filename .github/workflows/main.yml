@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Lint del Código
-        run: npm run lint --if-present
+        run: npm exec eslint .
 
       - name: Ejecutar Pruebas con Cobertura
         run: npm test -- --coverage --ci
