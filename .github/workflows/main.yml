@@ -57,6 +57,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install k6 -y
 
+
+      - name: Mostrar estructura del repo
+        run: ls -R
+
       - name: Ejecutar pruebas k6
         run: |
           mkdir -p reports
