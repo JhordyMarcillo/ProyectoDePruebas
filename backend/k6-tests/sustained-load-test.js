@@ -98,6 +98,6 @@ export function teardown(data) {
 export function handleSummary(data) {
     return {
         'sustained-load-results.json': JSON.stringify(data, null, 2),
-        stdout: `Sustained load test completed.`
+        stdout: 'Sustained load test completed.'
     };
 }
