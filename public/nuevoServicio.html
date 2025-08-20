@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Cliente</title>
+    <title>Registro de Servicio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -170,6 +170,8 @@
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    margin: 0 auto; /* Centrar el formulario */
 }
 
 .form-title {
@@ -177,20 +179,13 @@
     font-weight: 600;
     margin-bottom: 20px;
     color: #333;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    text-align: center;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 15px;
 }
 
 .form-group label {
@@ -200,7 +195,8 @@
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -211,21 +207,13 @@
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: #007bff;
     outline: none;
 }
 
-/* Botones de acción */
-.form-actions {
-    margin-top: 30px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.save-btn,
-.cancel-btn {
+.btn {
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
@@ -233,13 +221,33 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     transition: background-color 0.3s, transform 0.3s;
+}
+
+.primary-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Botones de acción al final del formulario */
+.form-actions-full {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
 }
 
 .save-btn {
     background-color: #007bff;
     color: #fff;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .save-btn:hover {
@@ -248,13 +256,14 @@
 }
 
 .cancel-btn {
-    background-color: #dc3545;
-    color: #fff;
-    padding: 12px;
+    background-color: #f1f3f5;
+    color: #555;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .cancel-btn:hover {
-    background-color: #c82333;
+    background-color: #e9ecef;
     transform: translateY(-2px);
 }
 </style>
@@ -270,10 +279,10 @@
                 <ul>
                     <li><a href="./principal.html"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="./asignar.html"><i class="fas fa-tasks"></i> Asignar</a></li>
-                    <li class="active"><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
+                    <li><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
                     <li><a href="./ventas.html"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
                     <li><a href="./inventario.html"><i class="fas fa-boxes"></i> Inventario</a></li>
-                    <li><a href="./servicios.html"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li class="active"><a href="./servicios.html"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
                     <li><a href="./proveedores.html"><i class="fas fa-truck-loading"></i> Proveedores</a></li>
                     <li><a href="./reportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
                 </ul>
@@ -293,56 +302,46 @@
             
             <div class="content-panel">
                 <div class="header-buttons">
-                    <button class="tab-btn"><i class="fas fa-users"></i> Clientes</button>
-                    <button class="tab-btn active"><i class="fas fa-user-plus"></i> Nuevo Cliente</button>
+                    <button class="tab-btn"><i class="fas fa-concierge-bell"></i> Servicios</button>
+                    <button class="tab-btn active"><i class="fas fa-plus"></i> Nuevo Servicio</button>
                 </div>
                 
                 <div class="form-container">
-                    <h2 class="form-title"><i class="fas fa-user-plus"></i> Registro Nuevo Cliente</h2>
-                    <form id="clientForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="nombres">Nombres</label>
-                                <input type="text" id="nombres" name="nombres" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellidos">Apellidos</label>
-                                <input type="text" id="apellidos" name="apellidos" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="genero">Género</label>
-                                <select id="genero" name="genero">
-                                    <option value="">Seleccione...</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="femenino">Femenino</option>
-                                    <option value="otro">Otro</option>
+                    <h2 class="form-title">Registro Nuevo Servicio</h2>
+                    <form id="serviceForm">
+                        <div class="form-group">
+                            <label for="nombre_servicio">Nombre del Servicio:</label>
+                            <input type="text" id="nombre_servicio" name="nombre_servicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="producto">Producto:</label>
+                            <select id="producto" name="producto">
+                                <option value="">Seleccionar producto</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="cedula">Cédula</label>
-                                <input type="text" id="cedula" name="cedula">
-                            </div>
-                            <div class="form-group">
-                                <label for="numero">Número de Teléfono</label>
-                                <input type="text" id="numero" name="numero">
-                            </div>
-                            <div class="form-group">
-                                <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                                <input type="date" id="fechaNacimiento" name="fechaNacimiento">
-                            </div>
-                            <div class="form-group">
-                                <label for="locacion">Locación</label>
-                                <input type="text" id="locacion" name="locacion">
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad_producto">Cantidad del Producto:</label>
+                            <input type="number" id="cantidad_producto" name="cantidad_producto" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn primary-btn"><i class="fas fa-plus"></i> Añadir Producto</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción del Servicio:</label>
+                            <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="costo_servicio">Costo del Servicio:</label>
+                            <input type="number" id="costo_servicio" name="costo_servicio" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="costo_total">Costo Total:</label>
+                            <input type="number" id="costo_total" name="costo_total" value="0" readonly>
                         </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Cliente</button>
-                            <button type="button" class="cancel-btn"><i class="fas fa-times"></i></button>
+                        <div class="form-actions-full">
+                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Servicio</button>
+                            <button type="button" class="cancel-btn">Cancelar</button>
                         </div>
                     </form>
                 </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clientes</title>
+    <title>Gestión de Proveedores</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -164,7 +164,7 @@
     border-color: #007bff;
 }
 
-/* Tabla de usuarios (aplicable a clientes también) */
+/* Tabla de proveedores */
 .table-container {
     background-color: #fff;
     padding: 25px;
@@ -218,10 +218,6 @@
     background-color: #28a745; /* Verde */
 }
 
-.status-badge.inactive {
-    background-color: #dc3545; /* Rojo */
-}
-
 /* Botones de acción */
 .actions-cell {
     white-space: nowrap;
@@ -242,15 +238,15 @@
     pointer-events: none; /* Evita que el click se aplique al ícono */
 }
 
-.edit-btn {
-    color: #ffc107;
-}
-
-.view-btn {
+.green-btn {
     color: #28a745;
 }
 
-.delete-btn {
+.yellow-btn {
+    color: #ffc107;
+}
+
+.red-btn {
     color: #dc3545;
 }
 
@@ -270,11 +266,11 @@
                 <ul>
                     <li><a href="./principal.html"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="./asignar.html"><i class="fas fa-tasks"></i> Asignar</a></li>
-                    <li class="active"><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
+                    <li><a href="./cliente.html"><i class="fas fa-user-friends"></i> Cliente</a></li>
                     <li><a href="./ventas.html"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
                     <li><a href="./inventario.html"><i class="fas fa-boxes"></i> Inventario</a></li>
                     <li><a href="./servicios.html"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
-                    <li><a href="./proveedores.html"><i class="fas fa-truck-loading"></i> Proveedores</a></li>
+                    <li class="active"><a href="./proveedores.html"><i class="fas fa-truck-loading"></i> Proveedores</a></li>
                     <li><a href="./reportes.html"><i class="fas fa-chart-line"></i> Reportes</a></li>
                 </ul>
             </nav>
@@ -293,77 +289,77 @@
             
             <div class="content-panel">
                 <div class="header-buttons">
-                    <button class="tab-btn active"><i class="fas fa-users"></i> Clientes</button>
-                    <a href="./nuevoCliente.html" class="tab-btn">
-                        <i class="fas fa-user-plus"></i> Nuevo Usuario
+                    <button class="tab-btn active"><i class="fas fa-truck-loading"></i> Proveedores</button>
+                    <a href="./nuevoProveedor.html" class="tab-btn">
+                        <i class="fas fa-user-plus"></i> Nuevo Proveedor
                     </a>
                 </div>
                 
                 <div class="table-container">
-                    <h2 class="table-title"><i class="fas fa-list"></i> Listado de Clientes</h2>
+                    <h2 class="table-title"><i class="fas fa-list"></i> Listado de Proveedores</h2>
                     <table class="user-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
+                                <th>Nombre Empresa</th>
                                 <th>Email</th>
-                                <th>Género</th>
-                                <th>Fecha de Nacimiento</th>
-                                <th>Cédula</th>
-                                <th>Número</th>
-                                <th>Locación</th>
+                                <th>Teléfono</th>
+                                <th>Web</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>3</td>
-                                <td>admin</td>
-                                <td>admin</td>
-                                <td>javierjacome@hotmail.com</td>
-                                <td>Masculino</td>
-                                <td>08/08/2024</td>
-                                <td>1755897287</td>
-                                <td>0958977285</td>
-                                <td>machachi</td>
+                                <td>6</td>
+                                <td>Test</td>
+                                <td>proveedordfbu@empresa.com</td>
+                                <td>0965324895</td>
+                                <td>test.com</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn edit-btn"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>1</td>
-                                <td>Darwin</td>
-                                <td>Panchez</td>
-                                <td>javierjacome@hotmail.ec</td>
-                                <td>Masculino</td>
-                                <td>11/08/2024</td>
-                                <td>1755897285</td>
-                                <td>0</td>
-                                <td>machachi</td>
+                                <td>3</td>
+                                <td>Iss</td>
+                                <td>iss@gmail.com</td>
+                                <td>55555554</td>
+                                <td>N/A</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn edit-btn"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td>ikea</td>
-                                <td>Renso</td>
-                                <td>ikob@gmail.es</td>
-                                <td>Masculino</td>
-                                <td>13/08/2024</td>
-                                <td>1724054459</td>
-                                <td>958997281</td>
-                                <td>quito</td>
+                                <td>Josh</td>
+                                <td>joshlaecuatro@gmail.com</td>
+                                <td>1233344</td>
+                                <td>www.josh.com</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn edit-btn"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Pepe</td>
+                                <td>pepelaecuatro@gmail.com</td>
+                                <td>55555554</td>
+                                <td>www.pepe.com</td>
+                                <td><span class="status-badge active">ACTIVO</span></td>
+                                <td class="actions-cell">
+                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         </tbody>
