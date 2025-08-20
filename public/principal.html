@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+    body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar (Menú lateral) */
+.sidebar {
+    width: 250px;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.profile-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: block;
+    padding: 15px 25px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li.active a {
+    background-color: #333;
+    color: #fff;
+}
+
+.sidebar-nav li a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Contenido principal */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    font-weight: bold;
+    color: #555;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.logout-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logout-link:hover {
+    color: #0056b3;
+}
+
+/* Área de estadísticas */
+.dashboard-stats {
+    padding: 30px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.dashboard-stats h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #e6f0ff;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #007bff;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+</style>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/150" alt="Profile Image">
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-tasks"></i> Asignar</a></li>
+                    <li><a href="#"><i class="fas fa-user-friends"></i> Cliente</a></li>
+                    <li><a href="#"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
+                    <li><a href="#"><i class="fas fa-boxes"></i> Inventario</a></li>
+                    <li><a href="#"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="#"><i class="fas fa-truck-loading"></i> Proveedores</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Reportes</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-info">
+                    <span class="user-name">admin</span>
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/150" alt="User Avatar">
+                    </div>
+                    <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                </div>
+            </header>
+            
+            <div class="dashboard-stats">
+                <h2>Estadísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Clientes</span>
+                            <span class="stat-value">3</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Ventas</span>
+                            <span class="stat-value">28</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-cube"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Productos</span>
+                            <span class="stat-value">29</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-user"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Usuarios</span>
+                            <span class="stat-value">9</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Servicios</span>
+                            <span class="stat-value">10</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Proveedores</span>
+                            <span class="stat-value">4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -11,7 +11,7 @@
         top: 0;
         left: 0;
         /* Usar una URL de imagen local para el fondo */
-        background-image: url('https://i.ibb.co/6P0630h/fondo-login.jpg');
+        background-image: url('../frontend/src/assets/img/Emp.png');
         background-size: cover;
         background-position: center;
         width: 100%;
@@ -194,26 +194,20 @@
         const loadingText = document.getElementById('loadingText');
         const buttonText = document.getElementById('buttonText');
 
-        // Datos "quemados" de usuarios
         const users = [
             { username: 'admin', password: '123' },
             { username: 'user1', password: '456' }
         ];
 
-        // Función para mostrar/ocultar la contraseña
         togglePassword.addEventListener('click', () => {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            // Cambiar el ícono
             togglePassword.classList.toggle('fa-eye');
             togglePassword.classList.toggle('fa-eye-slash');
         });
 
-        // Manejar el envío del formulario
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Ocultar mensajes previos y mostrar carga
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
             loadingText.style.display = 'inline';
@@ -222,29 +216,24 @@
 
             const username = usuarioInput.value;
             const password = passwordInput.value;
-
-            // Simular una llamada a la API con un retardo
             setTimeout(() => {
                 const userFound = users.find(user => user.username === username && user.password === password);
 
-                // Ocultar carga y habilitar botón
                 loadingText.style.display = 'none';
                 buttonText.style.display = 'inline';
                 loginBtn.disabled = false;
 
                 if (userFound) {
-                    // Si las credenciales son correctas
                     successMessage.textContent = '¡Inicio de sesión exitoso!';
                     successMessage.style.display = 'block';
                     alert('¡Bienvenido, ' + username + '!');
                     // Redireccionar o realizar otra acción
-                    // window.location.href = '/dashboard';
+                    window.location.href = '/principal.html';
                 } else {
-                    // Si las credenciales son incorrectas
                     errorMessage.textContent = 'Usuario o contraseña incorrectos.';
                     errorMessage.style.display = 'block';
                 }
-            }, 1000); // 1 segundo de retardo simulado
+            }, 1000);
         });
     });
 </script>
