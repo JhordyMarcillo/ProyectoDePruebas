@@ -1,115 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    color: #333;
-}
-
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('URL_DE_TU_IMAGEN_DE_FONDO');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.7);
-    z-index: -1;
-}
-
-.login-container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 350px;
-    text-align: center;
-}
-
-.login-container h2 {
-    margin-bottom: 30px;
-    color: #444;
-}
-
-.input-group {
-    position: relative;
-    margin-bottom: 25px;
-}
-
-.input-group input {
-    width: calc(100% - 40px);
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-}
-
-.input-group input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.input-group .icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-}
-
-.input-group .show-password {
-    right: 10px;
-    left: auto;
-    cursor: pointer;
-}
-
-.login-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.login-btn:hover {
-    background-color: #0056b3;
-}
-</style>
-<body>
-    <div class="background"></div>
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <form>
-            <div class="input-group">
-                <i class="icon">👤</i>
-                <input type="text" value="admin" readonly>
-            </div>
-            <div class="input-group">
-                <i class="icon">🔒</i>
-                <input type="password" value="12345" readonly>
-                <i class="icon show-password">👁️</i>
-            </div>
-            <button type="submit" class="login-btn">Entrar</button>
-        </form>
-    </div>
-</body>
-</html>
+<!-- Login con diseño original exacto -->
+<div class='login-body'>
+  <div class='login-container'>
+    <form [formGroup]='loginForm' (ngSubmit)='onSubmit()'>
+      <h1>Iniciar Sesión</h1>
+      
+      <div class='error' *ngIf='errorMessage'>
+        {{ errorMessage }}
+      </div>
+      
+      <div class='success' *ngIf='successMessage'>
+        {{ successMessage }}
+      </div>
+      
+      <div class='form-group'>
+        <i class='fas fa-user'></i>
+        <input 
+          type='text' 
+          id='usuario' 
+          formControlName='usuario'
+          required 
+          placeholder='Usuario'
+          autocomplete='username'>
+      </div>
+      
+      <div class='form-group'>
+        <i class='fas fa-lock'></i>
+        <input 
+          type='password' 
+          id='password' 
+          formControlName='password'
+          required 
+          placeholder='Contraseña' 
+          autocomplete='current-password'>
+        <i class='far fa-eye' id='togglePassword' (click)='togglePasswordVisibility()'></i>
+      </div>
+      
+      <button 
+        type='submit' 
+        [disabled]='loginForm.invalid || isLoading'>
+        <span *ngIf='isLoading'>Ingresando...</span>
+        <span *ngIf='!isLoading'>Entrar</span>
+      </button>
+    </form>
+  </div>
+</div>
