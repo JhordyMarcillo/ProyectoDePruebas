@@ -64,14 +64,14 @@ jobs:
       - name: Ejecutar pruebas k6
         run: |
           mkdir -p reports
-          k6 run --summary-export=reports/summary.json backend/k6-test/auth-load-test.js
-          k6 run --summary-export=reports/spike.json backend/k6-test/crud-operations.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/health-check.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/quick-dev-test.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/simple-debug-test.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/spike-test.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/stress-test.js
-          k6 run --summary-export=reports/soak.json backend/k6-test/sustained-load-test.js
+          k6 run --summary-export=reports/summary.json backend/k6-tests/auth-load-test.js
+          k6 run --summary-export=reports/spike.json backend/k6-tests/crud-operations.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/health-check.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/quick-dev-test.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/simple-debug-test.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/spike-test.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/stress-test.js
+          k6 run --summary-export=reports/soak.json backend/k6-tests/sustained-load-test.js
 
       - name: Subir reportes de k6
         uses: actions/upload-artifact@v4
