@@ -1,203 +1,250 @@
-<!-- Login con diseño original exacto -->
 <style>
-  /* Estilos del login exactamente como el original */
-:host {
-  display: block;
-  width: 100%;
-  height: 100vh;
-}
+    /* Estilos del login exactamente como el original */
+    :host {
+        display: block;
+        width: 100%;
+        height: 100vh;
+    }
 
-.login-body {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-image: url('../frontend/src/assets/img/Emp.png');
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
+    .login-body {
+        position: fixed;
+        top: 0;
+        left: 0;
+        /* Usar una URL de imagen local para el fondo */
+        background-image: url('https://i.ibb.co/6P0630h/fondo-login.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
 
-.login-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 1;
-}
+    .login-body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 1;
+    }
 
-.login-container {
-  position: relative;
-  background-color: #fff;
-  padding: 30px 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  width: 350px;
-  max-width: 90%;
-  box-sizing: border-box;
-  z-index: 2;
-  margin: auto;
-}
+    .login-container {
+        position: relative;
+        background-color: #fff;
+        padding: 30px 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        width: 350px;
+        max-width: 90%;
+        box-sizing: border-box;
+        z-index: 2;
+        margin: auto;
+    }
 
-h1 {
-  margin-top: 0;
-  font-size: 24px;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-}
+    h1 {
+        margin-top: 0;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
 
-.error {
-  color: #e74c3c;
-  margin: 10px 0;
-  text-align: center;
-  font-size: 14px;
-}
+    .error {
+        color: #e74c3c;
+        margin: 10px 0;
+        text-align: center;
+        font-size: 14px;
+    }
 
-.success {
-  color: #27ae60;
-  margin: 10px 0;
-  text-align: center;
-  font-size: 14px;
-}
+    .success {
+        color: #27ae60;
+        margin: 10px 0;
+        text-align: center;
+        font-size: 14px;
+    }
 
-.form-group {
-  position: relative;
-  margin-bottom: 20px;
-}
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
 
-.form-group input {
-  width: 100%;
-  padding: 15px 45px 15px 45px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  background: #fff;
-}
+    .form-group input {
+        width: 100%;
+        padding: 15px 45px 15px 45px;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        background: #fff;
+    }
 
-.form-group input:focus {
-  border-color: #007BFF;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
+    .form-group input:focus {
+        border-color: #007BFF;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
 
-.form-group input::placeholder {
-  color: #999;
-  font-size: 14px;
-}
+    .form-group input::placeholder {
+        color: #999;
+        font-size: 14px;
+    }
 
-.form-group .fas,
-.form-group .far {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-size: 16px;
-}
+    .form-group .fas,
+    .form-group .far {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 16px;
+    }
 
-.form-group .fa-user,
-.form-group .fa-lock {
-  left: 15px;
-}
+    .form-group .fa-user,
+    .form-group .fa-lock {
+        left: 15px;
+    }
 
-.form-group .fa-eye,
-.form-group .fa-eye-slash {
-  right: 15px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
+    .form-group .fa-eye,
+    .form-group .fa-eye-slash {
+        right: 15px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
 
-.form-group .fa-eye:hover,
-.form-group .fa-eye-slash:hover {
-  color: #007BFF;
-}
+    .form-group .fa-eye:hover,
+    .form-group .fa-eye-slash:hover {
+        color: #007BFF;
+    }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 15px;
-}
+    button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #007BFF, #0056b3);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+    }
 
-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0056b3, #004494);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
+    button:hover:not(:disabled) {
+        background: linear-gradient(135deg, #0056b3, #004494);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
 
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
+    button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
 
-button:active {
-  transform: translateY(0);
-}
-
+    button:active {
+        transform: translateY(0);
+    }
 </style>
 
 <div class='login-body'>
-  <div class='login-container'>
-    <form [formGroup]='loginForm' (ngSubmit)='onSubmit()'>
-      <h1>Iniciar Sesión</h1>
-      
-      <div class='error' *ngIf='errorMessage'>
-        {{ errorMessage }}
-      </div>
-      
-      <div class='success' *ngIf='successMessage'>
-        {{ successMessage }}
-      </div>
-      
-      <div class='form-group'>
-        <i class='fas fa-user'></i>
-        <input 
-          type='text' 
-          id='usuario' 
-          formControlName='usuario'
-          required 
-          placeholder='Usuario'
-          autocomplete='username'>
-      </div>
-      
-      <div class='form-group'>
-        <i class='fas fa-lock'></i>
-        <input 
-          type='password' 
-          id='password' 
-          formControlName='password'
-          required 
-          placeholder='Contraseña' 
-          autocomplete='current-password'>
-        <i class='far fa-eye' id='togglePassword' (click)='togglePasswordVisibility()'></i>
-      </div>
-      
-      <button 
-        type='submit' 
-        [disabled]='loginForm.invalid || isLoading'>
-        <span *ngIf='isLoading'>Ingresando...</span>
-        <span *ngIf='!isLoading'>Entrar</span>
-      </button>
-    </form>
-  </div>
+    <div class='login-container'>
+        <form id='loginForm'>
+            <h1>Iniciar Sesión</h1>
+
+            <div id='errorMessage' class='error' style='display: none;'></div>
+            <div id='successMessage' class='success' style='display: none;'></div>
+
+            <div class='form-group'>
+                <i class='fas fa-user'></i>
+                <input type='text' id='usuario' required placeholder='Usuario' autocomplete='username'>
+            </div>
+
+            <div class='form-group'>
+                <i class='fas fa-lock'></i>
+                <input type='password' id='password' required placeholder='Contraseña' autocomplete='current-password'>
+                <i class='far fa-eye' id='togglePassword'></i>
+            </div>
+
+            <button type='submit' id='loginBtn'>
+                <span id='loadingText' style='display: none;'>Ingresando...</span>
+                <span id='buttonText'>Entrar</span>
+            </button>
+        </form>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('loginForm');
+        const usuarioInput = document.getElementById('usuario');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingText = document.getElementById('loadingText');
+        const buttonText = document.getElementById('buttonText');
+
+        // Datos "quemados" de usuarios
+        const users = [
+            { username: 'admin', password: '123' },
+            { username: 'user1', password: '456' }
+        ];
+
+        // Función para mostrar/ocultar la contraseña
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // Cambiar el ícono
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        // Manejar el envío del formulario
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Ocultar mensajes previos y mostrar carga
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            loadingText.style.display = 'inline';
+            buttonText.style.display = 'none';
+            loginBtn.disabled = true;
+
+            const username = usuarioInput.value;
+            const password = passwordInput.value;
+
+            // Simular una llamada a la API con un retardo
+            setTimeout(() => {
+                const userFound = users.find(user => user.username === username && user.password === password);
+
+                // Ocultar carga y habilitar botón
+                loadingText.style.display = 'none';
+                buttonText.style.display = 'inline';
+                loginBtn.disabled = false;
+
+                if (userFound) {
+                    // Si las credenciales son correctas
+                    successMessage.textContent = '¡Inicio de sesión exitoso!';
+                    successMessage.style.display = 'block';
+                    alert('¡Bienvenido, ' + username + '!');
+                    // Redireccionar o realizar otra acción
+                    // window.location.href = '/dashboard';
+                } else {
+                    // Si las credenciales son incorrectas
+                    errorMessage.textContent = 'Usuario o contraseña incorrectos.';
+                    errorMessage.style.display = 'block';
+                }
+            }, 1000); // 1 segundo de retardo simulado
+        });
+    });
+</script>
