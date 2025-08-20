@@ -4,11 +4,11 @@ import { sleep, check, group } from 'k6';
 export let options = {
     // Prueba de picos - carga súbita y luego normal
     stages: [
-        { duration: '30s', target: 20 },    // Línea base
-        { duration: '10s', target: 500 },   // Pico súbito 🚀
-        { duration: '30s', target: 500 },   // Mantener pico
-        { duration: '10s', target: 20 },    // Caída súbita
-        { duration: '60s', target: 20 },    // Estabilización
+        { duration: '10s', target: 20 },    // Línea base
+        { duration: '5s', target: 500 },   // Pico súbito 🚀
+        { duration: '10s', target: 500 },   // Mantener pico
+        { duration: '5s', target: 20 },    // Caída súbita
+        { duration: '30s', target: 20 },    // Estabilización
         { duration: '5s', target: 800 },    // Segundo pico más alto 🚀🚀
         { duration: '20s', target: 800 },   // Mantener segundo pico
         { duration: '15s', target: 0 },     // Enfriamiento

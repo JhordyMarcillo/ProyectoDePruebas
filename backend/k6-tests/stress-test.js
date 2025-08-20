@@ -4,13 +4,13 @@ import { sleep, check, group } from 'k6';
 export let options = {
     // Prueba de estrés - incremento gradual hasta niveles altos
     stages: [
-        { duration: '30s', target: 50 },    // Calentamiento normal
-        { duration: '60s', target: 200 },   // Incremento rápido
-        { duration: '120s', target: 500 },  // Carga alta
-        { duration: '180s', target: 800 },  // Estrés máximo
-        { duration: '120s', target: 500 },  // Reducción gradual
-        { duration: '60s', target: 200 },   // Normalización
-        { duration: '30s', target: 0 },     // Enfriamiento
+        { duration: '10s', target: 50 },    // Calentamiento normal
+        { duration: '15s', target: 200 },   // Incremento rápido
+        { duration: '30s', target: 500 },  // Carga alta
+        { duration: '40s', target: 800 },  // Estrés máximo
+        { duration: '30s', target: 500 },  // Reducción gradual
+        { duration: '20s', target: 200 },   // Normalización
+        { duration: '10s', target: 0 },     // Enfriamiento
     ],
 
     // Umbrales más relajados para pruebas de estrés

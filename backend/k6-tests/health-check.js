@@ -4,9 +4,9 @@ import { sleep, check } from 'k6';
 export let options = {
     // Configuración de prueba básica
     stages: [
-        { duration: '30s', target: 20 },  // Rampa hasta 20 usuarios
-        { duration: '60s', target: 20 },  // Mantener 20 usuarios
-        { duration: '30s', target: 0 },   // Rampa hacia abajo
+        { duration: '5s', target: 20 },  // Rampa hasta 20 usuarios
+        { duration: '10s', target: 20 },  // Mantener 20 usuarios
+        { duration: '5s', target: 0 },   // Rampa hacia abajo
     ],
 
     // Umbrales de rendimiento

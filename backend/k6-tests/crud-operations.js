@@ -4,10 +4,10 @@ import { randomString, randomItem } from 'https://jslib.k6.io/k6-utils/1.2.0/ind
 
 export let options = {
     stages: [
-        { duration: '30s', target: 30 },   // Calentamiento
-        { duration: '90s', target: 80 },   // Carga de trabajo
-        { duration: '60s', target: 120 },  // Pico de carga
-        { duration: '30s', target: 0 },    // Enfriamiento
+        { duration: '10s', target: 30 },   // Calentamiento
+        { duration: '15s', target: 80 },   // Carga de trabajo
+        { duration: '20s', target: 120 },  // Pico de carga
+        { duration: '10s', target: 0 },    // Enfriamiento
     ],
 
     thresholds: {

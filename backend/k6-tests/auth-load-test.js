@@ -3,11 +3,11 @@ import { sleep, check, group } from 'k6';
 
 export let options = {
     stages: [
-        { duration: '20s', target: 50 },   // Calentamiento
-        { duration: '60s', target: 100 },  // Carga normal
-        { duration: '40s', target: 200 },  // Incremento de carga
-        { duration: '60s', target: 200 },  // Carga sostenida
-        { duration: '30s', target: 0 },    // Enfriamiento
+        { duration: '5s', target: 50 },   // Calentamiento
+        { duration: '10s', target: 100 },  // Carga normal
+        { duration: '20s', target: 200 },  // Incremento de carga
+        { duration: '10s', target: 200 },  // Carga sostenida
+        { duration: '10s', target: 0 },    // Enfriamiento
     ],
 
     thresholds: {
