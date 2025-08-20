@@ -1,44 +1,105 @@
-name: Proyecto
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  ci-build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Clonar Repositorio
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Habilita el caché para acelerar la instalación de dependencias
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Linter
+        run: npm exec eslint .
+
+      - name: Run Unit Tests and Generate Coverage Report
+        run: npm test -- --coverage --testMatch='**/src/**/*.test.ts' # Asegura que se genere el reporte de cobertura
+      
+      - name: Check Coverage Threshold
+        if: always() # Se ejecuta incluso si el paso anterior falla para mostrar el error de cobertura
+        run: |
+          npm test -- --coverageReporters='json-summary' # Genera el reporte en formato json
+          coverage=$(cat coverage/coverage-summary.json | jq '.lines.pct')
+          if (( $(echo "$coverage < 90" | bc -l) )); then
+            echo "La cobertura de código (${coverage}%) es menor al 90%. Fallando el pipeline."
+            exit 1
+          fi
+
+      - name: Upload Test and Coverage Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+  performance-k6:
+    needs: [ci-build-and-test]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run k6 Performance Tests
+        run: k6 run --out json=result.json ./tests/k6/main.js # Ajusta la ruta a tu script principal de k6
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+
+      - name: Upload k6 Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-report
+          path: result.json
+
+  cd-deploy:
+    needs: [performance-k6]
+    if: github.ref == 'refs/heads/main' && success()
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js for Deployment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Dar permisos de ejecución al eslint
-        run: chmod +x node_modules/.bin/eslint
-
-      - name: Verificar si eslint se instaló correctamente
-        run: ls -la node_modules/.bin/eslint
-
-      - name: Lint del Código
-        run: npm exec eslint .
-
-      - name: Instalar Dependencias
+      - name: Install Dependencies
         run: npm install
-    
-      - name: Dar permisos de ejecución al script
-        run: chmod +x node_modules/.bin/jest
 
-      - name: Verificar si jest se instaló correctamente
-        run: ls -la node_modules/.bin/jest
+      - name: Build Application
+        run: npm run build
 
-      - name: Ejecutar Pruebas
-        run: npm test
-
-      - name: Simular despliegue
+      - name: Deploy to Vercel
         run: |
-          echo "Simulando despliegue la aplicación paso Lint y pruebas correctamente"
+          # Ejemplo de despliegue a Vercel, ajusta para tu PaaS
+          # npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          # npx vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          # npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+          echo "Simulando despliegue de la aplicación a producción..."
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          # Otros secretos necesarios para el despliegue
