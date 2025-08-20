@@ -63,11 +63,42 @@ jobs:
           cd backend
           npm install
 
-      - name: Ejecutar pruebas k6
+      - name: Ejecutar pruebas k6 de auth-load-test
         run: |
           mkdir -p reports
           k6 run --summary-export=reports/auth-summary.json backend/k6-tests/auth-load-test.js
 
+      - name: Ejecutar pruebas k6 de crud operations
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/crud-summary.json backend/k6-tests/crud-operations.js
+
+
+      - name: Ejecutar pruebas k6 de health checks
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/health-summary.json backend/k6-tests/health-check.js
+
+
+      - name: Ejecutar pruebas k6 de simple-debug-test
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/simple-debug-summary.json backend/k6-tests/simple-debug-test.js
+
+      - name: Ejecutar pruebas k6 de spike-test
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/spike-summary.json backend/k6-tests/spike-test.js
+
+      - name: Ejecutar pruebas k6 de stress-test
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/stress-summary.json backend/k6-tests/stress-test.js
+
+      - name: Ejecutar pruebas k6 de sustained-load-test
+        run: |
+          mkdir -p reports
+          k6 run --summary-export=reports/sustained-load-summary.json backend/k6-tests/sustained-load-test.js
 
       - name: Subir reportes de k6
         uses: actions/upload-artifact@v4

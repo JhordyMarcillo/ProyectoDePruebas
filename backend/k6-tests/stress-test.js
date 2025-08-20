@@ -22,8 +22,8 @@ export let options = {
     }
 };
 
-const BASE_URL = 'http://localhost:3000/api';
-const HEALTH_URL = 'http://localhost:3000/health';
+const BASE_URL = 'https://httpbin.org/status/200';
+const HEALTH_URL = 'https://httpbin.org/status/200';
 
 // Simulación de diferentes tipos de usuarios
 const userBehaviors = [

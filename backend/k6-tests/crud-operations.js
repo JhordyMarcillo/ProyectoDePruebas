@@ -20,7 +20,7 @@ export let options = {
     }
 };
 
-const BASE_URL = 'http://localhost:3000/api';
+const BASE_URL = 'https://httpbin.org/status/200';
 let authToken = '';
 
 // Datos de prueba para diferentes entidades

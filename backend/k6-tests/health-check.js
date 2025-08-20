@@ -17,7 +17,7 @@ export let options = {
     }
 };
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://httpbin.org/status/200';
 
 export default function () {
     // Test del health check
