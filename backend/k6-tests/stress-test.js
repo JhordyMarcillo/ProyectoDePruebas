@@ -2,81 +2,51 @@ import http from 'k6/http';
 import { sleep, check, group } from 'k6';
 
 export let options = {
-    // Prueba de estrés - incremento gradual hasta niveles altos
     stages: [
-        { duration: '10s', target: 50 },    // Calentamiento normal
-        { duration: '15s', target: 200 },   // Incremento rápido
-        { duration: '30s', target: 500 },  // Carga alta
-        { duration: '40s', target: 800 },  // Estrés máximo
-        { duration: '30s', target: 500 },  // Reducción gradual
-        { duration: '20s', target: 200 },   // Normalización
-        { duration: '10s', target: 0 },     // Enfriamiento
+        { duration: '10s', target: 50 },
+        { duration: '15s', target: 200 },
+        { duration: '30s', target: 500 },
+        { duration: '40s', target: 800 },
+        { duration: '30s', target: 500 },
+        { duration: '20s', target: 200 },
+        { duration: '10s', target: 0 },
     ],
-
-    // Umbrales más relajados para pruebas de estrés
     thresholds: {
-        http_req_duration: ['p(95)<2000'],      // 95% < 2s bajo estrés
-        http_req_failed: ['rate<0.2'],          // < 20% errores bajo estrés
-        http_reqs: ['rate>50'],                 // Mínimo 50 requests/segundo
-        vus_max: ['value<=800'],                // Máximo 800 usuarios simultáneos
+        http_req_duration: ['p(95)<2000'],
+        http_req_failed: ['rate<0.2'],
+        http_reqs: ['rate>50'],
+        vus_max: ['value<=800'],
     }
 };
 
 const BASE_URL = 'https://httpbin.org/status/200';
 const HEALTH_URL = 'https://httpbin.org/status/200';
-
-// Simulación de diferentes tipos de usuarios
-const userBehaviors = [
-    'admin',      // 10% - Operaciones administrativas
-    'employee',   // 30% - Operaciones de empleados
-    'viewer',     // 60% - Solo consultas
-];
+const userBehaviors = ['admin', 'employee', 'viewer'];
 
 export function setup() {
-    //('🔥 Iniciando prueba de estrés...');
-    //('⚡ Se probará el sistema con hasta 800 usuarios concurrentes');
-    
-    // Verificar que el sistema esté disponible antes de empezar
     let healthCheck = http.get(HEALTH_URL);
     if (healthCheck.status !== 200) {
         throw new Error('Sistema no disponible para prueba de estrés');
     }
-    
     return { startTime: Date.now() };
 }
 
 export default function (data) {
-    // Seleccionar comportamiento de usuario aleatoriamente
     let userType = userBehaviors[Math.floor(Math.random() * userBehaviors.length)];
-    
+
     group(`Stress Test - ${userType} behavior`, () => {
         switch (userType) {
-            case 'admin':
-                adminBehavior();
-                break;
-            case 'employee':
-                employeeBehavior();
-                break;
-            case 'viewer':
-                viewerBehavior();
-                break;
+            case 'admin': adminBehavior(); break;
+            case 'employee': employeeBehavior(); break;
+            case 'viewer': viewerBehavior(); break;
         }
     });
 
-    // Tiempo de espera variable para simular comportamiento real
-    sleep(Math.random() * 3 + 0.5); // 0.5 a 3.5 segundos
+    sleep(Math.random() * 3 + 0.5);
 }
 
 function adminBehavior() {
-    // Comportamiento de administrador - operaciones pesadas
     group('Admin Operations', () => {
-        // Health check
-        let healthResponse = http.get(HEALTH_URL);
-        check(healthResponse, {
-            'Health check OK': (r) => r.status === 200,
-        });
-
-        // Consultas de reportes (simuladas con múltiples endpoints)
         let endpoints = [
             '/usuarios?page=1&limit=50',
             '/clientes?page=1&limit=100',
@@ -88,7 +58,7 @@ function adminBehavior() {
         endpoints.forEach(endpoint => {
             let response = http.get(`${BASE_URL}${endpoint}`);
             check(response, {
-                [`Admin ${endpoint} accessible`]: (r) => r.status === 200 || r.status === 401,
+                [`Admin ${endpoint} accessible`]: (r) => r.status === 200,
                 [`Admin ${endpoint} response time < 3s`]: (r) => r.timings.duration < 3000,
             });
         });
@@ -96,65 +66,50 @@ function adminBehavior() {
 }
 
 function employeeBehavior() {
-    // Comportamiento de empleado - operaciones mixtas
     group('Employee Operations', () => {
-        // Consultas comunes
         let commonEndpoints = [
             '/clientes?page=1&limit=20',
             '/productos?page=1&limit=30',
             '/servicios?page=1&limit=20',
             '/proveedores?page=1&limit=15'
         ];
-
         let selectedEndpoint = commonEndpoints[Math.floor(Math.random() * commonEndpoints.length)];
         let response = http.get(`${BASE_URL}${selectedEndpoint}`);
-        
         check(response, {
-            'Employee endpoint accessible': (r) => r.status === 200 || r.status === 401,
+            'Employee endpoint accessible': (r) => r.status === 200,
             'Employee response time < 2s': (r) => r.timings.duration < 2000,
         });
 
-        // Simular búsqueda
-        if (Math.random() < 0.3) { // 30% de probabilidad de búsqueda
+        if (Math.random() < 0.3) {
             let searchResponse = http.get(`${BASE_URL}/productos?search=test&page=1&limit=10`);
-            check(searchResponse, {
-                'Search response OK': (r) => r.status === 200 || r.status === 401,
-            });
+            check(searchResponse, { 'Search response OK': (r) => r.status === 200 });
         }
     });
 }
 
 function viewerBehavior() {
-    // Comportamiento de solo lectura - operaciones ligeras
     group('Viewer Operations', () => {
-        // Solo consultas básicas
         let viewEndpoints = [
             '/productos?page=1&limit=10',
             '/servicios?page=1&limit=10',
             '/clientes?page=1&limit=5'
         ];
-
         let selectedEndpoint = viewEndpoints[Math.floor(Math.random() * viewEndpoints.length)];
         let response = http.get(`${BASE_URL}${selectedEndpoint}`);
-        
         check(response, {
-            'Viewer endpoint accessible': (r) => r.status === 200 || r.status === 401,
+            'Viewer endpoint accessible': (r) => r.status === 200,
             'Viewer response time < 1s': (r) => r.timings.duration < 1000,
         });
 
-        // Health check ocasional
-        if (Math.random() < 0.1) { // 10% de probabilidad
+        if (Math.random() < 0.1) {
             let healthResponse = http.get(HEALTH_URL);
-            check(healthResponse, {
-                'Viewer health check OK': (r) => r.status === 200,
-            });
+            check(healthResponse, { 'Viewer health check OK': (r) => r.status === 200 });
         }
     });
 }
 
 export function teardown(data) {
     let duration = (Date.now() - data.startTime) / 1000;
-    //(`🏁 Prueba de estrés completada en ${duration.toFixed(2)} segundos`);
 }
 
 export function handleSummary(data) {
@@ -169,31 +124,14 @@ export function handleSummary(data) {
     return {
         'stress-test-results.json': JSON.stringify(data, null, 2),
         stdout: `
-🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-                        STRESS TEST RESULTS
-🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-📊 LOAD METRICS:
-   • Max Concurrent Users: ${maxVUs}
-   • Total Requests: ${totalRequests}
-   • Request Rate: ${requestRate} req/s
-   
-⚡ PERFORMANCE METRICS:
-   • Failed Requests: ${failureRate}%
-   • Average Response Time: ${avgResponseTime}ms
-   • 95th Percentile: ${p95ResponseTime}ms
-   • Maximum Response Time: ${maxResponseTime}ms
-
-🎯 STRESS TEST ANALYSIS:
-   ${failureRate < 10 ? '✅ EXCELLENT: Sistema estable bajo estrés' : 
-     failureRate < 20 ? '⚠️  ACCEPTABLE: Sistema funcional con degradación' : 
-     '❌ CRITICAL: Sistema sobrecargado, requiere optimización'}
-   
-   ${p95ResponseTime < 1000 ? '✅ EXCELLENT: Tiempos de respuesta aceptables' :
-     p95ResponseTime < 2000 ? '⚠️  ACCEPTABLE: Tiempos de respuesta elevados' :
-     '❌ CRITICAL: Tiempos de respuesta inaceptables'}
-
-🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+🔥 STRESS TEST RESULTS
+Max Concurrent Users: ${maxVUs}
+Total Requests: ${totalRequests}
+Request Rate: ${requestRate} req/s
+Failed Requests: ${failureRate}%
+Average Response Time: ${avgResponseTime}ms
+95th Percentile: ${p95ResponseTime}ms
+Max Response Time: ${maxResponseTime}ms
 `,
     };
 }

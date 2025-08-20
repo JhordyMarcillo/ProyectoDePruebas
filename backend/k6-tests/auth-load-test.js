@@ -32,7 +32,6 @@ export function setup() {
 
 export default function (data) {
     group('Login Flow', () => {
-        // Fake login usando httpbin
         let loginResponse = http.post(`${BASE_URL}/post`, JSON.stringify(testCredentials), {
             headers: { 'Content-Type': 'application/json' }
         });
