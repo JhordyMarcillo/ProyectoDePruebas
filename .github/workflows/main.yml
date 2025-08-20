@@ -58,8 +58,17 @@ jobs:
           sudo apt-get install k6 -y
 
 
-      - name: Mostrar estructura del repo
-        run: ls -R
+      - name: Instalar dependencias backend
+        run: |
+          cd backend
+          npm install
+
+      - name: Levantar backend
+        run: |
+          cd backend
+          npm start &
+          sleep 5  # esperar a que el server arranque
+
 
       - name: Ejecutar pruebas k6
         run: |
