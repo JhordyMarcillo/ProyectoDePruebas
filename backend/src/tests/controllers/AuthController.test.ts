@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { AuthController } from '../../controllers/AuthController';
 import { UsuarioModel, Usuario } from '../../models/PerfilModel';
 import { config } from '../../config';

@@ -25,6 +25,7 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
     for (const [key, sql] of Object.entries(statsQueries)) {
       try {
         const result = await executeQuery(sql);
+        stats[key] = result[0]?.total || 0;
       } catch (error) {
         //(`Error en consulta ${key}:`, error);
         stats[key] = 0;

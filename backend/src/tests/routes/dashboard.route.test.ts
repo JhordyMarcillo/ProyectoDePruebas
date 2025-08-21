@@ -1,29 +1,31 @@
-import * as request from 'supertest';
-import * as express  from 'express';
-import { Express, Request, Response, NextFunction } from 'express';
-import statsRouter from '../../../src/routes/dashboard';
-import * as authMiddleware from '../../../src/middleware/auth';
-import * as db from '../../../src/config/database';
+import request from 'supertest';
+import { jest } from '@jest/globals';
 
-jest.mock('../../../src/config/database');
+// Mock executeQuery function
+const mockExecuteQuery = jest.fn() as jest.MockedFunction<any>;
+jest.mock('../../config/database', () => ({
+  executeQuery: mockExecuteQuery
+}));
 
-describe('GET /api/dashboard/stats', () => {
-  let app: Express;
+// Mock auth middleware
+const mockAuthenticateToken = jest.fn((req: any, res: any, next: any) => {
+  req.user = {
+    id: 1,
+    usuario: 'testuser', 
+    permisos: ['Dashboard']
+  };
+  next();
+});
 
-  beforeAll(() => {
-    app = express();
-    app.use('/api/dashboard', statsRouter);
+jest.mock('../../middleware/auth', () => ({
+  authenticateToken: mockAuthenticateToken
+}));
 
-    // Mock del middleware de autenticación
-    jest.spyOn(authMiddleware, 'authenticateToken').mockImplementation(
-      (req: Request, res: Response, next: NextFunction) => {
-        req.user = { userId: 1, username: 'admin', perfil: 'admin', permisos: [] };
-        next();
-      }
-    );
-  });
+// Importar router después de los mocks
+import dashboardRouter from '../../routes/dashboard';
 
-  afterEach(() => {
+describe('Dashboard Router - Simple Tests', () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
