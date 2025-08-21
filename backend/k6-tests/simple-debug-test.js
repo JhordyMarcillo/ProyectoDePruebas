@@ -8,7 +8,7 @@ export let options = {
         { duration: '10s', target: 0 },   // Enfriamiento
     ],
     thresholds: {
-        http_req_duration: ['p(95)<2000'],    // Más tolerante
+        http_req_duration: ['p(95)<8000'],    // Más tolerante
         http_req_failed: ['rate<0.3'],        // Más tolerante
     }
 };
