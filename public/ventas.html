@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Ventas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <style>
@@ -229,25 +229,81 @@
     cursor: pointer;
     font-size: 16px;
     margin: 0 5px;
-    padding: 5px;
+    padding: 8px;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .action-btn i {
-    pointer-events: none; /* Evita que el click se aplique al ícono */
+    pointer-events: none;
 }
 
-.blue-btn {
-    color: #007bff;
+.action-btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    opacity: 0.1;
+    transition: opacity 0.3s;
+}
+
+.edit-btn {
+    color: #ffc107;
+}
+
+.edit-btn::after {
+    background-color: #ffc107;
+}
+
+.view-btn {
+    color: #28a745;
+}
+
+.view-btn::after {
+    background-color: #28a745;
 }
 
 .delete-btn {
     color: #dc3545;
 }
 
-.action-btn:hover {
-    background-color: #eee;
+.delete-btn::after {
+    background-color: #dc3545;
+}
+
+.action-btn:hover::after {
+    opacity: 0.2;
+}
+
+.action-btn:active::after {
+    opacity: 0.3;
+}
+
+/* Tooltip para los botones */
+.action-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.action-btn:hover::before {
+    opacity: 1;
+    visibility: visible;
 }
 </style>
 <body>
@@ -279,16 +335,16 @@
                     <div class="user-avatar">
                         <img src="./img/avatar-male.png" alt="User Avatar">
                     </div>
-                    <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    <a href="#" class="logout-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
                 </div>
             </header>
             
             <div class="content-panel">
                 <div class="header-buttons">
                     <button class="tab-btn active"><i class="fas fa-file-invoice"></i> Facturas</button>
-                    <a href="./nuevaVenta.html" class="tab-btn">
+                    <button class="tab-btn" onclick="window.location.href='./nuevaVenta.html'">
                         <i class="fas fa-user-plus"></i> Nueva Venta
-                    </a>
+                    </button>
                 </div>
                 
                 <div class="table-container">
@@ -316,9 +372,9 @@
                                 <td>12/07/2025, 16:14</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn blue-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn" data-type="venta" data-tooltip="Editar venta"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn" data-type="venta" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn" data-type="venta" data-tooltip="Eliminar venta"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -330,9 +386,9 @@
                                 <td>02/06/2025, 14:39</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn blue-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn" data-type="venta" data-tooltip="Editar venta"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn" data-type="venta" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn" data-type="venta" data-tooltip="Eliminar venta"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -344,9 +400,9 @@
                                 <td>02/06/2025, 14:38</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn blue-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn" data-type="venta" data-tooltip="Editar venta"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn" data-type="venta" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn" data-type="venta" data-tooltip="Eliminar venta"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -355,5 +411,315 @@
             </div>
         </main>
     </div>
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Editar Venta</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editCliente"><i class="fas fa-user"></i> Cliente</label>
+                        <input type="text" id="editCliente" name="cliente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTotal"><i class="fas fa-dollar-sign"></i> Total</label>
+                        <input type="number" id="editTotal" name="total" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editMetodo"><i class="fas fa-credit-card"></i> Método de Pago</label>
+                        <select id="editMetodo" name="metodo" required>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta">Tarjeta</option>
+                            <option value="transferencia">Transferencia</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Mejoras generales de diseño */
+        .table-container {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border: 1px solid #e9ecef;
+        }
+
+        .user-table th {
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            color: #2c3e50;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .user-table td {
+            vertical-align: middle;
+        }
+
+        .status-badge {
+            background: linear-gradient(to right, #28a745, #20c997);
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+        }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: linear-gradient(to right, #dc3545, #c82333);
+            color: white;
+        }
+
+        .save-btn:hover,
+        .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mejoras en los botones de acción */
+        .action-btn {
+            position: relative;
+            padding: 10px;
+            margin: 0 5px;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f8f9fa;
+            border: 2px solid transparent;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-btn {
+            color: #fff;
+            background: linear-gradient(45deg, #ffc107, #ff9800);
+            border-color: #ffc107;
+        }
+
+        .view-btn {
+            color: #fff;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-color: #28a745;
+        }
+
+        .delete-btn {
+            color: #fff;
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            border-color: #dc3545;
+        }
+
+        /* Animaciones para los botones */
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .header-buttons {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(to bottom, #007bff, #0056b3);
+            border-color: #0056b3;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+        }
+    </style>
+
+    <script src="js/actions.js"></script>
+    <script>
+        // Funcionalidad del modal
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('editModal');
+            const editButtons = document.querySelectorAll('.edit-btn');
+            const closeBtn = document.querySelector('.close-btn');
+            const cancelBtn = document.querySelector('.cancel-btn');
+            const editForm = document.getElementById('editForm');
+
+            function openModal(data) {
+                document.getElementById('editCliente').value = data.cliente;
+                document.getElementById('editTotal').value = data.total;
+                document.getElementById('editMetodo').value = data.metodo;
+                modal.style.display = 'block';
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const row = button.closest('tr');
+                    const data = {
+                        cliente: row.cells[1].textContent,
+                        total: row.cells[3].textContent,
+                        metodo: row.cells[4].textContent
+                    };
+                    openModal(data);
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            editForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Aquí iría la lógica para guardar los cambios
+                // Por ahora solo cerraremos el modal
+                closeModal();
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

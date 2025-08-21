@@ -4,256 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Proveedores</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/proveedores.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<style>
-    body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-}
 
-.dashboard-container {
-    display: flex;
-    height: 100vh;
-}
-
-/* Sidebar (misma estructura) */
-.sidebar {
-    width: 250px;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.profile {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.profile-image img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #fff;
-}
-
-.sidebar-nav {
-    flex-grow: 1;
-}
-
-.sidebar-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-nav li a {
-    display: block;
-    padding: 15px 25px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar-nav li a:hover,
-.sidebar-nav li.active a {
-    background-color: #333;
-    color: #fff;
-}
-
-.sidebar-nav li a i {
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-}
-
-/* Contenido principal (misma estructura) */
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.topbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-name {
-    font-weight: bold;
-    color: #555;
-}
-
-.user-avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
-}
-
-.logout-link {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.logout-link:hover {
-    color: #0056b3;
-}
-
-/* Contenedor del panel de contenido */
-.content-panel {
-    padding: 30px;
-    flex-grow: 1;
-}
-
-/* Botones de cabecera */
-.header-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.tab-btn {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    color: #555;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.tab-btn i {
-    margin-right: 8px;
-}
-
-.tab-btn:hover {
-    background-color: #e9ecef;
-}
-
-.tab-btn.active {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
-}
-
-/* Tabla de proveedores */
-.table-container {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    overflow-x: auto; /* Para tablas grandes */
-}
-
-.table-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.user-table th,
-.user-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.user-table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #555;
-}
-
-.user-table tbody tr:hover {
-    background-color: #f1f3f5;
-}
-
-/* Insignia de estado */
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.status-badge.active {
-    background-color: #28a745; /* Verde */
-}
-
-/* Botones de acción */
-.actions-cell {
-    white-space: nowrap;
-}
-
-.action-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 5px;
-    padding: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.action-btn i {
-    pointer-events: none; /* Evita que el click se aplique al ícono */
-}
-
-.green-btn {
-    color: #28a745;
-}
-
-.yellow-btn {
-    color: #ffc107;
-}
-
-.red-btn {
-    color: #dc3545;
-}
-
-.action-btn:hover {
-    background-color: #eee;
-}
-</style>
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
@@ -318,9 +74,9 @@
                                 <td>test.com</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="proveedor" data-tooltip="Editar proveedor"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="proveedor" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="proveedor" data-tooltip="Eliminar proveedor"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -331,9 +87,9 @@
                                 <td>N/A</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="proveedor" data-tooltip="Editar proveedor"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="proveedor" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="proveedor" data-tooltip="Eliminar proveedor"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -344,9 +100,9 @@
                                 <td>www.josh.com</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="proveedor" data-tooltip="Editar proveedor"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="proveedor" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="proveedor" data-tooltip="Eliminar proveedor"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -357,9 +113,9 @@
                                 <td>www.pepe.com</td>
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td class="actions-cell">
-                                    <button class="action-btn green-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="proveedor" data-tooltip="Editar proveedor"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="proveedor" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="proveedor" data-tooltip="Eliminar proveedor"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -368,5 +124,41 @@
             </div>
         </main>
     </div>
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Editar Proveedor</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editNombreEmpresa"><i class="fas fa-building"></i> Nombre de la Empresa</label>
+                        <input type="text" id="editNombreEmpresa" name="nombreEmpresa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTelefono"><i class="fas fa-phone"></i> Teléfono</label>
+                        <input type="tel" id="editTelefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editWeb"><i class="fas fa-globe"></i> Sitio Web</label>
+                        <input type="url" id="editWeb" name="web">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/actions.js"></script>
 </body>
 </html>

@@ -4,256 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Servicios</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/servicios.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<style>
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-}
+<body>
 
-.dashboard-container {
-    display: flex;
-    height: 100vh;
-}
-
-/* Sidebar (misma estructura) */
-.sidebar {
-    width: 250px;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.profile {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.profile-image img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #fff;
-}
-
-.sidebar-nav {
-    flex-grow: 1;
-}
-
-.sidebar-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-nav li a {
-    display: block;
-    padding: 15px 25px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar-nav li a:hover,
-.sidebar-nav li.active a {
-    background-color: #333;
-    color: #fff;
-}
-
-.sidebar-nav li a i {
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-}
-
-/* Contenido principal (misma estructura) */
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.topbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-name {
-    font-weight: bold;
-    color: #555;
-}
-
-.user-avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
-}
-
-.logout-link {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.logout-link:hover {
-    color: #0056b3;
-}
-
-/* Contenedor del panel de contenido */
-.content-panel {
-    padding: 30px;
-    flex-grow: 1;
-}
-
-/* Botones de cabecera */
-.header-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.tab-btn {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    color: #555;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.tab-btn i {
-    margin-right: 8px;
-}
-
-.tab-btn:hover {
-    background-color: #e9ecef;
-}
-
-.tab-btn.active {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
-}
-
-/* Tabla de servicios */
-.table-container {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    overflow-x: auto; /* Para tablas grandes */
-}
-
-.table-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.user-table th,
-.user-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.user-table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #555;
-}
-
-.user-table tbody tr:hover {
-    background-color: #f1f3f5;
-}
-
-/* Insignia de estado */
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.status-badge.active {
-    background-color: #28a745; /* Verde */
-}
-
-/* Botones de acción */
-.actions-cell {
-    white-space: nowrap;
-}
-
-.action-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 5px;
-    padding: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.action-btn i {
-    pointer-events: none; /* Evita que el click se aplique al ícono */
-}
-
-.blue-btn {
-    color: #007bff;
-}
-
-.yellow-btn {
-    color: #ffc107;
-}
-
-.red-btn {
-    color: #dc3545;
-}
-
-.action-btn:hover {
-    background-color: #eee;
-}
-</style>
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
@@ -322,9 +79,9 @@ body {
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td>2/6/2025</td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="servicio" data-tooltip="Editar servicio"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="servicio" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="servicio" data-tooltip="Eliminar servicio"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -337,9 +94,9 @@ body {
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td>2/6/2025</td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="servicio" data-tooltip="Editar servicio"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="servicio" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="servicio" data-tooltip="Eliminar servicio"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -352,9 +109,9 @@ body {
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td>2/6/2025</td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="servicio" data-tooltip="Editar servicio"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="servicio" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="servicio" data-tooltip="Eliminar servicio"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -367,9 +124,9 @@ body {
                                 <td><span class="status-badge active">ACTIVO</span></td>
                                 <td>2/6/2025</td>
                                 <td class="actions-cell">
-                                    <button class="action-btn blue-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn yellow-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn red-btn"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="action-btn edit-btn blue-btn" data-type="servicio" data-tooltip="Editar servicio"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn view-btn yellow-btn" data-type="servicio" data-tooltip="Ver detalles"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn delete-btn red-btn" data-type="servicio" data-tooltip="Eliminar servicio"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -378,5 +135,112 @@ body {
             </div>
         </main>
     </div>
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Editar Servicio</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editNombre"><i class="fas fa-tag"></i> Nombre del Servicio</label>
+                        <input type="text" id="editNombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescripcion"><i class="fas fa-align-left"></i> Descripción</label>
+                        <textarea id="editDescripcion" name="descripcion" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCostoServicio"><i class="fas fa-dollar-sign"></i> Costo Servicio</label>
+                        <input type="number" id="editCostoServicio" name="costoServicio" step="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/actions.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('editModal');
+            const editButtons = document.querySelectorAll('.action-btn.blue-btn');
+            const viewButtons = document.querySelectorAll('.action-btn.yellow-btn');
+            const deleteButtons = document.querySelectorAll('.action-btn.red-btn');
+            const closeBtn = document.querySelector('.close-btn');
+            const cancelBtn = document.querySelector('.cancel-btn');
+            const editForm = document.getElementById('editForm');
+
+            function openModal(data) {
+                document.getElementById('editNombre').value = data.nombre;
+                document.getElementById('editDescripcion').value = data.descripcion;
+                document.getElementById('editCostoServicio').value = data.costoServicio;
+                modal.style.display = 'block';
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            // Manejador para botones de editar
+            editButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const row = button.closest('tr');
+                    const data = {
+                        nombre: row.cells[1].textContent,
+                        descripcion: row.cells[2].textContent,
+                        costoServicio: row.cells[4].textContent
+                    };
+                    openModal(data);
+                });
+            });
+
+            // Manejador para botones de ver
+            viewButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const row = button.closest('tr');
+                    const servicioId = row.cells[0].textContent;
+                    // Aquí puedes redirigir a una página de detalles o mostrar un modal con los detalles
+                    alert('Ver detalles del servicio ' + servicioId);
+                });
+            });
+
+            // Manejador para botones de eliminar
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const row = button.closest('tr');
+                    const servicioId = row.cells[0].textContent;
+                    if (confirm('¿Está seguro que desea eliminar el servicio ' + servicioId + '?')) {
+                        // Aquí iría la lógica para eliminar el servicio
+                        alert('Servicio ' + servicioId + ' eliminado');
+                    }
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            editForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Aquí iría la lógica para guardar los cambios
+                closeModal();
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
