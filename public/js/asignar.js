@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         Swal.fire({
             title: '¿Está seguro?',
-            text: "Se cerrará la sesión actual",
+            text: 'Se cerrará la sesión actual',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

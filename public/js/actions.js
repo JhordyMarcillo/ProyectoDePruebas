@@ -3,8 +3,7 @@ function logout() {
     Swal.fire({
         title: '¿Cerrar sesión?',
         text: '¿Está seguro que desea salir del sistema?',
-        icon: 'ques                    <td style=\'padding:8px;text-align:left;border-bottom:1px solid #ddd;background-color:#f8f9fa\'>' + key + '</th>
-                    <td style=\'padding:8px;text-align:left;border-bottom:1px solid #ddd\'>' + value + '</td></tr>';on',
+        icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -23,22 +22,22 @@ function logout() {
 function editItem(id, type) {
     switch(type) {
         case 'usuario':
-            window.location.href = `nuevoAsignar.html?edit=${id}`;
+            window.location.href = 'nuevoAsignar.html?edit=' + id;
             break;
         case 'cliente':
-            window.location.href = `nuevoCliente.html?edit=${id}`;
+            window.location.href = 'nuevoCliente.html?edit=' + id;
             break;
         case 'producto':
-            window.location.href = `nuevoProducto.html?edit=${id}`;
+            window.location.href = 'nuevoProducto.html?edit=' + id;
             break;
         case 'servicio':
-            window.location.href = `nuevoServicio.html?edit=${id}`;
+            window.location.href = 'nuevoServicio.html?edit=' + id;
             break;
         case 'proveedor':
-            window.location.href = `nuevoProveedor.html?edit=${id}`;
+            window.location.href = 'nuevoProveedor.html?edit=' + id;
             break;
         case 'venta':
-            window.location.href = `nuevaVenta.html?edit=${id}`;
+            window.location.href = 'nuevaVenta.html?edit=' + id;
             break;
     }
 }
@@ -52,7 +51,7 @@ function viewItem(id, type) {
     
     // Aquí normalmente harías una petición al backend para obtener los detalles
     // Por ahora simularemos con la información visible en la tabla
-    const row = document.querySelector(`tr[data-id="${id}"]`);
+    const row = document.querySelector('tr[data-id="' + id + '"]');
     if (row) {
         const data = {};
         row.querySelectorAll('td').forEach((td, index) => {
@@ -68,7 +67,7 @@ function viewItem(id, type) {
 function deleteItem(id, type) {
     Swal.fire({
         title: '¿Está seguro?',
-        text: `Se eliminará este ${type}`,
+        text: 'Se eliminará este ' + type,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -82,7 +81,7 @@ function deleteItem(id, type) {
                 row.remove();
                 Swal.fire({
                     title: 'Eliminado',
-                    text: `${type} eliminado correctamente`,
+                    text: type + ' eliminado correctamente',
                     icon: 'success',
                     timer: 1500,
                     showConfirmButton: false
@@ -93,15 +92,15 @@ function deleteItem(id, type) {
 }
 
 function toggleStatus(id, type) {
-    const statusBadge = document.querySelector(`tr[data-id="${id}"] .status-badge`);
+    const statusBadge = document.querySelector('tr[data-id="' + id + '"] .status-badge');
     if (statusBadge) {
         const currentStatus = statusBadge.classList.contains('active') ? 'activo' : 'inactivo';
         const newStatus = currentStatus === 'activo' ? 'inactivo' : 'activo';
         
-        if (confirm(`¿Está seguro que desea cambiar el estado a ${newStatus}?`)) {
+        if (confirm('¿Está seguro que desea cambiar el estado a ' + newStatus + '?')) {
             statusBadge.classList.toggle('active');
             statusBadge.textContent = newStatus.toUpperCase();
-            showToast(`Estado actualizado a ${newStatus}`);
+            showToast('Estado actualizado a ' + newStatus);
         }
     }
 }
@@ -169,11 +168,11 @@ function createModal() {
     
     // Cerrar modal
     modal.querySelector('.close').onclick = function() {
-        modal.style.display = "none";
+        modal.style.display = 'none';
     };
     window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            modal.style.display = 'none';
         }
     };
 }
