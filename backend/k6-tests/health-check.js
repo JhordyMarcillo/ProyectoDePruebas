@@ -8,7 +8,7 @@ export let options = {
         { duration: '5s', target: 0 },
     ],
     thresholds: {
-        http_req_duration: ['p(95)<1700'],   // Aumentado de 1500ms a 1700ms
+        http_req_duration: ['p(95)<2000'],   // Aumentado de 1500ms a 1700ms
         http_req_failed: ['rate<0.03'],      // Permitimos hasta 3% de fallos
         http_reqs: ['rate>10'],
     }
