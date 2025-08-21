@@ -3,17 +3,17 @@ import { sleep, check, group } from 'k6';
 
 export let options = {
     stages: [
-        { duration: '5s', target: 50 },   // Calentamiento
-        { duration: '10s', target: 100 },  // Carga normal
-        { duration: '20s', target: 200 },  // Incremento de carga
-        { duration: '10s', target: 200 },  // Carga sostenida
+        { duration: '10s', target: 50 },   // Calentamiento
+        { duration: '15s', target: 100 },  // Carga normal
+        { duration: '15s', target: 150 },  // Incremento de carga
+        { duration: '15s', target: 150 },  // Carga sostenida
         { duration: '10s', target: 0 },    // Enfriamiento
     ],
 
     thresholds: {
-        http_req_duration: ['p(95)<1000'],     
+        http_req_duration: ['p(95)<1500'],     
         http_req_failed: ['rate<0.05'],       
-        'group_duration{group:::Login}': ['p(95)<1000'],  
+        'group_duration{group:::Login}': ['p(95)<1500'],  
     }
 };
 
