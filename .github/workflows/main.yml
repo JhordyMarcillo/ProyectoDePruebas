@@ -7,9 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # ========================
   # 1) CI: Lint + Unit Tests
-  # ========================
   ci:
     runs-on: ubuntu-latest
 
@@ -38,9 +36,7 @@ jobs:
           name: coverage-report
           path: coverage
 
-  # ====================================
-  # 2) Performance Tests con k6 (ramp, spike, soak)
-  # ====================================
+  # 2) Performance Tests con k6 
   performance:
     runs-on: ubuntu-latest
     needs: ci
@@ -106,9 +102,7 @@ jobs:
           name: k6-reports
           path: reports
 
-  # ========================
   # 3) Deploy
-  # ========================
   deploy:
     runs-on: ubuntu-latest
     needs: [ci, performance]
@@ -124,6 +118,6 @@ jobs:
           node-version: '20'
 
       - name: Desplegar en Firebase
-        run: echo "Despliegue en Firebase, https://proyectopruebas-60f7f.web.app/"
+        run: echo "https://proyectopruebas-60f7f.web.app/"
 
 

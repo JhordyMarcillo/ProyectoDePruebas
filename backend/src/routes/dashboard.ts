@@ -2,6 +2,8 @@ import { Router, Request, Response } from 'express';
 import { executeQuery } from '../config/database';
 import { authenticateToken } from '../middleware/auth';
 
+
+
 const router = Router();
 
 // GET /api/dashboard/stats - Obtener estadísticas del dashboard
@@ -23,7 +25,7 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
     for (const [key, sql] of Object.entries(statsQueries)) {
       try {
         const result = await executeQuery(sql);
-        stats[key] = Array.isArray(result) && result[0] && typeof result[0].total === 'number' ? result[0].total : 0;
+        stats[key] = result[0]?.total || 0;
       } catch (error) {
         //(`Error en consulta ${key}:`, error);
         stats[key] = 0;

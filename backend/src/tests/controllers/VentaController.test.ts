@@ -15,6 +15,87 @@ jest.mock('../../models/Producto');
 jest.mock('../../models/Servicio');
 jest.mock('../../config/database');
 
+export function calcularSubtotal(ventaData: any): number {
+  let subtotal = 0;
+
+  if (ventaData.productos) {
+    for (const producto of ventaData.productos) {
+      subtotal += producto.costo * producto.cantidad;
+    }
+  }
+
+  if (ventaData.servicios) {
+    for (const servicio of ventaData.servicios) {
+      subtotal += servicio.costo * servicio.cantidad;
+    }
+  }
+
+  return subtotal;
+}
+
+export function generarFilasProductosServicios(venta: any) {
+  const productosHtml = venta.productos?.length
+    ? venta.productos.map((producto: any) => `
+        <tr>
+          <td>${producto.nombre || 'Producto sin nombre'}</td>
+          <td>${producto.cantidad || 0}</td>
+          <td>${Number(producto.costo || 0).toFixed(2)}</td>
+          <td>${((producto.cantidad || 0) * (producto.costo || 0)).toFixed(2)}</td>
+        </tr>
+      `).join('')
+    : '<tr><td colspan="4">No hay productos en esta venta</td></tr>';
+
+  const serviciosHtml = venta.servicios?.length
+    ? venta.servicios.map((servicio: any) => `
+        <tr>
+          <td>${servicio.nombre || 'Servicio sin nombre'}</td>
+          <td>${servicio.cantidad || 0}</td>
+          <td>${Number(servicio.costo || 0).toFixed(2)}</td>
+          <td>${((servicio.cantidad || 0) * (servicio.costo || 0)).toFixed(2)}</td>
+        </tr>
+      `).join('')
+    : '<tr><td colspan="4">No hay servicios en esta venta</td></tr>';
+
+  const subtotal = ((Number(venta.total_pagar) || 0) / (1 + (Number(venta.iva) || 0)/100)).toFixed(2);
+  const iva = (Number(venta.iva) || 0).toFixed(2);
+
+  return { productosHtml, serviciosHtml, subtotal, iva };
+}
+
+describe('generarFilasProductosServicios', () => {
+  it('should use default names and zeros if fields missing', () => {
+    const venta = {
+      productos: [{ cantidad: undefined, costo: undefined }],
+      servicios: [{ nombre: undefined, cantidad: undefined, costo: undefined }],
+      total_pagar: 0,
+      iva: 0
+    };
+
+    const result = generarFilasProductosServicios(venta);
+
+    expect(result.productosHtml).toContain('Producto sin nombre');
+    expect(result.productosHtml).toContain('0');
+    expect(result.serviciosHtml).toContain('Servicio sin nombre');
+    expect(result.serviciosHtml).toContain('0');
+    expect(result.subtotal).toBe('0.00');
+    expect(result.iva).toBe('0.00');
+  });
+
+  it('should show "No hay servicios en esta venta" if empty', () => {
+    const venta = { productos: [], servicios: [], total_pagar: 0, iva: 0 };
+    const result = generarFilasProductosServicios(venta);
+    expect(result.serviciosHtml).toContain('No hay servicios en esta venta');
+    expect(result.productosHtml).toContain('No hay productos en esta venta');
+  });
+
+  it('should calculate subtotal and iva correctly', () => {
+    const venta = { total_pagar: 121, iva: 21, productos: [], servicios: [] };
+    const result = generarFilasProductosServicios(venta);
+    expect(result.subtotal).toBe('100.00'); // 121 / (1 + 0.21)
+    expect(result.iva).toBe('21.00');
+  });
+});
+
 describe('VentaController', () => {
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
@@ -480,6 +561,49 @@ describe('VentaController', () => {
       );
     });
   });
+
+  describe('VentaController - calcularSubtotal', () => {
+  it('should return 0 if productos and servicios are undefined', () => {
+    const ventaData: any = {};
+    const subtotal = calcularSubtotal(ventaData);
+    expect(subtotal).toBe(0);
+  });
+
+  it('should sum correctly only productos', () => {
+    const ventaData = {
+      productos: [
+        { costo: 100, cantidad: 2 },
+        { costo: 50, cantidad: 1 }
+      ]
+    };
+    const subtotal = calcularSubtotal(ventaData);
+    expect(subtotal).toBe(250); // 100*2 + 50*1
+  });
+
+  it('should sum correctly only servicios', () => {
+    const ventaData = {
+      servicios: [
+        { costo: 200, cantidad: 1 },
+        { costo: 50, cantidad: 3 }
+      ]
+    };
+    const subtotal = calcularSubtotal(ventaData);
+    expect(subtotal).toBe(350); // 200*1 + 50*3
+  });
+
+  it('should sum correctly productos and servicios', () => {
+    const ventaData = {
+      productos: [
+        { costo: 100, cantidad: 2 }
+      ],
+      servicios: [
+        { costo: 50, cantidad: 3 }
+      ]
+    };
+    const subtotal = calcularSubtotal(ventaData);
+    expect(subtotal).toBe(350); // 100*2 + 50*3
+  });
+});
 
   describe('getAll', () => {
     it('should get all ventas successfully', async () => {

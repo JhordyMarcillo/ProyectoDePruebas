@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {
   authenticateToken,
   requirePermission,
@@ -10,6 +10,7 @@ import {
 } from '../../middleware/auth';
 import { config } from '../../config';
 import { AuthPayload } from '../../types';
+import * as jwt from 'jsonwebtoken';
 
 // Mocks de request, response y next
 const mockRequest = {} as Partial<Request>;
@@ -19,12 +20,7 @@ const mockResponse = {
 } as Partial<Response>;
 const mockNext = jest.fn();
 
-// 🔹 Mock de jsonwebtoken
-jest.mock('jsonwebtoken');
-const mockJwt = jwt as jest.Mocked<typeof jwt>;
 
-// Mock dependencies
-jest.mock('jsonwebtoken');
 jest.mock('../../config');
 
 const mockConfig = config as jest.Mocked<typeof config>;
@@ -63,11 +59,7 @@ describe('Auth Middleware', () => {
 
     jest.clearAllMocks();
     
-    // Mock config
-    mockConfig.jwt = {
-      secret: 'test-secret',
-      expiresIn: '24h'
-    };
+
   });
 
   describe('authenticateToken', () => {

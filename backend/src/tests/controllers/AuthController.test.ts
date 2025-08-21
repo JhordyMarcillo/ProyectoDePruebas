@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { AuthController } from '../../controllers/AuthController';
 import { UsuarioModel, Usuario } from '../../models/PerfilModel';
 import { config } from '../../config';
@@ -7,15 +7,9 @@ import { config } from '../../config';
 // Mock dependencies
 jest.mock('../../models/PerfilModel');
 jest.mock('bcryptjs');
-jest.mock('jsonwebtoken');
 
 const mockUsuarioModel = UsuarioModel as jest.Mocked<typeof UsuarioModel>;
-const mockJwt = jwt as jest.Mocked<typeof jwt>;
 
-jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn().mockReturnValue('mock-token'),
-  verify: jest.fn()
-}));
 
 // Extended Request interface for testing
 interface RequestWithUser extends Request {
