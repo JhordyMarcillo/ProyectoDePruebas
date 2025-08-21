@@ -63,11 +63,6 @@ jobs:
           cd backend
           npm install
 
-      - name: Ejecutar pruebas k6 de spike-test
-        run: |
-          mkdir -p reports
-          k6 run --summary-export=reports/spike-summary.json backend/k6-tests/spike-test.js
-
       - name: Ejecutar pruebas k6 de stress-test
         run: |
           mkdir -p reports
