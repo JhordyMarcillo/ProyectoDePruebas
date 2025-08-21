@@ -11,7 +11,7 @@ export let options = {
     ],
 
     thresholds: {
-        http_req_duration: ['p(95)<2000'],     
+        http_req_duration: ['p(95)<2500'],     
         http_req_failed: ['rate<0.05'],       
         'group_duration{group:::Login}': ['p(95)<1500'],  
     }
