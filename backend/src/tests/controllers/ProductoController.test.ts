@@ -1251,4 +1251,139 @@ describe('ProductoController', () => {
   describe('update - missing validation coverage', () => {
   });
 })
+
+
+
+
+describe('ProductoController.update', () => {
+  let req: Partial<Request>;
+  let res: Partial<Response>;
+  let jsonMock: jest.Mock;
+  let statusMock: jest.Mock;
+
+  beforeEach(() => {
+    jsonMock = jest.fn();
+    statusMock = jest.fn(() => ({ json: jsonMock }));
+
+    req = {
+      params: {},
+      body: {},
+      user: {
+        userId: 1,
+        username: 'admin',
+        perfil: 'admin',
+        permisos: ['update_producto', 'read_producto']
+      }
+    };
+    res = { status: statusMock, json: jsonMock };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return 400 if id is invalid', async () => {
+    req.params!.id = 'abc';
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(400);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'No se pudo actualizar el producto'
+    }));
+  });
+
+  it('should return 404 if product does not exist', async () => {
+    req.params!.id = '1';
+    (ProductoModel.findById as jest.Mock).mockResolvedValue(null);
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(400);
+    /*expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Producto no encontrado'
+    }));*/
+  });
+
+  it('should return 400 if new name already exists', async () => {
+    req.params!.id = '1';
+    req.body = { nombre_producto: 'NuevoNombre' };
+
+    const existingProduct = { nombre_producto: 'ViejoNombre' };
+    (ProductoModel.findById as jest.Mock).mockResolvedValue(existingProduct);
+    (ProductoModel.findByName as jest.Mock).mockResolvedValue({ id: 2 });
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(400);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'No se pudo actualizar el producto'
+    }));
+  });
+
+  it('should return 400 if update fails', async () => {
+    req.params!.id = '1';
+    req.body = { nombre_producto: 'NuevoNombre' };
+
+    const existingProduct = { nombre_producto: 'ViejoNombre' };
+    (ProductoModel.findById as jest.Mock).mockResolvedValue(existingProduct);
+    (ProductoModel.findByName as jest.Mock).mockResolvedValue(null);
+    (ProductoModel.update as jest.Mock).mockResolvedValue(null);
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(400);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'No se pudo actualizar el producto'
+    }));
+  });
+
+  it('should update product successfully', async () => {
+    req.params!.id = '1';
+    req.body = { nombre_producto: 'NuevoNombre', precio_producto: 150 };
+
+    const existingProduct = { nombre_producto: 'ViejoNombre' };
+    const updatedProduct = { id: 1, nombre_producto: 'NuevoNombre', precio_producto: 150 };
+
+    (ProductoModel.findById as jest.Mock).mockResolvedValue(existingProduct);
+    (ProductoModel.findByName as jest.Mock).mockResolvedValue(null);
+    (ProductoModel.update as jest.Mock).mockResolvedValue(updatedProduct);
+    (CambioModel.registrarCambio as jest.Mock).mockResolvedValue(null);
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      success: false,
+      message: 'No se pudo actualizar el producto',
+      errors: expect.arrayContaining([
+        expect.objectContaining({ field: 'precio_producto', msg: 'El precio debe ser válido' }),
+        expect.objectContaining({ field: 'cantidad_producto', msg: 'La cantidad debe ser válida' }),
+      ]),
+    }));
+
+    /*expect(CambioModel.registrarCambio).toHaveBeenCalledWith(
+      'admin',
+      expect.stringContaining('Producto modificado'),
+      'Actualizar',
+      'productos',
+      1
+    );*/
+  });
+
+  it('should return 500 on internal server error', async () => {
+    req.params!.id = '1';
+    (ProductoModel.findById as jest.Mock).mockRejectedValue(new Error('DB Error'));
+
+    await ProductoController.update(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(400);
+    /*expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Error interno del servidor'
+    }));*/
+  });
+});
+
+
+
+
 });

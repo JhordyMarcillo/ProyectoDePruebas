@@ -1,5 +1,3 @@
-import request from 'supertest';
-
 import { Request, Response, NextFunction } from 'express';
 import {
   handleValidationErrors,
