@@ -1,0 +1,212 @@
+/* Estilos específicos para servicios */
+
+/* Contenedor de tabla */
+.table-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.table-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Tabla */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.user-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+}
+
+.user-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badge de estado */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: #22c55e;
+    color: white;
+}
+
+.status-badge.inactive {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Botones de acción */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.blue-btn {
+    background-color: #3b82f6;
+}
+
+.yellow-btn {
+    background-color: #ffc107;
+}
+
+.red-btn {
+    background-color: #ef4444;
+}
+
+/* Botones de la cabecera */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f3f4f6;
+    color: #666;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.tab-btn i {
+    margin-right: 8px;
+}
+
+.tab-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.tab-btn.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Formulario de servicio */
+.form-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+/* Botones del formulario */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.save-btn {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.save-btn:hover {
+    transform: scale(1.05);
+}
+
+.cancel-btn {
+    background-color: #6b7280;
+    color: white;
+}
+
+.cancel-btn:hover {
+    transform: scale(1.05);
+}

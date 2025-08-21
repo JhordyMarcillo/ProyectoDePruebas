@@ -1,0 +1,225 @@
+/* Estilos específicos para inventario y productos */
+
+/* Contenedor de tabla con gradientes y sombras consistentes */
+.table-container {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.table-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-title i {
+    color: #007bff;
+}
+
+/* Tabla con diseño moderno y consistente */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.user-table th,
+.user-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.user-table th {
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+    color: #2c3e50;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.user-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.user-table tbody tr:hover {
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    transform: scale(1.001);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Badges de estado */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+}
+
+.status-badge.active {
+    background: linear-gradient(to right, #28a745, #20c997);
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.status-badge.inactive {
+    background: linear-gradient(to right, #dc3545, #c82333);
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+/* Botones de acción */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    position: relative;
+    padding: 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.blue-btn {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.yellow-btn {
+    background: linear-gradient(45deg, #ffc107, #ff9800);
+}
+
+.green-btn {
+    background: linear-gradient(45deg, #28a745, #20c997);
+}
+
+.red-btn {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+}
+
+/* Formulario de producto */
+.form-container {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form-title i {
+    color: #007bff;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    background: #fff;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: #007bff;
+}
+
+/* Botones del formulario */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.save-btn {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: #fff;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.cancel-btn {
+    background: linear-gradient(to right, #6c757d, #495057);
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+}

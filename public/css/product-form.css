@@ -1,0 +1,120 @@
+/* Estilos específicos para el formulario de producto */
+
+.form-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+    text-align: center;
+}
+
+.form-title i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: #0056b3;
+}
+
+.form-group input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Botones de acción */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background-color: #f8f9fa;
+    color: #555;
+}
+
+.cancel-btn:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+/* Estilos para campos requeridos */
+.form-group label::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}

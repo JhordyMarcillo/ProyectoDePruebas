@@ -1,0 +1,137 @@
+/* Estilos específicos para la página de inventario */
+
+/* Contenedor de la tabla */
+.table-container {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos de la tabla */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.user-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Insignia de estado */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: #22c55e;
+    color: white;
+}
+
+.status-badge.inactive {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Botones de acción */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.blue-btn {
+    background-color: #3b82f6;
+}
+
+.yellow-btn {
+    background-color: #ffc107;
+}
+
+.green-btn {
+    background-color: #22c55e;
+}
+
+.red-btn {
+    background-color: #ef4444;
+}
+
+/* Botones de la cabecera */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: #555;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.tab-btn i {
+    margin-right: 8px;
+}
+
+.tab-btn:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
