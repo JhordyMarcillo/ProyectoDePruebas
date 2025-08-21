@@ -3,7 +3,8 @@ function logout() {
     Swal.fire({
         title: '¿Cerrar sesión?',
         text: '¿Está seguro que desea salir del sistema?',
-        icon: 'question',
+        icon: 'ques                    <td style=\'padding:8px;text-align:left;border-bottom:1px solid #ddd;background-color:#f8f9fa\'>' + key + '</th>
+                    <td style=\'padding:8px;text-align:left;border-bottom:1px solid #ddd\'>' + value + '</td></tr>';on',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -181,8 +182,8 @@ function showDetails(data, type) {
     let html = '<table class="details-table" style="width:100%;border-collapse:collapse;">';
     for (let [key, value] of Object.entries(data)) {
         if (key !== 'Acciones') {
-            html += `<tr><th style="padding:8px;text-align:left;border-bottom:1px solid #ddd;background-color:#f8f9fa">${key}</th>
-                    <td style="padding:8px;text-align:left;border-bottom:1px solid #ddd">${value}</td></tr>`;
+            html += '<tr><th style="padding:8px;text-align:left;border-bottom:1px solid #ddd;background-color:#f8f9fa">' + key + '</th>' +
+                    '<td style="padding:8px;text-align:left;border-bottom:1px solid #ddd">' + value + '</td></tr>';
         }
     }
     html += '</table>';
