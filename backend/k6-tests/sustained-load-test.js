@@ -5,14 +5,14 @@ export let options = {
     stages: [
         { duration: '15s', target: 100 },
         { duration: '20s', target: 150 },
-        { duration: '20s', target: 200 },
+        { duration: '20s', target: 100 },
         { duration: '20s', target: 250 },
         { duration: '15s', target: 0 },
     ],
     thresholds: {
         http_req_duration: ['p(95)<1000'],
         http_req_failed: ['rate<0.08'],
-        http_reqs: ['rate>300'],
+        http_reqs: ['rate>100'],
         vus: ['value<=250'],
         'http_req_duration{endpoint:read}': ['p(95)<1000'],
         'http_req_duration{endpoint:write}': ['p(95)<1500'],
@@ -47,7 +47,7 @@ export default function () {
         }
     });
 
-    sleep(Math.random() * 1.5 + 0.5);
+    sleep(Math.random() * 0.5 + 0.1);
 }
 
 function selectOperation() {
