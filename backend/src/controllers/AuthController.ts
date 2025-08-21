@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { UsuarioModel } from '../models/PerfilModel';
 import { config } from '../config';
 import { ApiResponse, LoginRequest, Usuario } from '../types';

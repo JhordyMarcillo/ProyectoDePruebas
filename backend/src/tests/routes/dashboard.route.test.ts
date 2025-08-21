@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { jest } from '@jest/globals';
 
 // Mock executeQuery function
