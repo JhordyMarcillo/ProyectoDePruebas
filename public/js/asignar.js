@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Swal.fire({
                 title: '¿Está seguro?',
-                text: `Se eliminará el usuario ${userName}`,
+                text: 'Se eliminará el usuario ' + userName,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc3545',

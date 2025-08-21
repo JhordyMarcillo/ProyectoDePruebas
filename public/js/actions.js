@@ -188,7 +188,7 @@ function showDetails(data, type) {
     html += '</table>';
     
     Swal.fire({
-        title: `Detalles del ${type}`,
+        title: 'Detalles del ' + type,
         html: html,
         width: '600px',
         confirmButtonText: 'Cerrar',
@@ -207,8 +207,8 @@ function showToast(message, type = 'success') {
         timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
         }
     });
 

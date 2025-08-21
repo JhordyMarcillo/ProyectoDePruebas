@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelBtn.addEventListener('click', () => {
         Swal.fire({
             title: '¿Está seguro?',
-            text: "Se perderán todos los datos ingresados",
+            text: 'Se perderán todos los datos ingresados',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
