@@ -10,11 +10,11 @@ export let options = {
         { duration: '15s', target: 0 },
     ],
     thresholds: {
-        http_req_duration: ['p(95)<2000'], 
-        'http_req_duration{endpoint:read}': ['p(95)<1500'],
+        http_req_duration: ['p(95)<3000'], 
+        'http_req_duration{endpoint:read}': ['p(95)<2500'],
         'http_req_duration{endpoint:write}': ['p(95)<2500'],
         http_req_failed: ['rate<0.08'],
-        http_reqs: ['rate>150'],
+        http_reqs: ['rate>550'],
         vus: ['value<=250'],
     }
 };

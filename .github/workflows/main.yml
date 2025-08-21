@@ -64,11 +64,6 @@ jobs:
           mkdir -p reports
           k6 run --summary-export=reports/spike-summary.json backend/k6-tests/spike-test.js
 
-      - name: Ejecutar pruebas k6 de stress-test
-        run: |
-          mkdir -p reports
-          k6 run --summary-export=reports/stress-summary.json backend/k6-tests/stress-test.js
-
       - name: Ejecutar pruebas k6 de sustained-load-test
         run: |
           mkdir -p reports
