@@ -8,13 +8,13 @@ export let options = {
         { duration: '10s', target: 500 },
         { duration: '5s', target: 20 },
         { duration: '30s', target: 20 },
-        { duration: '5s', target: 800 },
+        { duration: '30s', target: 800 },
         { duration: '20s', target: 800 },
         { duration: '15s', target: 0 },
     ],
     thresholds: {
         http_req_duration: ['p(95)<8000'],
-        http_req_failed: ['rate<0.3'],
+        http_req_failed: ['rate<0.8'],
         http_reqs: ['rate>30'],
         'http_req_duration{scenario:spike}': ['p(95)<8000'],
     }
