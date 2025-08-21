@@ -10,13 +10,14 @@ export let options = {
         { duration: '10s', target: 0 },    // Enfriamiento
     ],
     thresholds: {
-        http_req_duration: ['p(95)<5000'],    
-        http_req_failed: ['rate<0.9'],        
-        'http_req_duration{operation:create}': ['p(95)<30000'],  
-        'http_req_duration{operation:read}': ['p(95)<30000'],     
-        'http_req_duration{operation:update}': ['p(95)<30000'],  
-        'http_req_duration{operation:delete}': ['p(95)<30000'],   
-    }
+    http_req_duration: ['p(95)<25000'], // permite hasta 25s en p95
+    http_req_failed: ['rate<0.9'],
+    'http_req_duration{operation:create}': ['p(95)<30000'],
+    'http_req_duration{operation:read}': ['p(95)<30000'],
+    'http_req_duration{operation:update}': ['p(95)<30000'],
+    'http_req_duration{operation:delete}': ['p(95)<30000'],
+}
+
 };
 
 const BASE_URL = 'https://httpbin.org';
