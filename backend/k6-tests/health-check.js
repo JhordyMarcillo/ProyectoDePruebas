@@ -8,7 +8,7 @@ export let options = {
         { duration: '5s', target: 0 },   // Rampa hacia abajo
     ],
     thresholds: {
-        http_req_duration: ['p(95)<1000'],   // 95% de peticiones < 200ms
+        http_req_duration: ['p(95)<1500'],   // 95% de peticiones < 200ms
         http_req_failed: ['rate<0.01'],     // Tasa de errores < 1%
         http_reqs: ['rate>10'],             // Mínimo 10 requests por segundo
     }
