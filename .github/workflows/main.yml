@@ -59,7 +59,7 @@ jobs:
           cd backend
           npm install
 
-      - name: Ejecutar pruebas k6 de auth-load-test
+      - name: Ejecutar pruebas k6 de auth-load-test.js
         run: |
           mkdir -p reports
           k6 run --summary-export=reports/auth-summary.json backend/k6-tests/auth-load-test.js
