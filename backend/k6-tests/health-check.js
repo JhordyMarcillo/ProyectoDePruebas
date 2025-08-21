@@ -14,7 +14,7 @@ export let options = {
     }
 };
 
-const BASE_URL = 'https://httpbin.org'; // Simulación
+const BASE_URL = 'https://httpbin.org/status/200'; // Simulación
 
 export default function () {
     // Health check simulado
