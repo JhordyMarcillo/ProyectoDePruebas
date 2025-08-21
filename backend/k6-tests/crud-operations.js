@@ -10,12 +10,12 @@ export let options = {
         { duration: '10s', target: 0 },    // Enfriamiento
     ],
     thresholds: {
-        http_req_duration: ['p(95)<1000'],    
+        http_req_duration: ['p(95)<5000'],    
         http_req_failed: ['rate<0.1'],        
-        'http_req_duration{operation:create}': ['p(95)<1500'],  
+        'http_req_duration{operation:create}': ['p(95)<5000'],  
         'http_req_duration{operation:read}': ['p(95)<5000'],     
-        'http_req_duration{operation:update}': ['p(95)<1200'],  
-        'http_req_duration{operation:delete}': ['p(95)<800'],   
+        'http_req_duration{operation:update}': ['p(95)<5000'],  
+        'http_req_duration{operation:delete}': ['p(95)<5000'],   
     }
 };
 

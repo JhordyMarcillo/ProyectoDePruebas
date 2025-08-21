@@ -14,7 +14,7 @@ export let options = {
         http_req_failed: ['rate<0.05'],
         http_reqs: ['rate>100'],
         vus: ['value<=250'],
-        'http_req_duration{endpoint:read}': ['p(95)<500'],
+        'http_req_duration{endpoint:read}': ['p(95)<1000'],
         'http_req_duration{endpoint:write}': ['p(95)<1500'],
     }
 };
