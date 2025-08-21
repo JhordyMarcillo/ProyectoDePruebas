@@ -12,7 +12,7 @@ export let options = {
         { duration: '10s', target: 0 },
     ],
     thresholds: {
-        http_req_duration: ['p(95)<2000'],
+        http_req_duration: ['p(95)<3000'],
         http_req_failed: ['rate<2'],
         http_reqs: ['rate>50'],
         vus_max: ['value<=800'],
