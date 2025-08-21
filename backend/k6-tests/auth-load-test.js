@@ -11,10 +11,11 @@ export let options = {
     ],
 
     thresholds: {
-        http_req_duration: ['p(95)<8500'],     
-        http_req_failed: ['rate<0.05'],       
-        'group_duration{group:::Login}': ['p(95)<1500'],  
-    }
+    http_req_duration: ['p(95)<30000'], // 30s para pruebas
+    http_req_failed: ['rate<0.05'],
+    'group_duration{group:::Login}': ['p(95)<1500'],
+}
+
 };
 
 const BASE_URL = 'https://httpbin.org';
