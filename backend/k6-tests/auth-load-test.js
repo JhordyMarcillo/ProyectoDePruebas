@@ -38,9 +38,9 @@ export default function (data) {
         });
         
         let loginSuccess = check(loginResponse, {
-            'Login status 200': (r) => r.status === 200,
-            'Login response time < 500ms': (r) => r.timings.duration < 500,
-            'Login response has body': (r) => r.body && r.body.length > 0,
+            "Login status 200": (r) => r.status === 200,
+            "Login response time < 500ms": (r) => r.timings.duration < 500,
+            "Login response has body": (r) => r.body && r.body.length > 0,
         });
 
         // Simular token
