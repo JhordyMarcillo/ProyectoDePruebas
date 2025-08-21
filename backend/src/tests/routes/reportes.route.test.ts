@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import express from 'express';
-import request from 'supertest';
+const express = require('express');
+const request = require('supertest');
 
 import reportesRouter from '../../routes/reportes';
 describe('Rutas de Reportes', () => {
