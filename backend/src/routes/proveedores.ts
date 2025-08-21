@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body, param } from 'express-validator';
+import { validationResult } from 'express-validator';
 import { ProveedorController } from '../controllers/ProveedorController';
 import { authenticateToken } from '../middleware/auth';
 import { handleValidationErrors, sanitizePagination } from '../middleware/validation';

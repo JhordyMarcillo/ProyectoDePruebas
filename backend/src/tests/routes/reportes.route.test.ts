@@ -1,6 +1,6 @@
-import  { Express } from 'express';
-import * as express from 'express';
-import * as request from 'supertest';
+import { Express } from 'express';
+import express from 'express';
+import request from 'supertest';
 
 import reportesRouter from '../../routes/reportes';
 describe('Rutas de Reportes', () => {

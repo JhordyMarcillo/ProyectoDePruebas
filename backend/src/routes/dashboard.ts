@@ -2,6 +2,10 @@ import { Router, Request, Response } from 'express';
 import { executeQuery } from '../config/database';
 import { authenticateToken } from '../middleware/auth';
 
+interface QueryResult {
+  total: number;
+}
+
 
 
 const router = Router();
@@ -23,13 +27,11 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
 
     // Ejecutar cada consulta
     for (const [key, sql] of Object.entries(statsQueries)) {
-      try {
-        const result = await executeQuery(sql);
-        stats[key] = result[0]?.total || 0;
-      } catch (error) {
-        //(`Error en consulta ${key}:`, error);
-        stats[key] = 0;
+      const result = await executeQuery<QueryResult[]>(sql);
+      if (!Array.isArray(result) || !result[0]) {
+        throw new Error(`No se obtuvieron resultados para la consulta ${key}`);
       }
+      stats[key] = result[0].total || 0;
     }
 
     res.json({

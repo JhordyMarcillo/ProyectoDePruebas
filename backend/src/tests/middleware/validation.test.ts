@@ -1,6 +1,7 @@
-import request from 'supertest';
+import type { Request, Response, NextFunction } from 'express';
 
-import { Request, Response, NextFunction } from 'express';
+const supertest = require('supertest');
+const request = supertest;
 import {
   handleValidationErrors,
     sanitizePagination,

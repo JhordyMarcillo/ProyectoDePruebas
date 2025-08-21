@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import {
   authenticateToken,
   requirePermission,
@@ -10,7 +10,6 @@ import {
 } from '../../middleware/auth';
 import { config } from '../../config';
 import { AuthPayload } from '../../types';
-import * as jwt from 'jsonwebtoken';
 
 // Mocks de request, response y next
 const mockRequest = {} as Partial<Request>;

@@ -31,7 +31,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ProveedorFormComponent
+    ProveedorFormComponent,
+    ProveedoresListComponent
   ],
   imports: [
     CommonModule,
